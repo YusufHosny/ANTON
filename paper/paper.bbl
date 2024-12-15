@@ -1,0 +1,41 @@
+\newcommand{\noopsort}[1]{} \newcommand{\printfirst}[2]{#1}
+  \newcommand{\singleletter}[1]{#1} \newcommand{\switchargs}[2]{#2#1}
+\begin{thebibliography}{}
+
+\bibitem[Acosta et~al., 2004]{Acosta2004}
+Acosta, L., Rodrigo, J., Mendez, J.~A., Marichal, G., and Sigut, M. (2004).
+\newblock Ping-pong player prototype.
+\newblock {\em Robotics {\&} Automation Magazine, IEEE}, 10:44 -- 52.
+
+\bibitem[Kyohei et~al., 2019]{Kyohei2019}
+Kyohei, A., Masamune, N., and Satoshi, Y. (2019).
+\newblock The ping pong robot to return a ball precisely ~ trajectory
+  prediction and racket control for spinning balls.
+
+\bibitem[Lu, 2020]{Lu2020}
+Lu, C. (2020).
+\newblock Kalman tracking algorithm of ping-pong robot based on fuzzy real-time
+  image.
+\newblock {\em Journal of Intelligent {\&} Fuzzy Systems}, 38:3585--3594.
+\newblock 4.
+
+\bibitem[Trasloheros et~al., 2014]{Trasloheros2014}
+Trasloheros, A., Sebastián, J.~M., Torrijos, J., Carelli, R., and Roberti, F.
+  (2014).
+\newblock Using a 3dof parallel robot and a spherical bat to hit a ping-pong
+  ball.
+\newblock {\em International Journal of Advanced Robotic Systems}, 11(5):76.
+
+\bibitem[Yu et~al., 2012]{Yu2012}
+Yu, X., Zhao, Y., Fu, C., and Chen, K. (2012).
+\newblock Research and development of a ping-pong robot arm.
+\newblock In Lee, G., editor, {\em Advances in Automation and Robotics, Vol.1},
+  pages 65--71, Berlin, Heidelberg. Springer Berlin Heidelberg.
+
+\bibitem[Zhao et~al., 2017]{Zhao2017}
+Zhao, Y., Xiong, R., and Zhang, Y. (2017).
+\newblock Model based motion state estimation and trajectory prediction of
+  spinning ball for ping-pong robots using expectation-maximization algorithm.
+\newblock {\em Journal of Intelligent {\&} Robotic Systems}, 87(3):407--423.
+
+\end{thebibliography}
