@@ -202,15 +202,7 @@ void wifi_connection()
 /*
 Stepper Control Task Definition 
 */
-gptimer_handle_t step_timer = NULL;
-gptimer_config_t stp_timer_config = {
-	.clk_src = GPTIMER_CLK_SRC_DEFAULT,
-	.direction = GPTIMER_COUNT_UP,
-	.resolution_hz = 1000000, // 1MHz, 1 tick=1us
-};
-gptimer_alarm_config_t stp_alarm_config = {
-	.alarm_count = 1000000, // period = 1s
-};
+
 struct step_status_t {
 	uint64_t period; // period of time in us to next step, used to control stepper speed
 	uint8_t direction; // 0 or 1, to indicate direction
@@ -220,23 +212,33 @@ struct step_status_t {
 	.period = 1000000
 };
 
-
+// Never log inside an ISR, serial kills ISRs
 static bool IRAM_ATTR stp_timer_callback(gptimer_handle_t timer, const gptimer_alarm_event_data_t *edata, void *user_data)
 {
     BaseType_t high_task_awoken = pdFALSE;
 
-	ESP_LOGI("DEBUG", "STILL GOING %d", 0);
-
-	// step_status.current = !step_status.current;
-	// gpio_set_level(GPIO_NUM_48, step_status.current);
+	gpio_set_level(GPIO_NUM_17, step_status.current = !step_status.current);
     
     // return whether we need to yield at the end of ISR
     return (high_task_awoken == pdTRUE);
 }
-gptimer_event_callbacks_t stp_callbacks = {
-	.on_alarm = stp_timer_callback,
-};
+
 void initialize_stepper_timer() {
+	gptimer_handle_t step_timer = NULL;
+	gptimer_config_t stp_timer_config = {
+		.clk_src = GPTIMER_CLK_SRC_DEFAULT,
+		.direction = GPTIMER_COUNT_UP,
+		.resolution_hz = 1000000, // 1MHz, 1 tick=1us
+	};
+	gptimer_alarm_config_t stp_alarm_config = {
+		.alarm_count = 10000, // period = 1s
+		.reload_count = 0,
+		.flags.auto_reload_on_alarm = true
+	};
+	gptimer_event_callbacks_t stp_callbacks = {
+		.on_alarm = stp_timer_callback,
+	};
+
 	ESP_LOGI("StepperCtrlr", "Create timer handle");
     ESP_ERROR_CHECK(gptimer_new_timer(&stp_timer_config, &step_timer));
 	
@@ -246,53 +248,48 @@ void initialize_stepper_timer() {
     ESP_ERROR_CHECK(gptimer_enable(step_timer));
 
     ESP_LOGI("StepperCtrlr", "Start timer");
-    //ESP_ERROR_CHECK(gptimer_set_alarm_action(step_timer, &stp_alarm_config));
+    ESP_ERROR_CHECK(gptimer_set_alarm_action(step_timer, &stp_alarm_config));
     ESP_ERROR_CHECK(gptimer_start(step_timer));
 }
 
 void initialize_stepper_driver() {
-	// TODO
+	gpio_config_t io_conf = {
+    io_conf.intr_type = GPIO_INTR_DISABLE,
+    io_conf.mode = GPIO_MODE_OUTPUT,
+    io_conf.pin_bit_mask = 1ULL<<GPIO_NUM_17,
+    io_conf.pull_down_en = 0,
+    io_conf.pull_up_en = 0
+	};
+    //configure GPIO with the given settings
+    gpio_config(&io_conf);
 }
-
 
 void stepper_controller(void *pvParameters) {
 	initialize_stepper_timer();
-
+	initialize_stepper_driver();
 	// read the requested position from xqueue (from udp data)
 
 	// calculate desired speed and steps required
 
 	// update step status possibly in a mutex block
 
-	// dummy led
-	gpio_config_t io_conf = {
-		io_conf.intr_type = GPIO_INTR_DISABLE,
-		io_conf.mode = GPIO_MODE_OUTPUT,
-		io_conf.pin_bit_mask = 1ULL << GPIO_NUM_48,
-		io_conf.pull_down_en = 1,
-    	io_conf.pull_up_en = 0
-	};
-
-	gpio_config(&io_conf);
-	
-	ESP_LOGI("DEBUG", "GOT HERE");
-	int a = 0;
-	while(1) {
-		vTaskDelay( 1000 / portTICK_PERIOD_MS );
+	while (true)
+	{
+		vTaskDelay(500 / portTICK_PERIOD_MS);
+		
 		ESP_LOGI("DEBUG", "LOOPING");
-		a = !a;
-		gpio_set_level(GPIO_NUM_48, a);
 	}
- 
+	
+	
 	vTaskDelete(NULL);
 }
 
 void app_main(void)
 {	
 	vTaskDelay(4000 / portTICK_PERIOD_MS);
-	// xTaskCreate(&nrfsender, "nrf_sender", 1024*3, NULL, 4, NULL);
+	xTaskCreate(&nrfsender, "nrf_sender", 1024*3, NULL, 4, NULL);
 	// wifi_connection();
     // vTaskDelay(5000 / portTICK_PERIOD_MS);
     // xTaskCreate(&udpclient, "udp_client", 4096, NULL, 3, NULL);
-	xTaskCreate(&stepper_controller, "stepper_controller", 4096, NULL, 3, NULL);
+	// xTaskCreate(&stepper_controller, "stepper_controller", 4096, NULL, 3, NULL);
 }
