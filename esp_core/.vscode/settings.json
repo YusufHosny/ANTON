@@ -9,6 +9,10 @@
         "memory": "cpp",
         "new": "cpp",
         "functional": "cpp",
-        "mirf.h": "c"
+        "mirf.h": "c",
+        "udp.h": "c",
+        "stdlib.h": "c",
+        "esp_netif.h": "c",
+        "inttypes.h": "c"
     }
 }
