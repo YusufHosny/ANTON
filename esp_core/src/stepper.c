@@ -1,17 +1,21 @@
 #include "stepper.h"
 
-#include "easing.h"
+#include "utils.h"
 
 // min max freq in Hz
-#define MIN_FREQ 1
-#define MAX_FREQ 1000
+#define MIN_FREQ 10
+#define MAX_FREQ 700
 
 // min max period in terms of freq
-#define MIN_PERIOD_USEC (1000000. / MAX_FREQ)
-#define MAX_PERIOD_USEC (1000000. / MIN_FREQ)
+// divided by 2 since this number is used to flip the step pin, 2 flips per period
+#define MIN_PERIOD_USEC (1000000. / MAX_FREQ) / 2
+#define MAX_PERIOD_USEC (1000000. / MIN_FREQ) / 2
 
 // number of steps to go full extent of gantry
-#define MAX_POSITION_STEP 100000
+#define MAX_POSITION_STEP 1400
+
+// stability epsilon coef
+#define EPSILON 1e-6
 
 // stepper state struct
 struct step_status_t {
@@ -45,22 +49,23 @@ static bool IRAM_ATTR stp_timer_callback(gptimer_handle_t timer, const gptimer_a
     return (high_task_awoken == pdTRUE);
 }
 
-void initialize_stepper_timer() {
-	gptimer_handle_t step_timer = NULL;
-	gptimer_config_t stp_timer_config = {
-		.clk_src = GPTIMER_CLK_SRC_DEFAULT,
-		.direction = GPTIMER_COUNT_UP,
-		.resolution_hz = 1000000, // 1MHz, 1 tick=1us
-	};
-	gptimer_alarm_config_t stp_alarm_config = {
-		.alarm_count = 1000000, // period = 1s
-		.reload_count = 0,
-		.flags.auto_reload_on_alarm = true
-	};
-	gptimer_event_callbacks_t stp_callbacks = {
-		.on_alarm = stp_timer_callback,
-	};
+gptimer_handle_t step_timer = NULL;
+gptimer_config_t stp_timer_config = {
+    .clk_src = GPTIMER_CLK_SRC_DEFAULT,
+    .direction = GPTIMER_COUNT_UP,
+    .resolution_hz = 1000000, // 1MHz, 1 tick=1us
+};
+gptimer_alarm_config_t stp_alarm_config = {
+    .alarm_count = 1000000, // period = 1s
+    .reload_count = 0,
+    .flags.auto_reload_on_alarm = true
+};
+gptimer_event_callbacks_t stp_callbacks = {
+    .on_alarm = stp_timer_callback,
+};
 
+void initialize_stepper_timer() {
+	
 	ESP_LOGI(pcTaskGetName(NULL), "Create timer handle");
     ESP_ERROR_CHECK(gptimer_new_timer(&stp_timer_config, &step_timer));
 	
@@ -94,32 +99,40 @@ void initialize_stepper_driver() {
     gpio_set_level(ENABLE_PIN, 0); // enable stepper
 }
 
+void update_stepper(StepMessage_t *msg) {
+    // calculate desired speed and steps required
+    double current_position = step_status.position * (1./MAX_POSITION_STEP);
+    double dx = msg->position - current_position;
+
+    // TODO MAYBE update step status in a mutex block
+    // TODO MAYBE adjust period logic
+    step_status.steps = (dx>0 ? dx : -dx) * MAX_POSITION_STEP;
+    step_status.direction = dx>0;
+    step_status.period = ease((msg->urgency * .1) * MAX_PERIOD_USEC, MIN_PERIOD_USEC, dx); // min max flipped since min period = max speed
+
+    // update stepper period
+    stp_alarm_config.alarm_count = step_status.period;
+    ESP_ERROR_CHECK(gptimer_set_alarm_action(step_timer, &stp_alarm_config));
+
+    ESP_LOGI(pcTaskGetName(NULL), "stepper updated");
+}
+
 void stepper_controller_task(void *pvParameters) {
 
 	initialize_stepper_timer();
 	initialize_stepper_driver();
 
     StepMessage_t msg;
-	while (true)
+	forever
 	{   
         // TODO ADJUST DELAY
-		vTaskDelay(500 / portTICK_PERIOD_MS);
+		vTaskDelay(10 / portTICK_PERIOD_MS);
 
         // read the requested position from xqueue (from udp data)
         if(xQueueReceive(stepQueue, &msg, 0) && msg.update) { 
-            // calculate desired speed and steps required
-            double current_position = step_status.position * (1./MAX_POSITION_STEP);
-            double dx = msg.position - current_position;
-
-            // TODO MAYBE update step status in a mutex block
-            // TODO MAYBE adjust period logic
-            step_status.steps = (dx>0 ? dx : -dx) * MAX_POSITION_STEP;
-            step_status.direction = dx>0;
-            step_status.period = (msg.urgency * .1) * ease(MAX_PERIOD_USEC, MIN_PERIOD_USEC, 1-dx); // min max flipped since min period = max speed
-            
+            update_stepper(&msg);                        
         }
 		
-		ESP_LOGI(pcTaskGetName(NULL), "stepper updated");
 	}
 	
 	

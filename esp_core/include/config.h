@@ -1,13 +1,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define DEBUG 1
-
-// enable and disable submodules
-#define UDP 1
-#define NRF 1
-#define STEPPER 1
-
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdlib.h>
@@ -37,6 +30,16 @@
 #include "ping/ping_sock.h"
 #include "driver/gpio.h"
 #include "driver/gptimer.h"
+
+#define forever for(;;)
+
+#define DEBUG 1
+
+// enable and disable submodules
+#define UDP 0
+#define NRF 0
+#define STEPPER 0
+#define MOCK 1
 
 extern QueueHandle_t stepQueue, racketQueue;
 
