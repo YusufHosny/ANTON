@@ -16,6 +16,10 @@ double ease(double min, double max, double x) {
     return min + (max - min) * ease_p4(x);
 }
 
+double lerp(double min, double max, double x) {
+    return min + (max - min)*x;
+}
+
 double clamp(double min, double max, double num) {
     num = num < max ? num : max;
     num = num > min ? num : min;

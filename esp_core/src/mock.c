@@ -32,7 +32,7 @@ void mock_udp_task(void *pvParameters) {
         rMsg.angle = (rMsg.angle == 40) ? 120 : 40;
         rMsg.fire = (fire = !fire);
 
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
+        vTaskDelay(6000 / portTICK_PERIOD_MS);
 
         xQueueSendToFront(stepQueue, &sMsg, 0);
         xQueueSendToFront(racketQueue, &rMsg, 0);

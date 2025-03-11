@@ -24,7 +24,7 @@ void set_up() {
 void mock_tasks() {
 	// xTaskCreate(&mock_stepmessasges, "mock_stepmessasges", 4096, NULL, 3, NULL);
 	xTaskCreate(&mock_udp_task, "mock_udp_task", 4096, NULL, 3, NULL);
-	xTaskCreate(&mock_stepper_task, "mock_stepper_task", 4096, NULL, 3, NULL);
+	// xTaskCreate(&mock_stepper_task, "mock_stepper_task", 4096, NULL, 3, NULL);
 	xTaskCreate(&mock_nrf_task, "mock_nrf_task", 4096, NULL, 3, NULL);
 }
 

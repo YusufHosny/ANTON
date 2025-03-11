@@ -13,6 +13,7 @@
         "udp.h": "c",
         "stdlib.h": "c",
         "esp_netif.h": "c",
-        "inttypes.h": "c"
+        "inttypes.h": "c",
+        "random": "c"
     }
 }
