@@ -72,11 +72,12 @@ void udp_client_task(void *pvParameters) {
 				ESP_LOGI(pcTaskGetName(NULL), "Received valid, continuing");
 
                 // TODO FILL MESSAGES
-                StepMessage_t sMsg;
+                StepMessage_t hMsg, vMsg;
                 RacketMessage_t rMsg;
 
                 // send messages
-                xQueueSendToFront(stepQueue, &sMsg, 0);
+				xQueueSendToFront(hstepQueue, &hMsg, 0);
+                xQueueSendToFront(vstepQueue, &vMsg, 0);
                 xQueueSendToFront(racketQueue, &rMsg, 0);
 
 				break;

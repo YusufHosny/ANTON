@@ -8,7 +8,7 @@
 #include "mock.h"
 #endif
 
-QueueHandle_t stepQueue, racketQueue;
+QueueHandle_t vstepQueue, hstepQueue, racketQueue;
 
 void set_up() {
 	#if WIFI
@@ -16,7 +16,9 @@ void set_up() {
 	#endif
 	
 	racketQueue = xQueueCreate(1, sizeof(RacketMessage_t));
-	stepQueue = xQueueCreate(1, sizeof(StepMessage_t));
+	hstepQueue = xQueueCreate(1, sizeof(StepMessage_t));
+	vstepQueue = xQueueCreate(1, sizeof(StepMessage_t));
+
 
 	vTaskDelay(5000 / portTICK_PERIOD_MS);
 }

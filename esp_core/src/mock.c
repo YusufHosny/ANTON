@@ -14,7 +14,7 @@ void mock_stepmessasges(void *pvParameters) {
 
         vTaskDelay(2000 / portTICK_PERIOD_MS);
 
-        xQueueSendToFront(stepQueue, &sMsg, 0);
+        xQueueSendToFront(hstepQueue, &sMsg, 0);
     }
 }
 
@@ -34,7 +34,8 @@ void mock_udp_task(void *pvParameters) {
 
         vTaskDelay(6000 / portTICK_PERIOD_MS);
 
-        xQueueSendToFront(stepQueue, &sMsg, 0);
+        xQueueSendToFront(hstepQueue, &sMsg, 0);
+        xQueueSendToFront(vstepQueue, &sMsg, 0);
         xQueueSendToFront(racketQueue, &rMsg, 0);
 
         ESP_LOGI(pcTaskGetName(NULL), "Sent Messages.");                  
@@ -48,8 +49,12 @@ void mock_stepper_task(void *pvParameters) {
 	{   
 		vTaskDelay(10 / portTICK_PERIOD_MS);
 
-        if(xQueueReceive(stepQueue, &msg, 0)) { 
-            ESP_LOGI(pcTaskGetName(NULL), "StepMessage(%d %f %d)", msg.update, msg.position, msg.urgency);                  
+        if(xQueueReceive(hstepQueue, &msg, 0)) { 
+            ESP_LOGI(pcTaskGetName(NULL), "Horizontal StepMessage(%d %f %d)", msg.update, msg.position, msg.urgency);                  
+        }
+
+        if(xQueueReceive(vstepQueue, &msg, 0)) { 
+            ESP_LOGI(pcTaskGetName(NULL), "Vertical StepMessage(%d %f %d)", msg.update, msg.position, msg.urgency);                  
         }
 		
 	}

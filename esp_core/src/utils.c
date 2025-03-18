@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <math.h>
 
 // quadratic ease in out derivative
 double ease_in_out(double x) {
@@ -12,8 +13,12 @@ double ease_p4(double x) {
     return 1 - p4_term;
 }
 
+double ease_exp(double x) {
+    return exp(0.7*x) - 1;
+}
+
 double ease(double min, double max, double x) {
-    return min + (max - min) * ease_p4(x);
+    return min + (max - min) * ease_exp(x);
 }
 
 double lerp(double min, double max, double x) {

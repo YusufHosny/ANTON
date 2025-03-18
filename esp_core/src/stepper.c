@@ -4,7 +4,7 @@
 
 // min max freq in Hz
 #define MIN_FREQ 400
-#define MAX_FREQ 6600
+#define MAX_FREQ 3200
 
 // min max period in terms of freq
 // divided by 2 since this number is used to flip the step pin, 2 flips per period
@@ -12,39 +12,46 @@
 #define MAX_PERIOD_USEC (1000000. / MIN_FREQ) / 2
 
 // number of steps to go full extent of gantry
-#define MAX_POSITION_STEP 8000
+#define MAX_POSITION_STEP_H 8000
+#define MAX_POSITION_STEP_V 2400
 
 // stability epsilon coef
 #define EPSILON 1e-6
 
-// momentum transition delay in steps
-#define MOMENTUM_DELAY 200
+// change in momentum per 10ms in % of easing function
+#define MOMENTUM_DELTA 0.01
 
-#define MOMENTUM_LOW lerp(MAX_PERIOD_USEC, MIN_PERIOD_USEC, 0.14)
-#define MOMENTUM_MEDIUM lerp(MAX_PERIOD_USEC, MIN_PERIOD_USEC, 0.28)
-#define MOMENTUM_HIGH lerp(MAX_PERIOD_USEC, MIN_PERIOD_USEC, 0.5)
-#define MOMENTUM_FULL lerp(MAX_PERIOD_USEC, MIN_PERIOD_USEC, 0.77)
-
-
-enum Momentum {
-    LOW,
-    MEDIUM,
-    HIGH,
-    FULL,
-};
 
 // stepper state struct
-struct step_status_t {
+typedef struct step_status {
 	uint64_t period; // period of time in us to next step, used to control stepper speed
 	uint8_t direction; // 0 or 1, to indicate direction
 	uint32_t steps; // number of steps left
 	uint64_t position; // current position of the stepper in steps from origin
 	uint8_t current; // 0 or 1, whether the current step pin is high or low
-    enum Momentum momentum; // momentum, decides how fast it should go
-    uint32_t momentum_delay; // delay to transition to next momentum state
-} step_status = {
-	.period = MAX_PERIOD_USEC
+    double momentum; // momentum, decides how fast it should go (0 to 1)
+} step_status_t; 
+
+typedef struct stepper_handle {
+    uint16_t step_pin;
+    uint16_t dir_pin;
+    uint16_t enable_pin;
+    step_status_t status;
+} stepper_handle_t;
+
+stepper_handle_t vhandle = {
+    .step_pin = STEP_PIN_V,
+    .dir_pin = DIR_PIN_V,
+    .enable_pin = ENABLE_PIN_V,
+    .status.period = MAX_PERIOD_USEC
 };
+stepper_handle_t hhandle = {
+    .step_pin = STEP_PIN_H,
+    .dir_pin = DIR_PIN_H,
+    .enable_pin = ENABLE_PIN_H,
+    .status.period = MAX_PERIOD_USEC
+};
+
 
 gptimer_handle_t step_timer = NULL;
 gptimer_config_t stp_timer_config = {
@@ -58,38 +65,38 @@ gptimer_alarm_config_t stp_alarm_config = {
     .flags.auto_reload_on_alarm = true
 };
 
+
+void isr_stepper(stepper_handle_t *handle) {
+    if(handle->status.steps) {
+        // update step count and position tracking
+        if(handle->status.current) {
+            handle->status.steps -= 1;
+            handle->status.position += handle->status.direction ? 1 : -1;
+        }
+        
+        // update step and dir pins
+        gpio_set_level(handle->step_pin, handle->status.current);
+        gpio_set_level(handle->dir_pin, handle->status.direction);
+        handle->status.current = !handle->status.current;
+
+        // update stepper period
+        handle->status.period = ease(MAX_PERIOD_USEC, MIN_PERIOD_USEC, handle->status.momentum);
+        stp_alarm_config.alarm_count = handle->status.period;
+        gptimer_set_alarm_action(step_timer, &stp_alarm_config);
+    }
+}
+
 // Never log inside an ISR, serial kills ISRs
 static bool IRAM_ATTR stp_timer_callback(gptimer_handle_t timer, const gptimer_alarm_event_data_t *edata, void *user_data)
 {
     BaseType_t high_task_awoken = pdFALSE;
 
-    if(step_status.steps) {
-        if(step_status.current) {
-            step_status.steps -= 1;
-            step_status.momentum_delay -= 1;
-            step_status.position += step_status.direction ? 1 : -1;
-        }
-    
-        gpio_set_level(STEP_PIN, step_status.current);
-        gpio_set_level(DIR_PIN, step_status.direction);
-    
-        step_status.current = !step_status.current;
-
-        if(step_status.momentum_delay <= 0 && step_status.momentum < FULL) {
-            step_status.momentum += 1;
-            step_status.momentum_delay = MOMENTUM_DELAY;
-        }
-
-        // update stepper period
-        step_status.period = (step_status.momentum == LOW) ? MOMENTUM_LOW : (step_status.momentum == MEDIUM) ? MOMENTUM_MEDIUM : (step_status.momentum == HIGH) ? MOMENTUM_HIGH : MOMENTUM_FULL;
-        stp_alarm_config.alarm_count = step_status.period;
-        gptimer_set_alarm_action(step_timer, &stp_alarm_config);
-    }
+    isr_stepper(&hhandle);
+    isr_stepper(&vhandle);
     
     // return whether we need to yield at the end of ISR
     return (high_task_awoken == pdTRUE);
 }
-
 gptimer_event_callbacks_t stp_callbacks = {
     .on_alarm = stp_timer_callback,
 };
@@ -109,7 +116,7 @@ void initialize_stepper_timer() {
     ESP_ERROR_CHECK(gptimer_start(step_timer));
 }
 
-void initialize_stepper_driver() {
+void initialize_stepper_driver(stepper_handle_t *handle) {
 	gpio_config_t io_conf; 
 
     io_conf.intr_type = GPIO_INTR_DISABLE;
@@ -117,28 +124,31 @@ void initialize_stepper_driver() {
     io_conf.pull_down_en = 0;
     io_conf.pull_up_en = 0;
     
-    io_conf.pin_bit_mask = 1ULL<<STEP_PIN;
+    io_conf.pin_bit_mask = 1ULL<<handle->step_pin;
     gpio_config(&io_conf);
 
-    io_conf.pin_bit_mask = 1ULL<<DIR_PIN;
+    io_conf.pin_bit_mask = 1ULL<<handle->dir_pin;
     gpio_config(&io_conf);
 
-    io_conf.pin_bit_mask = 1ULL<<ENABLE_PIN;
+    io_conf.pin_bit_mask = 1ULL<<handle->enable_pin;
     gpio_config(&io_conf);
 
-    gpio_set_level(ENABLE_PIN, 0); // enable stepper
+    gpio_set_level(handle->enable_pin, 0); // enable stepper
 }
 
-void update_stepper(StepMessage_t *msg) {
+void update_stepper(StepMessage_t *msg, stepper_handle_t *handle) {
+
+    int max_pos;
+
     // calculate desired speed and steps required
-    double current_position = step_status.position * (1./MAX_POSITION_STEP);
+    double current_position = handle->status.position * (1./max_pos);
     double dx = msg->position - current_position;
 
-    step_status.steps = (dx>0 ? dx : -dx) * MAX_POSITION_STEP;
-    step_status.direction = dx>0;
-
-    step_status.momentum_delay = MOMENTUM_DELAY;
-    step_status.momentum = LOW;
+    handle->status.steps = (dx>0 ? dx : -dx) * max_pos;
+    
+    uint8_t newdirection = dx>0;
+    if(handle->status.direction != newdirection) handle->status.momentum = 0;
+    handle->status.direction = newdirection;
 
     ESP_LOGI(pcTaskGetName(NULL), "stepper updated");
 }
@@ -147,23 +157,28 @@ void update_stepper(StepMessage_t *msg) {
 void stepper_controller_task(void *pvParameters) {
 
 	initialize_stepper_timer();
-	initialize_stepper_driver();
+	initialize_stepper_driver(&vhandle);
+    initialize_stepper_driver(&hhandle);
 
-    StepMessage_t msg;
+    StepMessage_t vmsg, hmsg;
 	forever
 	{   
-        // TODO ADJUST DELAY
-		vTaskDelay(1000 / portTICK_PERIOD_MS);
-        ESP_LOGI(pcTaskGetName(NULL), "momentum %d", step_status.momentum);
+		vTaskDelay(10 / portTICK_PERIOD_MS);
+        if(hhandle.status.momentum < 1.) hhandle.status.momentum += MOMENTUM_DELTA;
+        if(vhandle.status.momentum < 1.) vhandle.status.momentum += MOMENTUM_DELTA;
 
         // read the requested position from xqueue (from udp data)
-        if(xQueueReceive(stepQueue, &msg, 0) && msg.update) { 
-            update_stepper(&msg);                        
+        if(xQueueReceive(vstepQueue, &vmsg, 0) && hmsg.update) { 
+            update_stepper(&hmsg, &vhandle);                        
+        }
+
+        // read the requested position from xqueue (from udp data)
+        if(xQueueReceive(hstepQueue, &hmsg, 0) && vmsg.update) { 
+            update_stepper(&vmsg, &hhandle);                        
         }
 		
 	}
-	
-	
+
 	vTaskDelete(NULL);
 }
 

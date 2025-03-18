@@ -41,7 +41,7 @@
 #define STEPPER 1
 #define MOCK 1
 
-extern QueueHandle_t stepQueue, racketQueue;
+extern QueueHandle_t vstepQueue, hstepQueue, racketQueue;
 
 typedef struct StepMessage {
     bool update;
