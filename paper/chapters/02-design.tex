@@ -2,11 +2,11 @@
 In this section we will discuss the design of our mechanical, electronic, and software systems and the materials used.
 
 \section{Mechanical design}
-The mechanical design consists of three main components: the horizontal movement,  the vertical movement,  and the rotation the racket. 
+The mechanical design consists of three main components: the horizontal movement,  the vertical movement,  and the rotation of the racket. 
 The materials utilized are a combination of purchased components such as linear rails, timing belts, bolts, and nuts  
 alongside custom 9MM MDF parts cut using a laser cutter in FabLab.
 
-Two 1.5-meter-long linear rails are positioned vertically, parallel to each other, along the table's edge to ensure stability and prevent tipping of the system. 
+The two 1.5-meter-long linear rails are positioned vertically, parallel to each other, along the table's edge to ensure stability and prevent tipping of the system. 
 Three linear rail blocks, which slide along these rails, support the vertical structure of the design. 
 These rail blocks have screw holes, allowing them to be securely connected in a triangular formation using an MDF plate.
 The vertical structure is mounted on this plate.
@@ -49,43 +49,21 @@ Below is a block diagram showing the general control flow of the entire system a
 \end{figure}
 
 \section{Electronic Components and Controllers}
-The system mainly relies on 2 mobile phones which are used for collecting the position information of the ping pong ball with 3 degrees of freedom. The mobile phones are configured with an app to act as IP cameras, which are then accessed over Wi-Fi on the control device, which is a laptop running our software.
+The system mainly relies on two mobile phones which are used for collecting the position information of the ping pong ball with three degrees of freedom. The mobile phones are configured with an app to act as IP cameras, which are then accessed over Wi-Fi on the control device, which is a laptop running our software.
 
-The ESP32 microcontroller is connected to 3 stepper motor driver modules (DRV8825), which are in turn connected to 3 R.T.A. bipolar stepper motors which control the gantry. The ESP32 acts as a master to a PIC18F, though a connected radio frequency communication module (NRF24), which is used to transmit data to another NRF24 module, connected to the PIC18F slave microcontroller. This data consists of information on when to "fire" the racket to hit the ball, by activating the optocoupled 12v solenoid, and information on what angle the racket should be at, by controlling the 5v servo motor controlling the racket.
-
-\begin{figure}[h]
-	\centering\includegraphics[height=3cm]{./images/steppermotor}
-	\caption{Stepper Motor Used}
-\end{figure}
+The ESP32 microcontroller is connected to two stepper motor driver modules (DRV8825), which are in turn connected to two bipolar stepper motors which control the gantry. The ESP32 acts as a master to a PIC18F, though a connected radio frequency communication module (NRF24), which is used to transmit data to another NRF24 module, connected to the PIC18F slave microcontroller. This data consists of information on when to "fire" the racket to hit the ball, by activating the optocoupled 12V solenoid, and information on what angle the racket should be at, by controlling the 5V servo motor controlling the racket.
 
 \section{Software Design}
 The main software which controls the system is ran on a separate computer, due to the speed constraints of small microcontrollers. The code connects to the IP camera phones, reads the streamed video data, and process it using a ball detection algorithms to determine the position of the ping pong ball in 3D space. The software sends a requested gantry position, a requested racket orientation, and when the racket should "fire" over Wi-Fi to the ESP32 microcontroller, which then sends a part of this data over radio using the NRF24 to the PIC18F.
 
 The software additionally maintains the game state through a simplified ruleset, allowing the score and current ball position to be visualized in real time. The software determines the ball's position and additionally applies a predictive model to determine where the gantry should move to.
 
-
-\section{Printed Circuit Boards}
-
-Our design additionally consists of 2 Printed Circuit Boards (PCBs), one for each used microcontroller. The first PCB designed is for the PIC18F slave microcontroller. It contains connections for the solenoid, and its control circuit which consists of an optocoupler and a Darlington NPN bipolar transistor (TIP120). It also contains connections for the servo motor and its control circuit which is a simple MOSFET transistor circuit and contains connections for the NRF24 module.
-
-\begin{figure}[h]
-	\centering\includegraphics[height=5cm]{./images/picpcb}
-	\caption{PIC18F PCB Design}
-\end{figure}
-
-The second designed PCB is for the ESP32 master controller. This PCB consists of headers for the ESP32 controller itself, and headers for each of the DRV8825 modules. It has a switch for on board adjustment of the drivers' control pins. It also contains connections for the NRF24 module.
-
-\begin{figure}[h]
-	\centering\includegraphics[height=5cm]{./images/esppcb}
-	\caption{ESP32 PCB Design}
-\end{figure}
-
 \section{Bill of Materials}
 
 \begin{center}
 \begin{tabular}{|l|c|c|c|}
  \hline
-Item & Amount & Price (\texteuro) \\
+Item & Amount & Unit Price (\texteuro) \\
  \hline\hline
  MDF (60x30) & 1 & 4 \\ 
  \hline
@@ -93,7 +71,7 @@ Item & Amount & Price (\texteuro) \\
  \hline
  GT2 60-tooth gear & 4 & 3.19\\
  \hline
- 0.5meter M16 Aluminium pipe & 1 & 5.9\\
+ 0.5meter M16 Aluminium pipe & 2 & 5.9\\
  \hline
  1.5meter SBR16 Linear rail & 2 & 20.46\\
  \hline
