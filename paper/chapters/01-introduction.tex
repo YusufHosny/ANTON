@@ -11,7 +11,7 @@ The research aims to address two core challenges: the optimization of vision-bas
 \section{Related Works}
 A lot of companies have already created their own ping pong robot, the mechanical arm seems to be a necessity for an efficient 3D movement for the robot. The camera disposition differs between the projects. The Forpheus built by Omron, \cite{Kyohei2019}, uses stereo camera to be able to see all three dimensions and make an accurate prediction of the ball position. Additionally, it uses another camera to track the racket and player's movement to be able to determine the effect on the ball and predict where the ball will land.
 
-This system is very high budget, and as a result our implementation will not achieve such results. The mechanical arm is out of reach for this prototype with the budget and time given, but it is an effective example for the robot movements. The same can be said about the cameras. The top view with an angle provides a 3D visual of the ball movement only using 2 cameras.
+This system is very high budget, and as a result our implementation will not achieve such results. The mechanical arm is out of reach for this prototype with the budget and time given, but it is an effective example for the robot movements. The same can be said about the cameras. The top view with an angle provides a 3D visual of the ball movement only using two cameras.
 
 The most relevant article is \cite{Acosta2004}, as it goes through the whole procedure up to the fully realized prototype. Even though technology advancement has largely improved since then, the book provides many insights into possible issues and solutions for them.
 
@@ -19,7 +19,7 @@ Our main idea is to detect the ball and return it using a rigid rectangle cardbo
 
 The tracking of the ball will probably be one of the biggest issues, a fuzzy image, camera positioning, depth track, or even the effect the ball could have from the player. All of this makes having an accurate prediction of the ball position very challenging. A lot of scientific articles discuss these possible issues we might encounter.
 
-Depending on the quality of the cameras, the image might be blurry, or due to timing and noise issues, the data might be affected. This can be solved using the Kalman filtering algoritm \cite{Lu2020}.
+Depending on the quality of the cameras, the image might be blurry, or due to timing and noise issues, the data might be affected. This can be solved using the Kalman filtering algorithm \cite{Lu2020}.
 
 A mathematical solution using a K-means algorithm, Fourier series, EM and others, can be used to have an accurate prediction on the ball position if some effect was applied  \cite{Zhao2017}.
 
@@ -28,7 +28,7 @@ Hitting the ball with a correct trajectory will be found through trial and error
 
 \section{Target demographic}
 
-Everyone that is fit enough to physically play the game of ping-pong is within our target audience. One other requirement is that you are lonely and don't have friends to play against, except if your friends are bad at the game and you like a challenge.
+The system targets individuals seeking a challenging ping-pong opponent, regardless of their skill level or the availability of human players.
 
 The reason for such a broad demographic is because the ping-pong is very straightforward, and easy to play. It can be a 90-year-old grandpa or his 4-year-old granddaughter that plays against the robot. Players benefit from the challenge of playing against a robot and whilst exercising at the same time.
 
@@ -36,9 +36,9 @@ The reason for such a broad demographic is because the ping-pong is very straigh
 
 A finished prototype, with every component working, should be able to handle a back and forth game of ping pong with ball speeds up to at least 15 m/s consistently. To achieve this all of these working components will be required to be reliable and fast.
 
-The railing system has to be able to move to the required position as fast as possible. Of course it can't just accelerate as fast as it can in the direction it needs to go. This could result in system instability or failure. It will require a control loop to find a balance between speed and stability.
+The railing system must achieve rapid positioning while maintaining stability, avoiding excessive acceleration that could compromise the system's performance.
 
-The image tracking software should be able to accurately track the balls position at different heights and angles. Ideally the camera will always be mounted at the exact same position. However, in reality this is never the case. That is why the software that handles the ball tracking will need to be calibrated every time you set up the system. This should all happen automatically using reference points on the table to ensure a fast, and user friendly setup of the prototype.
+The image tracking software should be able to accurately track the ball's position at different heights and angles. Ideally the camera will always be mounted at the exact same position. However, in reality this is never the case. That is why the software that handles the ball tracking will need to be calibrated every time you set up the system. This should all happen automatically using reference points on the table to ensure a fast, and user friendly setup of the prototype.
 
 Factors like unfamiliar lighting or human interference could make the ball tracking unreliable at times. However, this will not be taken into account when making the prototype.
 
