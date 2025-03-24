@@ -12,7 +12,7 @@ https://github.com/SIMS-IOT-Devices/FreeRTOS-ESP-IDF-5.0-Socket/blob/main/UDP%20
 #define HOST_IP_ADDR "192.168.137.1"
 #define PORT 3201
 
-#define MESSAGE_SIZE 128
+#define MESSAGE_SIZE 24+24+16
 
 void udp_client_task(void *pvParameters) {
 	// initialize information
@@ -65,23 +65,17 @@ void udp_client_task(void *pvParameters) {
 		}
 		// Data received
 		else {
-			rx_buffer[len] = 0; // Null-terminate whatever we received and treat like a string
-			ESP_LOGI(pcTaskGetName(NULL), "Received %d bytes from %s:", len, host_ip);
-			ESP_LOGI(pcTaskGetName(NULL), "%s", rx_buffer);
-			if (strncmp(rx_buffer, "OK: ", 4) == 0) {
-				ESP_LOGI(pcTaskGetName(NULL), "Received valid, continuing");
+			StepMessage_t hMsg, vMsg;
+			RacketMessage_t rMsg;
 
-                // TODO FILL MESSAGES
-                StepMessage_t hMsg, vMsg;
-                RacketMessage_t rMsg;
+			memcpy(&hMsg, rx_buffer, sizeof(hMsg));
+			memcpy(&vMsg, rx_buffer+24, sizeof(vMsg));
+			memcpy(&rMsg, rx_buffer+48, sizeof(rMsg));
 
-                // send messages
-				xQueueSendToFront(hstepQueue, &hMsg, 0);
-                xQueueSendToFront(vstepQueue, &vMsg, 0);
-                xQueueSendToFront(racketQueue, &rMsg, 0);
-
-				break;
-			}
+			// send messages
+			xQueueSendToFront(hstepQueue, &hMsg, 0);
+			xQueueSendToFront(vstepQueue, &vMsg, 0);
+			xQueueSendToFront(racketQueue, &rMsg, 0);
 		}
 		vTaskDelay(10 / portTICK_PERIOD_MS);
 	}

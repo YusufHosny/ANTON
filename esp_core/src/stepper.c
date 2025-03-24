@@ -36,6 +36,7 @@ typedef struct stepper_handle {
     uint16_t step_pin;
     uint16_t dir_pin;
     uint16_t enable_pin;
+    uint32_t max_pos;
     step_status_t status;
 } stepper_handle_t;
 
@@ -43,13 +44,15 @@ stepper_handle_t vhandle = {
     .step_pin = STEP_PIN_V,
     .dir_pin = DIR_PIN_V,
     .enable_pin = ENABLE_PIN_V,
-    .status.period = MAX_PERIOD_USEC
+    .status.period = MAX_PERIOD_USEC,
+    .max_pos = MAX_POSITION_STEP_V
 };
 stepper_handle_t hhandle = {
     .step_pin = STEP_PIN_H,
     .dir_pin = DIR_PIN_H,
     .enable_pin = ENABLE_PIN_H,
-    .status.period = MAX_PERIOD_USEC
+    .status.period = MAX_PERIOD_USEC,
+    .max_pos = MAX_POSITION_STEP_H
 };
 
 
@@ -138,13 +141,11 @@ void initialize_stepper_driver(stepper_handle_t *handle) {
 
 void update_stepper(StepMessage_t *msg, stepper_handle_t *handle) {
 
-    int max_pos;
-
     // calculate desired speed and steps required
-    double current_position = handle->status.position * (1./max_pos);
+    double current_position = handle->status.position * (1./handle->max_pos);
     double dx = msg->position - current_position;
 
-    handle->status.steps = (dx>0 ? dx : -dx) * max_pos;
+    handle->status.steps = (dx>0 ? dx : -dx) * handle->max_pos;
     
     uint8_t newdirection = dx>0;
     if(handle->status.direction != newdirection) handle->status.momentum = 0;

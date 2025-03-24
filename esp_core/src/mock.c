@@ -1,22 +1,5 @@
 #include "mock.h"
-
 #include "config.h"
-
-
-void mock_stepmessasges(void *pvParameters) {
-
-    StepMessage_t sMsg;
-    forever {
-        // alternate position from 0.1 to 0.9 every 2s
-        sMsg.position = (sMsg.position == 0.1) ? 0.9 : 0.1;
-        sMsg.update = true;
-        sMsg.urgency = 10;
-
-        vTaskDelay(2000 / portTICK_PERIOD_MS);
-
-        xQueueSendToFront(hstepQueue, &sMsg, 0);
-    }
-}
 
 void mock_udp_task(void *pvParameters) {
     StepMessage_t sMsg;

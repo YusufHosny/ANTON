@@ -3,9 +3,9 @@
 
 #include "config.h"
 
-#define STEP_PIN_H GPIO_NUM_13
-#define DIR_PIN_H GPIO_NUM_14
-#define ENABLE_PIN_H GPIO_NUM_12
+#define STEP_PIN_H GPIO_NUM_15
+#define DIR_PIN_H GPIO_NUM_16
+#define ENABLE_PIN_H GPIO_NUM_17
 
 #define STEP_PIN_V GPIO_NUM_13
 #define DIR_PIN_V GPIO_NUM_14
