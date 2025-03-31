@@ -37,24 +37,34 @@
 
 // enable and disable submodules
 #define UDP 1
-#define NRF 0
+#define NRF 1
 #define STEPPER 0
 #define MOCK 1
 
 extern QueueHandle_t vstepQueue, hstepQueue, racketQueue;
 
-// size 24 bytes
-typedef struct StepMessage {
-    bool update; // offset 0x0: 1 byte then 7 padding
-    double position; // offset 0x8: 8 byte value
-    uint8_t urgency; // offset 0x10: 1 byte then 7 padding
-} StepMessage_t;
+// types {0: normal packet, 1: manual packet, position is 0./1. for direction, 2: reset packet, stops gantry in that axis}
+typedef enum StepMessageType {
+    NORMAL, MANUAL, RESET
+} StepMessageType_t ;
 
 // size 16 bytes
+typedef struct StepMessage {
+    StepMessageType_t type; // offset 0x0: 4 bytes then 4 padding
+    double position; // offset 0x8: 8 byte value
+} StepMessage_t;
+
+// size 8 bytes
 typedef struct RacketMessage {
-    double angle; // offset 0x0: 8 bytes
-    bool fire; // offset 0x8: 1 byte then 7 padding
+    float angle; // offset 0x0: 4 bytes
+    bool fire;  // offset 0x4: 1 byte then 3 padding
 } RacketMessage_t;
+
+// size 2 * stepmsg + rmsg = 40 bytes
+typedef struct Packet {
+    StepMessage_t hMsg, vMsg; // 0x0 then 0x10
+    RacketMessage_t rMsg; // 0x20->0x28
+} Packet_t;
 
 
 #endif // CONFIG_H

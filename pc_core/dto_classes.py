@@ -1,25 +1,46 @@
 from dataclasses import dataclass
 from typing import Tuple
+from enum import IntEnum
+from struct import pack, unpack
+
+class StepMessageType(IntEnum):
+        NORMAL = 0
+        MANUAL = 1
+        RESET = 2
+
 
 @dataclass
 class StepMessage:
-    update: bool
+    type: StepMessageType
     position: float
-    urgency: int
 
     @staticmethod
-    def from_data(data: Tuple[bool, float, int]):
-        return StepMessage(data[0], data[1], data[2])
+    def from_data(data: Tuple[int, float]):
+        return StepMessage(data[0], data[1])
 
     @staticmethod
-    def fmt(): return '?7xdB7x'
+    def fmt(): return 'l4xd'
 
     def __repr__(self):
-        return f'StepMessage(update={self.update}, position={self.position}, urgency={self.urgency})'
+        return f'StepMessage(type={self.type}, position={self.position})'
+    
+    def __len__(self):
+        return 16
 
     def values(self):
-        return self.update, self.position, self.urgency
-
+        return int(self.type), self.position
+    
+    def as_bytes(self):
+        return pack(self.fmt(), *self.values())
+    
+    @staticmethod
+    def from_bytes(data):
+        return StepMessage(*unpack(StepMessage.fmt(), data))
+    
+    @staticmethod
+    def size():
+        return 16
+    
 @dataclass
 class RacketMessage:
     angle: float
@@ -30,14 +51,27 @@ class RacketMessage:
         return RacketMessage(data[0], data[1])
     
     @staticmethod
-    def fmt(): return 'd?7x'
+    def fmt(): return 'f?3x'
 
     def __repr__(self):
         return f'RacketMessage(angle={self.angle}, fire={self.fire})'
 
+    def __len__(self):
+        return 8
+
     def values(self):
         return self.angle, self.fire
     
+    def as_bytes(self):
+        return pack(self.fmt(), *self.values())
+    
+    @staticmethod
+    def from_bytes(data):
+        return RacketMessage(*unpack(RacketMessage.fmt(), data))
+    
+    @staticmethod
+    def size():
+        return 8
 
 @dataclass
 class Packet:
@@ -45,15 +79,26 @@ class Packet:
     vstepMsg: StepMessage
     rMsg: RacketMessage
 
-    @staticmethod   
-    def from_data(data: Tuple[bool, float, int, bool, float, int, float, bool]):
-        return Packet(StepMessage(data[:3], data[3:6], data[6:]))
-
     @staticmethod
     def fmt(): return f'<{StepMessage.fmt()}{StepMessage.fmt()}{RacketMessage.fmt()}'
 
     def __repr__(self):
         return f'Packet(hMsg={self.hstepMsg}, vMsg={self.vstepMsg}, rMsg={self.rMsg})'
 
+    def __len__(self):
+        return len(self.hstepMsg) + len(self.vstepMsg) + len(self.rMsg)
+
     def values(self):
         return self.hstepMsg.values() + self.vstepMsg.values() + self.rMsg.values()
+    
+    def as_bytes(self):
+        return pack(self.fmt(), *self.values())
+    
+    @staticmethod   
+    def from_bytes(data):
+        data = unpack(Packet.fmt(), data)
+        return Packet(StepMessage(*data[:2]), StepMessage(*data[2:4]), RacketMessage(*data[4:]))
+    
+    @staticmethod
+    def size():
+        return StepMessage.size() * 2 + RacketMessage.size()

@@ -15,18 +15,15 @@ with sock.socket(sock.AF_INET, sock.SOCK_DGRAM) as s:
 
         s.sendto(b'strt\n', (host, port))
         
-        for _ in range(3):
+        for _ in range(100):
             try:
-                packet, addr = s.recvfrom(24+24+16)
-                result = unpack(f'<{StepMessage.fmt}{StepMessage.fmt}{RacketMessage.fmt}', packet)
-                print(Packet.from_data(result))
+                packet, addr = s.recvfrom(Packet.size())
+                print(Packet.from_bytes(packet))
                 
-            except sock.timeout:
-                print("Socket timeout.")
+            except sock.timeout: print("Socket timeout. 2")
 
         s.sendto(b'stop\n', (host, port))
         
-    except sock.timeout:
-        print("Socket timeout.")
+    except sock.timeout: print("Socket timeout.")
 
     s.sendto(b'stop\n', (host, port))

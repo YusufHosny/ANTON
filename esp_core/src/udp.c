@@ -12,7 +12,7 @@ https://github.com/SIMS-IOT-Devices/FreeRTOS-ESP-IDF-5.0-Socket/blob/main/UDP%20
 #define HOST_IP_ADDR "192.168.137.1"
 #define PORT 3201
 
-#define MESSAGE_SIZE 24+24+16
+#define MESSAGE_SIZE (2*sizeof(StepMessage_t)+sizeof(RacketMessage_t))
 
 void udp_client_task(void *pvParameters) {
 	// initialize information
@@ -56,7 +56,7 @@ void udp_client_task(void *pvParameters) {
 	while (1) {
 		struct sockaddr_storage source_addr; // Large enough for both IPv4 or IPv6
 		socklen_t socklen = sizeof(source_addr);
-		int len = recvfrom(sock, rx_buffer, sizeof(rx_buffer) - 1, 0, (struct sockaddr *)&source_addr, &socklen);
+		int len = recvfrom(sock, rx_buffer, sizeof(rx_buffer), 0, (struct sockaddr *)&source_addr, &socklen);
 
 		// Error occurred during receiving
 		if (len < 0) {
@@ -65,17 +65,13 @@ void udp_client_task(void *pvParameters) {
 		}
 		// Data received
 		else {
-			StepMessage_t hMsg, vMsg;
-			RacketMessage_t rMsg;
-
-			memcpy(&hMsg, rx_buffer, sizeof(hMsg));
-			memcpy(&vMsg, rx_buffer+24, sizeof(vMsg));
-			memcpy(&rMsg, rx_buffer+48, sizeof(rMsg));
+			Packet_t packet;
+			memcpy(&packet, rx_buffer, sizeof(packet));
 
 			// send messages
-			xQueueSendToFront(hstepQueue, &hMsg, 0);
-			xQueueSendToFront(vstepQueue, &vMsg, 0);
-			xQueueSendToFront(racketQueue, &rMsg, 0);
+			xQueueSendToFront(hstepQueue, &packet.hMsg, 0);
+			xQueueSendToFront(vstepQueue, &packet.vMsg, 0);
+			xQueueSendToFront(racketQueue, &packet.rMsg, 0);
 		}
 		vTaskDelay(10 / portTICK_PERIOD_MS);
 	}
