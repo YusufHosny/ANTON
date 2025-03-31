@@ -1,16 +1,14 @@
+
 /**
- * CLOCK Generated Driver Header File 
+ * WWDT Generated Driver API Header File.
  * 
- * @file clock.h
+ * @file wwdt.h
  * 
- * @defgroup clockdriver Clock Driver
+ * @defgroup  wwdt WWDT
  * 
- * @brief This file contains the API prototypes and other data types for the Clock driver.
+ * @brief This file contains the API prototypes for the WWDT driver.
  *
- * @version Driver Version 2.0.4
- *
- * @version Package Version 4.3.7
- *
+ * @version WWDT Driver Version 2.0.0
 */
 
 /*
@@ -34,28 +32,30 @@
     THIS SOFTWARE.
 */
 
-#ifndef CLOCK_H
-#define	CLOCK_H
+#ifndef WATCHDOG_H
+#define WATCHDOG_H
 
-#ifndef _XTAL_FREQ
-/**
-    @ingroup clock control 
-    @def system frequency
-    @misradeviation{@required, 21.1} Defining the system frequency using the _XTAL_FREQ macro is required by the XC8 compiler for the built-in delay functions.
-*/
-/* cppcheck-suppress misra-c2012-21.1 */
-#define _XTAL_FREQ 64000000U
-#endif
+ /**
+   Section: Included Files
+ */
+
+#include <xc.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+
 
 /**
- * @ingroup clockdriver
- * @brief Initializes all the Internal Oscillator sources and the clock switch configurations. 
+ * @ingroup wwdt
+ * @brief Initializes the Windowed Watchdog Timer (WWDT) driver.
  * @param None.
  * @return None.
+ * 
  */
-void CLOCK_Initialize(void);
+void WWDT_Initialize(void);
 
-#endif	/* CLOCK_H */
+
+#endif	/* WATCHDOG_H */
 /**
  End of File
 */

@@ -1,42 +1,39 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
- C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o
- -Odist/default/debug\pic_mirf.X.debug.hex
- -logfile=dist/default/debug\pic_mirf.X.debug.hxl
+ C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o
+ -Odist/default/debug\pic_core.X.debug.hex
+ -logfile=dist/default/debug\pic_core.X.debug.hxl
  -addressing=1
  -break=300000
 
 ### Memory Usage ###
  Input file ranges:
-  0h - 3h		(C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
-  8h - Bh		(C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
-  18h - 1Dh		(C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
-  FE4Eh - 11937h		(C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
-  200000h - 20003Fh		(C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
-  300000h - 300007h		(C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
-  300009h - 300009h		(C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
+  0h - 3h		(C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
+  FE64h - FFFEh		(C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
+  10000h - 11893h		(C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
+  1FFFCh - 1FFFFh		(C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
+  200000h - 20003Fh		(C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
+  300000h - 300007h		(C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
+  300009h - 300009h		(C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
  Unused ranges:
-  4h - 7h
-  Ch - 17h
-  1Eh - FE4Dh
-  11938h - 1FFFFFh
+  4h - FE63h
+  FFFFh - FFFFh
+  11894h - 1FFFBh
+  20000h - 1FFFFFh
   200040h - 2FFFFFh
   300008h - 300008h
 
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
-  H1 = Input file             (C:\Users\Yusuf\AppData\Local\Temp\xcAs1nes.\driver_tmp_3.o)
+  H1 = Input file             (C:\Users\Yusuf\AppData\Local\Temp\xcAsm30.\driver_tmp_3.o)
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------
-00000000 | H1 H1 H1 H1 -- -- -- -- H1 H1 H1 H1 -- -- -- --
-00000010 | -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1 -- --
+00000000 | H1 H1 H1 H1 -- -- -- -- -- -- -- -- -- -- -- --
 ----------------------------------------------------------
-0000FE40 | -- -- -- -- -- -- -- -- -- -- -- -- -- -- H1 H1
-0000FE50 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000FE60 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000FE60 | -- -- -- -- H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000FE70 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000FE80 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000FE90 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
@@ -61,7 +58,7 @@
 0000FFC0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000FFD0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 0000FFE0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-0000FFF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+0000FFF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 --
 00010000 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00010010 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00010020 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
@@ -455,17 +452,9 @@
 00011860 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00011870 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00011880 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00011890 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-000118A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-000118B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-000118C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-000118D0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-000118E0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-000118F0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00011900 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00011910 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00011920 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00011930 | H1 H1 H1 H1 H1 H1 H1 H1 -- -- -- -- -- -- -- --
+00011890 | H1 H1 H1 H1 -- -- -- -- -- -- -- -- -- -- -- --
+----------------------------------------------------------
+0001FFF0 | -- -- -- -- -- -- -- -- -- -- -- -- H1 H1 H1 H1
 ----------------------------------------------------------
 00200000 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00200010 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
