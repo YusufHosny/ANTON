@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=pic_mirf.X
+PROJECTNAME=pic_core.X
 
 # Active Configuration
 DEFAULTCONF=default

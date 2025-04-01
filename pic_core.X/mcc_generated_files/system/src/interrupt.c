@@ -11,7 +11,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -70,25 +70,6 @@ void  INTERRUPT_Initialize (void)
 
 }
 
-/**
- * @ingroup interrupt
- * @brief Executes whenever a high-priority interrupt is triggered. This routine checks the source of the interrupt and calls the relevant interrupt function.
- * @pre INTERRUPT_Initialize() is already called.
- * @param None.
- * @return None.
- */
-void __interrupt() INTERRUPT_InterruptManager (void)
-{
-    // interrupt handler
-    if(PIE3bits.TMR0IE == 1 && PIR3bits.TMR0IF == 1)
-    {
-        Timer0_OverflowISR();
-    }
-    else
-    {
-        //Unhandled Interrupt
-    }
-}
 
 void INT0_ISR(void)
 {

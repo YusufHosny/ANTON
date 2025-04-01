@@ -14,6 +14,7 @@
         "stdlib.h": "c",
         "esp_netif.h": "c",
         "inttypes.h": "c",
-        "random": "c"
+        "random": "c",
+        "utils.h": "c"
     }
 }

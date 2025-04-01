@@ -28,15 +28,15 @@ class UDPServer:
 
             while not self._done:
                 try:
-                    packet, addr = s.recvfrom(5)
-                    if packet == b'strt\n':
-                        while packet != b'stop\n' and not self._done:
+                    data, addr = s.recvfrom(5)
+                    if data == b'strt\n':
+                        while data != b'stop\n' and not self._done:
+                            
                             if not self.queue.empty():
                                 packet: Packet = self.queue.get()
-                                data = pack(packet.fmt(), *packet.values())
-                                s.sendto(data, addr)
+                                s.sendto(packet.as_bytes(), addr)
 
-                            try: packet = s.recvfrom(5)[0]
+                            try: data = s.recvfrom(5)[0]
                             except sock.timeout: pass
 
                 except sock.timeout: pass
@@ -61,6 +61,6 @@ class UDPServer:
 if __name__ == "__main__":
     srv = UDPServer('192.168.137.1', 3201)
     srv.start()
-    for i in range(100): srv.queue.put(Packet(StepMessage(True, .1, 12), StepMessage(False, 0, 0), RacketMessage(.23, False)))
+    for i in range(100): srv.queue.put(Packet(StepMessage(StepMessageType.RESET, 0), StepMessage(StepMessageType.RESET, 0), RacketMessage(.23, False)))
     time.sleep(20)
     srv.stop()

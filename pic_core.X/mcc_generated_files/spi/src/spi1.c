@@ -11,7 +11,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -63,7 +63,6 @@ const struct SPI_INTERFACE SPI1_nrf24 = {
 static const spi_configuration_t spi1_configuration[] = {   
     { 0x2, 0xC0, 0x0, 0xff, 0x0 },
     { 0x2, 0xC0, 0x0, 0xff, 0x0 },
-    { 0x2, 0x40, 0x0, 0x0, 0x0 }
 };
 
 void SPI1_Initialize(void)

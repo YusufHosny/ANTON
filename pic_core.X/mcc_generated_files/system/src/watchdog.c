@@ -1,17 +1,16 @@
-/** 
- * TMR Generated Driver API Header File
+/**
+ * WWDT Generated Driver File.
+ * 
+ * @file wwdt.c
+ * 
+ * @ingroup  wwdt
+ * 
+ * @brief This file contains the API implementation for the WWDT driver.
  *
- * @file timer_interface.h
- *  
- * @defgroup timer_interface Timer interface
- *
- * @brief This header file provides interfaces to Timer APIs.
- *
- * @version TMR_interface Version 1.0.1
- */
-
+ * @version WWDT Driver Version 2.0.0
+*/
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -31,32 +30,17 @@
     THIS SOFTWARE.
 */
 
-#ifndef TMR_INTERFACE_H
-#define TMR_INTERFACE_H
+#include "../watchdog.h"
 
-/**
- * @brief This file contains API prototypes and other data types for the Timer interface.
- * @{
- */
-
-#include<stddef.h>
-        
-/**
- @ingroup timer_interface
- @struct TMR_INTERFACE
- @brief This structure contains the interfaces to Timer module
- */
- 
-struct TMR_INTERFACE
+void WWDT_Initialize(void)
 {
-    void (*Initialize)(void);
-    void (*Start)(void);
-    void (*Stop)(void);
-    void (*PeriodCountSet)(size_t count);
-    void (*TimeoutCallbackRegister)(void (* CallbackHandler)(void));
-    void (*Tasks)(void);
-};
+    //WDTSEN ON; WDTPS 1:32; 
+    WDTCON0 = 0x1;
+    //WDTCS LFINTOSC 31kHz; WDTWINDOW Window delay time 87.5%; 
+    WDTCON1 = 0x0;
+    //nRWDT WDT reset has not occurred; nWDTWV WDT window violation reset has not occurred; 
+    PCON0 = 0x30;
+}
 /**
- * @}
- */
-#endif //TMR_INTERFACE_H
+ End of File
+*/

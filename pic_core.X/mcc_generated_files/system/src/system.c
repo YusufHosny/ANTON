@@ -13,7 +13,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -39,8 +39,9 @@ void SYSTEM_Initialize(void)
 {
     CLOCK_Initialize();
     PIN_MANAGER_Initialize();
+    servoPWM_Initialize();
     SPI1_nrf24_Initialize();
-    Timer0_Initialize();
+    //WWDT_Initialize();
     INTERRUPT_Initialize();
 }
 

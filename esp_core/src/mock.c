@@ -7,9 +7,9 @@ void mock_udp_task(void *pvParameters) {
     bool fire = false;
     forever {
         // alternate position from 0.1 to 0.9 every 2s
+        sMsg.type = NORMAL;
         sMsg.position = (sMsg.position == 0.1) ? 0.9 : 0.1;
-        sMsg.update = true;
-        sMsg.urgency = 10;
+        
 
         // alternate angle and firing
         rMsg.angle = (rMsg.angle == 40) ? 120 : 40;
@@ -33,11 +33,11 @@ void mock_stepper_task(void *pvParameters) {
 		vTaskDelay(10 / portTICK_PERIOD_MS);
 
         if(xQueueReceive(hstepQueue, &msg, 0)) { 
-            ESP_LOGI(pcTaskGetName(NULL), "Horizontal StepMessage(%d %f %d)", msg.update, msg.position, msg.urgency);                  
+            ESP_LOGI(pcTaskGetName(NULL), "Horizontal StepMessage(%d %f)", msg.type, msg.position);                  
         }
 
         if(xQueueReceive(vstepQueue, &msg, 0)) { 
-            ESP_LOGI(pcTaskGetName(NULL), "Vertical StepMessage(%d %f %d)", msg.update, msg.position, msg.urgency);                  
+            ESP_LOGI(pcTaskGetName(NULL), "Vertical StepMessage(%d %f)", msg.type, msg.position);                  
         }
 		
 	}
