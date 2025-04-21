@@ -37,8 +37,8 @@
 
 // enable and disable submodules
 #define UDP 1
-#define NRF 1
-#define STEPPER 0
+#define NRF 0
+#define STEPPER 1
 #define MOCK 1
 
 extern QueueHandle_t vstepQueue, hstepQueue, racketQueue;
