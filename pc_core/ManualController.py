@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
-from UDPServer import UDPServer
+from comms.UDPServer import UDPServer
 import time
-from dto_classes import *
+from comms.dto_classes import *
 import threading as ts
 
 class ControlPanel:
@@ -167,7 +167,7 @@ class ControlPanel:
                         )
                     )
             
-                time.sleep(1)
+                time.sleep(.3)
             
         self.packetloop = ts.Thread(target=addPacketLoop)
         self.packetloop.start()

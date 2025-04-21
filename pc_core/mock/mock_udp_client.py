@@ -2,7 +2,7 @@ import socket as sock
 from typing import Self
 from struct import unpack
 import time
-from dto_classes import *
+from comms.dto_classes import *
 
 host = 'localhost' # '192.168.137.1'
 port = 3201

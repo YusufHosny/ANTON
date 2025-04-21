@@ -1,6 +1,6 @@
 import socket as sock
 import time
-from dto_classes import *
+from comms.dto_classes import *
 
 host = '192.168.137.1'
 port = 3201
