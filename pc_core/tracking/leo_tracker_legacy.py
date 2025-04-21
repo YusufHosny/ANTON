@@ -1,5 +1,18 @@
 import cv2 as cv
 import numpy as np
+import threading as ts
+
+img1, img2 = None, None
+done = False
+def read_buffer(capture, C_id):
+    global img1, img2
+    while not done:
+        ret, img = capture.read()
+        if C_id == 1:
+            img1 = img
+        if C_id == 2:
+            img2 = img
+    
 
 
 def closest_point_between_skew_lines(p1, d1, p2, d2):
@@ -57,7 +70,7 @@ def image_to_world_plane(u, v, H):
     return projected[0], projected[1], 0.0  # (X, Y, 0)
 
 
-def calibrate_camera(img, focal_length, sensor_width, flip_coordinates):
+def calibrate_camera_algorithm(img, focal_length, sensor_width, flip_coordinates):
 
     bottom = 0
     top = 0
@@ -107,12 +120,12 @@ def calibrate_camera(img, focal_length, sensor_width, flip_coordinates):
 
     hsv = cv.cvtColor(masked_img, cv.COLOR_BGR2HSV)
 
-    lower_bound = np.array([0,0,200])
-    upper_bound = np.array([179,110,255])
+    lower_bound = np.array([0,0,190])
+    upper_bound = np.array([179,130,255])
 
     mask = cv.inRange(hsv, lower_bound, upper_bound)
     cdst = cv.cvtColor(mask, cv.COLOR_GRAY2BGR)
-    Plines = cv.HoughLinesP(mask, 1, np.pi / 180, 100, None, 150, 50)
+    Plines = cv.HoughLinesP(mask, 1, np.pi / 180, 100, None, 90, 50)
 
     BottomLines = [[],[]]
     TopLines = [[],[]]
@@ -218,6 +231,84 @@ def calibrate_camera(img, focal_length, sensor_width, flip_coordinates):
 
     return camera_position, H
 
+def calibrate_camera_manually(img, focal_length, sensor_width, flip_coordinates):
+    TopLeft, TopRight, BottomLeft, BottomRight = None, None, None, None
+
+
+    def set_corners(event, x, y, flags, param):
+        nonlocal TopLeft, TopRight, BottomLeft, BottomRight
+        if event == cv.EVENT_LBUTTONUP:
+            if TopLeft != None:
+                TopLeft = (x,y)
+            elif TopRight != None:
+                TopRight = (x,y)
+            elif BottomLeft != None:
+                BottomLeft = (x,y)
+            else:
+                BottomRight = (x,y)
+
+    cv.namedWindow("Original")
+    cv.setMouseCallback("Original", set_corners)
+    cv.imshow("Original", img)
+    while True:
+        cv.waitKey(500)
+        if TopLeft != None and TopRight != None and BottomLeft != None and BottomRight != None:
+            break
+
+    
+    width, height = 274, 152.5
+
+    if flip_coordinates:
+        real_world_points = np.array([
+            [width, height, 0], # Top-left
+            [0, height, 0],     # Top-right
+            [width, 0, 0],      # Bottom-left
+            [0, 0, 0]           # Bottom-right
+        ], dtype=np.float32)
+    else:
+        real_world_points = np.array([
+            [0, 0, 0],         # Top-left
+            [width, 0, 0],     # Top-right
+            [0, height, 0],    # Bottom-left
+            [width, height, 0] # Bottom-right
+        ], dtype=np.float32)
+
+    screen_points = np.array([
+        TopLeft, 
+        TopRight, 
+        BottomLeft, 
+        BottomRight
+    ], dtype=np.float32)
+
+    #pixel size
+    w, h = img.shape[:2]
+    pixel_size = sensor_width/h
+
+    #focal length in pixels
+    fx = focal_length/pixel_size
+    fy = fx
+
+    #principal point
+    Cx = h/2
+    Cy = w/2
+
+
+    K = np.array([[fx, 0, Cx],  # fx,  0, cx
+                [0, fy, Cy],  #  0, fy, cy
+                [0, 0, 1]])  # 0,  0,  1
+    
+    # 4️⃣ SolvePnP: Find rotation & translation
+    success, rvec, tvec = cv.solvePnP(real_world_points, screen_points, K, None)
+
+    # Convert rotation vector to rotation matrix
+    R, _ = cv.Rodrigues(rvec)
+
+    # Camera position in world coordinates:
+    camera_position = -np.dot(R.T, tvec)
+    H, _ = cv.findHomography(screen_points, real_world_points[:, :2])
+
+    return camera_position, H
+
 
 
 def track_ball(img, range, name):
@@ -253,37 +344,44 @@ def track_ball(img, range, name):
 
 
 def main():
+    global img1, img2, done
     # camera setup
-    camera_ip1 = '192.168.0.162'
-    camera_ip2 = '192.168.0.204'
+    camera_ip1 = '172.20.10.2'
+    camera_ip2 = '172.20.10.4'
     camera_port = 8080
+    
     capture1 = cv.VideoCapture(f'http://{camera_ip1}:{camera_port}/video')
     capture2 = cv.VideoCapture(f'http://{camera_ip2}:{camera_port}/video')
 
-    ballRange = ( (8, 125, 160), (24, 255, 255) ) # tuple with the range of hsv values that are considered a ball (orange range)
+    ballRange = ( (10, 150, 190), (18, 255, 255) ) # tuple with the range of hsv values that are considered a ball (orange range)
     #ballRange = ( (162, 125, 200), (172, 255, 255) )
-    
+
 
     ret1, img1 = capture1.read()
     ret2, img2 = capture2.read()
     if not ret1 or not ret2: quit()
-    camera1_pos, H1 = calibrate_camera(img1, 22, 44.7, False)
+    camera1_pos, H1 = calibrate_camera_manually(img1, 22, 44.7, False)
     camera1_pos = camera1_pos.ravel()
-    camera2_pos, H2 = calibrate_camera(img2, 23, 39.6, True)
+    camera2_pos, H2 = calibrate_camera_manually(img2, 23, 39.6, True)
     camera2_pos = camera2_pos.ravel()
+    ts.Thread(target=read_buffer, args=(capture1, 1)).start()
+    ts.Thread(target=read_buffer, args=(capture2, 2)).start()
+
+
 
     while True:
-        ret1, img1 = capture1.read()
-        ret2, img2 = capture2.read()
 
         x1, y1 = track_ball(img1, ballRange, "camera 1")
         x2, y2 = track_ball(img2, ballRange, "camera 2")
-
-        pos1 = image_to_world_plane(x1, y1, H1)
-        pos2 = image_to_world_plane(x2, y2, H2)
+        if x1 != -1 or y1 != -1:
+            pos1 = image_to_world_plane(x1, y1, H1)
+        if x2 != -1 or y2 != -1:   
+            pos2 = image_to_world_plane(x2, y2, H2)
 
         print(closest_point_between_skew_lines(camera1_pos, camera1_pos - pos1, camera2_pos, camera2_pos - pos2))
-        if cv.waitKey(1) & 0xFF == ord('q'): break
+        if cv.waitKey(1) & 0xFF == ord('q'): 
+            done = True
+            break
 
 
 if __name__ == "__main__":
