@@ -13,24 +13,24 @@ A lot of companies have already created their own ping pong robot, the mechanica
 
 This system is very high budget, and as a result our implementation will not achieve such results. The mechanical arm is out of reach for this prototype with the budget and time given, but it is an effective example for the robot movements. The same can be said about the cameras. The top view with an angle provides a 3D visual of the ball movement only using two cameras.
 
-The most relevant article is \cite{Acosta2004}, as it goes through the whole procedure up to the fully realized prototype. Even though technology advancement has largely improved since then, the book provides many insights into possible issues and solutions for them.
+The most relevant article is \cite{Acosta2004}, as it goes through the whole procedure up to the fully realized prototype. Although technology advancement has largely improved since then, the book provides many insights into possible issues and solutions for them.
 
 Our main idea is to detect the ball and return it using a rigid rectangle cardboard driven by a solenoid. Even though, the design of the book \cite{Yu2012} is more complex, it provides some ideas on real-time control setups and how it can be incorporated into the design.
 
 The tracking of the ball will probably be one of the biggest challenges, a fuzzy image, camera positioning, depth track, or even the effect the ball could have from the player. All of this makes having an accurate prediction of the ball position very challenging. A lot of scientific articles discuss these possible issues we might encounter.
 
-Depending on the quality of the cameras, the image might be blurry, or due to timing and noise issues, the data might be affected. This can be solved using the Kalman filtering algorithm \cite{Lu2020}.
+Depending on the quality of the cameras, the image may be blurry due to timing and noise issues, affecting data accuracy. This can be solved using the Kalman filtering algorithm \cite{Lu2020}.
 
 A mathematical solution using a K-means algorithm, Fourier series, EM and others, can be used to have an accurate prediction on the ball position if some effect was applied  \cite{Zhao2017}.
 
-Hitting the ball with a correct trajectory will be found through trial and error. The article \cite{Trasloheros2014}. explains how they manage to properly hit the ball only using three degrees of freedom whereas most other companies use at least 4. This could facilitate our task and give us some good ideas about the proper angle to return the ball.
+Hitting the ball with a correct trajectory will be found through trial and error. The article \cite{Trasloheros2014} explains how they manage to properly hit the ball only using three degrees of freedom whereas most other companies use at least 4. This could facilitate our task and give us some good ideas about the proper angle to return the ball.
 
 
 \section{Requirements analysis}
 
 The system targets individuals seeking a challenging ping-pong opponent, regardless of their skill level or the availability of human players.
 
-The reason for such a broad demographic is because ping-pong is very straightforward, and easy to play. It can be a 90-year-old grandpa or his 4-year-old granddaughter that plays against the robot. Players benefit from the challenge of playing against a robot, whilst exercising at the same time.
+The reason for such a broad demographic is because ping-pong is very straightforward, and easy to play. The system is intended to be accessible to a wide range of users, regardless of age or skill level. Players benefit from the challenge of playing against a robot, whilst exercising at the same time.
 
 A finished prototype, with every component working, should be able to handle a back and forth game of ping pong with consistent ball speeds up to at least 15 m/s. To achieve this, all of components will need to be reliable and fast.
 
