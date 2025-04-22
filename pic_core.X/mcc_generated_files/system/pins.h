@@ -12,7 +12,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -149,25 +149,45 @@
 #define SCK_SetAnalogMode()      do { ANSELCbits.ANSELC6 = 1; } while(0)
 #define SCK_SetDigitalMode()     do { ANSELCbits.ANSELC6 = 0; } while(0)
 
-// get/set RF3 aliases
-#define LED_TRIS                 TRISFbits.TRISF3
-#define LED_LAT                  LATFbits.LATF3
-#define LED_PORT                 PORTFbits.RF3
-#define LED_WPU                  WPUFbits.WPUF3
-#define LED_OD                   ODCONFbits.ODCF3
-#define LED_ANS                  ANSELFbits.ANSELF3
-#define LED_SetHigh()            do { LATFbits.LATF3 = 1; } while(0)
-#define LED_SetLow()             do { LATFbits.LATF3 = 0; } while(0)
-#define LED_Toggle()             do { LATFbits.LATF3 = ~LATFbits.LATF3; } while(0)
-#define LED_GetValue()           PORTFbits.RF3
-#define LED_SetDigitalInput()    do { TRISFbits.TRISF3 = 1; } while(0)
-#define LED_SetDigitalOutput()   do { TRISFbits.TRISF3 = 0; } while(0)
-#define LED_SetPullup()          do { WPUFbits.WPUF3 = 1; } while(0)
-#define LED_ResetPullup()        do { WPUFbits.WPUF3 = 0; } while(0)
-#define LED_SetPushPull()        do { ODCONFbits.ODCF3 = 0; } while(0)
-#define LED_SetOpenDrain()       do { ODCONFbits.ODCF3 = 1; } while(0)
-#define LED_SetAnalogMode()      do { ANSELFbits.ANSELF3 = 1; } while(0)
-#define LED_SetDigitalMode()     do { ANSELFbits.ANSELF3 = 0; } while(0)
+// get/set RD3 aliases
+#define racketOut_TRIS                 TRISDbits.TRISD3
+#define racketOut_LAT                  LATDbits.LATD3
+#define racketOut_PORT                 PORTDbits.RD3
+#define racketOut_WPU                  WPUDbits.WPUD3
+#define racketOut_OD                   ODCONDbits.ODCD3
+#define racketOut_ANS                  ANSELDbits.ANSELD3
+#define racketOut_SetHigh()            do { LATDbits.LATD3 = 1; } while(0)
+#define racketOut_SetLow()             do { LATDbits.LATD3 = 0; } while(0)
+#define racketOut_Toggle()             do { LATDbits.LATD3 = ~LATDbits.LATD3; } while(0)
+#define racketOut_GetValue()           PORTDbits.RD3
+#define racketOut_SetDigitalInput()    do { TRISDbits.TRISD3 = 1; } while(0)
+#define racketOut_SetDigitalOutput()   do { TRISDbits.TRISD3 = 0; } while(0)
+#define racketOut_SetPullup()          do { WPUDbits.WPUD3 = 1; } while(0)
+#define racketOut_ResetPullup()        do { WPUDbits.WPUD3 = 0; } while(0)
+#define racketOut_SetPushPull()        do { ODCONDbits.ODCD3 = 0; } while(0)
+#define racketOut_SetOpenDrain()       do { ODCONDbits.ODCD3 = 1; } while(0)
+#define racketOut_SetAnalogMode()      do { ANSELDbits.ANSELD3 = 1; } while(0)
+#define racketOut_SetDigitalMode()     do { ANSELDbits.ANSELD3 = 0; } while(0)
+
+// get/set RF0 aliases
+#define servoOut_TRIS                 TRISFbits.TRISF0
+#define servoOut_LAT                  LATFbits.LATF0
+#define servoOut_PORT                 PORTFbits.RF0
+#define servoOut_WPU                  WPUFbits.WPUF0
+#define servoOut_OD                   ODCONFbits.ODCF0
+#define servoOut_ANS                  ANSELFbits.ANSELF0
+#define servoOut_SetHigh()            do { LATFbits.LATF0 = 1; } while(0)
+#define servoOut_SetLow()             do { LATFbits.LATF0 = 0; } while(0)
+#define servoOut_Toggle()             do { LATFbits.LATF0 = ~LATFbits.LATF0; } while(0)
+#define servoOut_GetValue()           PORTFbits.RF0
+#define servoOut_SetDigitalInput()    do { TRISFbits.TRISF0 = 1; } while(0)
+#define servoOut_SetDigitalOutput()   do { TRISFbits.TRISF0 = 0; } while(0)
+#define servoOut_SetPullup()          do { WPUFbits.WPUF0 = 1; } while(0)
+#define servoOut_ResetPullup()        do { WPUFbits.WPUF0 = 0; } while(0)
+#define servoOut_SetPushPull()        do { ODCONFbits.ODCF0 = 0; } while(0)
+#define servoOut_SetOpenDrain()       do { ODCONFbits.ODCF0 = 1; } while(0)
+#define servoOut_SetAnalogMode()      do { ANSELFbits.ANSELF0 = 1; } while(0)
+#define servoOut_SetDigitalMode()     do { ANSELFbits.ANSELF0 = 0; } while(0)
 
 /**
  * @ingroup  pinsdriver

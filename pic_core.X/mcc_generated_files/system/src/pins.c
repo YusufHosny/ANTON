@@ -12,7 +12,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -62,9 +62,9 @@ void PIN_MANAGER_Initialize(void)
     TRISA = 0xFF;
     TRISB = 0xFF;
     TRISC = 0xE9;
-    TRISD = 0xFF;
+    TRISD = 0xF7;
     TRISE = 0xF;
-    TRISF = 0xF7;
+    TRISF = 0xFE;
 
     /**
     ANSELx registers
@@ -72,9 +72,9 @@ void PIN_MANAGER_Initialize(void)
     ANSELA = 0xFF;
     ANSELB = 0xFF;
     ANSELC = 0x89;
-    ANSELD = 0xFF;
+    ANSELD = 0xF7;
     ANSELE = 0x7;
-    ANSELF = 0xF7;
+    ANSELF = 0xFE;
 
     /**
     WPUx registers

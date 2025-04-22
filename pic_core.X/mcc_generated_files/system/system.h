@@ -13,7 +13,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+© [2025] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -41,13 +41,12 @@
 #include <stdbool.h>
 #include "../system/config_bits.h"
 #include "../system/pins.h"
+#include "../pwm/pwm1_16bit.h"
 #include "../spi/spi1.h"
-#include "../timer/tmr0.h"
 #include "../timer/delay.h"
+#include "../system/watchdog.h"
 #include "../system/interrupt.h"
 #include "../system/clock.h"
-
-#define PIC_LOGI(tag, format, ...) printf("%s:", tag); printf(format, ##__VA_ARGS__)
 
 /**
  * @ingroup systemdriver
