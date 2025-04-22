@@ -2,11 +2,11 @@
 
 Table tennis, colloquially known as ping-pong, is a dynamic sport with rapid ball movements, complex spin mechanics, and the need for precise timing. The increasing sophistication of robotics and computer vision systems has created opportunities for designing autonomous systems capable of participating in such high-speed, interactive environments. Among these innovations are robotic ping-pong players, which serve as a compelling testing environment for the advancing motion control, real-time object tracking, and predictive modeling.
 
-Several commercial and research-driven systems have attempted to tackle the challenges of creating robotic ping-pong players. For instance, Omron's Forpheus employs stereo cameras and advanced trajectory prediction to deliver high-level gameplay and even assess player skill to offer personalized challenges.\cite{Kyohei2019} However, such systems often rely on expensive mechanical arms and high-performance sensors, making them inaccessible for low-cost, consumer-grade applications.
+Several commercial and research-driven systems have attempted to tackle the challenges of creating robotic ping-pong players. For instance, Omron's Forpheus employs stereo cameras and advanced trajectory prediction to deliver high-level game-play and even assess player skill to offer personalized challenges.\cite{Kyohei2019} However, such systems often rely on expensive mechanical arms and high-performance sensors, making them inaccessible for low-cost, consumer-grade applications.
 
 In this paper, we propose a cost-effective robotic ping-pong system designed to replicate the core functionalities of these high-end solutions while maintaining simplicity in design and affordability in materials. The system leverages a dual-camera setup to track the ball's position in three dimensions and employs predictive algorithms to calculate its trajectory. A rail-and-belt mechanism with a mounted paddle responds in real time to intercept and return the ball to the player. The simplicity of the hardware design, combined with the adaptability of the vision-based tracking system, ensures ease of deployment and operation for a wide range of users.
 
-The research aims to address two core challenges: the optimization of vision-based tracking for real-time gameplay and the balance between mechanical speed and control precision for consistent performance. By exploring these aspects, the project contributes to the broader field of robotics by demonstrating how accessible technology can deliver effective solutions in high-speed, interactive scenarios.
+The research aims to address two core challenges: the optimization of vision-based tracking for real-time game-play and the balance between mechanical speed and control precision for consistent performance. By exploring these aspects, the project contributes to the broader field of robotics by demonstrating how accessible technology can deliver effective solutions in high-speed, interactive scenarios.
 
 \section{Related Works}
 A lot of companies have already created their own ping pong robot, the mechanical arm seems to be a necessity for an efficient 3D movement for the robot. The camera disposition differs between the projects. The Forpheus built by Omron, \cite{Kyohei2019}, uses stereo camera to be able to see all three dimensions and make an accurate prediction of the ball position. Additionally, it uses another camera to track the racket and player's movement to be able to determine the effect on the ball and predict where the ball will land.
@@ -15,9 +15,9 @@ This system is very high budget, and as a result our implementation will not ach
 
 The most relevant article is \cite{Acosta2004}, as it goes through the whole procedure up to the fully realized prototype. Even though technology advancement has largely improved since then, the book provides many insights into possible issues and solutions for them.
 
-Our main idea is to detect the ball and return it using a rigid rectangle cardboard and a solenoid. Even though, the design of the book \cite{Yu2012} is more complex, it provides some ideas on real-time control setups and how it can be incorporated into the design.
+Our main idea is to detect the ball and return it using a rigid rectangle cardboard driven by a solenoid. Even though, the design of the book \cite{Yu2012} is more complex, it provides some ideas on real-time control setups and how it can be incorporated into the design.
 
-The tracking of the ball will probably be one of the biggest issues, a fuzzy image, camera positioning, depth track, or even the effect the ball could have from the player. All of this makes having an accurate prediction of the ball position very challenging. A lot of scientific articles discuss these possible issues we might encounter.
+The tracking of the ball will probably be one of the biggest challenges, a fuzzy image, camera positioning, depth track, or even the effect the ball could have from the player. All of this makes having an accurate prediction of the ball position very challenging. A lot of scientific articles discuss these possible issues we might encounter.
 
 Depending on the quality of the cameras, the image might be blurry, or due to timing and noise issues, the data might be affected. This can be solved using the Kalman filtering algorithm \cite{Lu2020}.
 
@@ -30,9 +30,9 @@ Hitting the ball with a correct trajectory will be found through trial and error
 
 The system targets individuals seeking a challenging ping-pong opponent, regardless of their skill level or the availability of human players.
 
-The reason for such a broad demographic is because the ping-pong is very straightforward, and easy to play. It can be a 90-year-old grandpa or his 4-year-old granddaughter that plays against the robot. Players benefit from the challenge of playing against a robot and whilst exercising at the same time.
+The reason for such a broad demographic is because ping-pong is very straightforward, and easy to play. It can be a 90-year-old grandpa or his 4-year-old granddaughter that plays against the robot. Players benefit from the challenge of playing against a robot, whilst exercising at the same time.
 
-A finished prototype, with every component working, should be able to handle a back and forth game of ping pong with ball speeds up to at least 15 m/s consistently. To achieve this all of these working components will be required to be reliable and fast.
+A finished prototype, with every component working, should be able to handle a back and forth game of ping pong with consistent ball speeds up to at least 15 m/s. To achieve this, all of components will need to be reliable and fast.
 
 The railing system must achieve rapid positioning while maintaining stability, avoiding excessive acceleration that could compromise the system's performance.
 
@@ -40,4 +40,4 @@ The image tracking software should be able to accurately track the ball's positi
 
 Factors like unfamiliar lighting or human interference could make the ball tracking unreliable at times. However, this will not be taken into account when making the prototype.
 
-The prediction model of the system is never going to be a perfect representation of the real world's physics. That is why it should be able to update its prediction with each frame of new information it gets from the tracking software. This way, any inaccuracy in the prediction model can be reduced and the racket will be able to be repositioned if any unexpected behaviour were to show up.
+The prediction model of the system is never going to be a perfect representation of the real world's physics. That is why it should be able to update its prediction with each frame of new information from the tracking software. This way, any inaccuracy in the prediction model can be reduced and the racket can be repositioned if any unexpected behaviour were to show up.
