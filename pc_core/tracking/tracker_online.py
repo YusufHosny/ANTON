@@ -13,7 +13,7 @@ def main():
 
     ballRange = (8, 125, 160), (24, 255, 255)
 
-    tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'auto')
+    tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'auto', 'live')
 
     tracker.start(visual=True)
 
