@@ -4,16 +4,21 @@ from comms.UDPServer import UDPServer
 import time
 from comms.dto_classes import *
 import threading as ts
+from tracking.Tracker import Tracker
+import cv2 as cv
+import math
 
 class ControlPanel:
-    def __init__(self, HOST, PORT):
+    def __init__(self, HOST, PORT, loadTracker=False):
         self.server = UDPServer(HOST, PORT)
+
+        self._loadTracker = False
 
         self.root = tk.Tk()
         self.root.title("A.N.T.O.N. Control Panel")
         self.root.geometry("400x400")
         
-        self.mode = tk.StringVar(value="Normal")
+        self.mode = tk.StringVar(value="Slider")
         
         self.button_states = {
             "up": False, "down": False, "left": False, "right": False,
@@ -22,7 +27,7 @@ class ControlPanel:
         self.angle = .5
         
         self.create_widgets()
-        self.show_normal_mode()
+        self.show_slider_mode()
         
         self.root.bind("<KeyPress-w>", lambda e: self.set_button_state("up", True))
         self.root.bind("<KeyRelease-w>", lambda e: self.set_button_state("up", False))
@@ -42,24 +47,39 @@ class ControlPanel:
         self.root.bind("<KeyPress-space>", lambda e: self.set_button_state("fire", True))
         self.root.bind("<KeyRelease-space>", lambda e: self.set_button_state("fire", False))
     
+    def _load_tracker(self):
+        # camera setup
+        camera_ip1 = '192.168.0.162'
+        camera_ip2 = '192.168.0.204'
+        camera_port = 8080
+        capture1 = cv.VideoCapture(f'http://{camera_ip1}:{camera_port}/video')
+        capture2 = cv.VideoCapture(f'http://{camera_ip2}:{camera_port}/video')
+
+        ballRange = (8, 125, 160), (24, 255, 255)
+
+        self.tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'auto')
+
     def create_widgets(self):
         self.mode_frame = tk.Frame(self.root)
         self.mode_frame.pack(pady=5)
         
-        self.normal_btn = tk.Button(self.mode_frame, text="Normal", command=self.show_normal_mode)
-        self.normal_btn.pack(side=tk.LEFT, padx=5)
+        self.slider_btn = tk.Button(self.mode_frame, text="Slider", command=self.show_slider_mode)
+        self.slider_btn.pack(side=tk.LEFT, padx=5)
         
-        self.manual_btn = tk.Button(self.mode_frame, text="Manual", command=self.show_manual_mode)
-        self.manual_btn.pack(side=tk.LEFT, padx=5)
+        self.keyboard_btn = tk.Button(self.mode_frame, text="Keyboard", command=self.show_keyboard_mode)
+        self.keyboard_btn.pack(side=tk.LEFT, padx=5)
+
+        self.auto_btn = tk.Button(self.mode_frame, text="Auto", command=self.show_auto_mode)
+        self.auto_btn.pack(side=tk.LEFT, padx=5)
         
         self.main_frame = tk.Frame(self.root)
         self.main_frame.pack(pady=10)
         
         self.reset_btn = tk.Button(self.root, text="Reset", width=10, command=self.server.reset)
         self.reset_btn.pack(side=tk.RIGHT, padx=10, pady=10)
-    
-    def show_normal_mode(self):
-        self.mode.set("Normal")
+
+    def show_auto_mode(self):
+        self.mode.set("Auto")
         self.clear_frame()
         
         self.horizontal = tk.DoubleVar()
@@ -83,8 +103,33 @@ class ControlPanel:
         self.fire_btn.bind("<ButtonPress>", lambda e: self.set_button_state("fire", True))
         self.fire_btn.bind("<ButtonRelease>", lambda e: self.set_button_state("fire", False))
     
-    def show_manual_mode(self):
-        self.mode.set("Manual")
+    def show_slider_mode(self):
+        self.mode.set("Slider")
+        self.clear_frame()
+        
+        self.horizontal = tk.DoubleVar()
+        tk.Label(self.main_frame, text="Horizontal Control").pack()
+        self.horizontal_slider = ttk.Scale(self.main_frame, from_=0, to=1, orient="horizontal", variable=self.horizontal)
+        self.horizontal_slider.pack(pady=5)
+        
+        self.vertical = tk.DoubleVar()
+        tk.Label(self.main_frame, text="Vertical Control").pack()
+        self.vertical_slider = ttk.Scale(self.main_frame, from_=0, to=1, orient="horizontal", variable=self.vertical)
+        self.vertical_slider.pack(pady=5)
+        
+        self.racket_angle = tk.DoubleVar()
+        tk.Label(self.main_frame, text="Racket Control").pack()
+        self.racket_slider = ttk.Scale(self.main_frame, from_=0, to=1, orient="horizontal", variable=self.racket_angle)
+        self.racket_slider.pack(pady=5)
+        
+        self.fire_btn = tk.Button(self.main_frame, text="Fire")
+        self.fire_btn.pack(pady=5)
+
+        self.fire_btn.bind("<ButtonPress>", lambda e: self.set_button_state("fire", True))
+        self.fire_btn.bind("<ButtonRelease>", lambda e: self.set_button_state("fire", False))
+    
+    def show_keyboard_mode(self):
+        self.mode.set("Keyboard")
         self.clear_frame()
         
         btn_frame = tk.Frame(self.main_frame)
@@ -142,13 +187,16 @@ class ControlPanel:
     
     def start(self):
         self.server.start()
+        if self._loadTracker: 
+            self._loadTracker()
+            self.tracker.start()
 
         def addPacketLoop():
             time.sleep(2)
 
             while self.server.isActive():
                 data = self.poll_buttons()
-                if self.mode.get() == "Manual":
+                if self.mode.get() == "Keyboard":
                     h = 0 if data["left"] else 1 if data["right"] else None
                     v = 0 if data["down"] else 1 if data["up"] else None
                     self.server.queue.put(
@@ -158,7 +206,30 @@ class ControlPanel:
                             RacketMessage(self.angle, data["fire"])
                         )
                     )
+                elif self.mode.get() == "Slider":
+                    self.server.queue.put(
+                        Packet(
+                            StepMessage(StepMessageType.NORMAL, self.horizontal.get()),
+                            StepMessage(StepMessageType.NORMAL, self.vertical.get()),
+                            RacketMessage(self.racket_angle.get(), data["fire"])
+                        )
+                    )
                 else:
+                    x, y, z = self.tracker.get_point()
+                    l, w = 274, 152.5 # table dims
+                    center = l/2, w/2 # center of table
+
+                    # set normalized coords
+                    self.horizontal.set(x/w)
+                    self.vertical.set(z) # todo properly transform z
+                    
+                    # calculate angle to rotate racket by
+                    dw = self.horizontal.get() - center[1]                    
+                    theta = math.atan(abs(center[0]/dw))
+                    angle = math.copysign(90-theta, dw)
+
+                    self.racket_angle.set(angle)
+
                     self.server.queue.put(
                         Packet(
                             StepMessage(StepMessageType.NORMAL, self.horizontal.get()),
@@ -176,6 +247,7 @@ class ControlPanel:
     def stop(self):
         self.server.stop()
         self.packetloop.join()
+        if self._loadTracker: self.tracker.stop()
 
 if __name__ == "__main__":
     HOST, PORT = '192.168.137.1', 3201 

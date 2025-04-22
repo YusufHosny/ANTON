@@ -36,9 +36,10 @@ class Tracker:
         self._done = False
         self.active = False
 
-    def start(self: Self):
+    def start(self: Self, visual: bool = False):
         self._threads += [Thread(target=self._mainloop)]
         self._done = False
+        self._visual = visual
         if self._speed == 'live': self._threads += [Thread(target=self._consumeloop)]
         for thread in self._threads:
             thread.start()
@@ -273,6 +274,9 @@ class Tracker:
 
         # define real points and screen space point arrays
         length, width = 274, 152.5  # concrete length and width of ping pong table
+        # normalize by width
+        length /= width 
+        width /= width
 
         real_world_points = np.array([
                 [0, 0, 0],         # Top-left
@@ -356,7 +360,7 @@ class Tracker:
         blur = cv.GaussianBlur(img, (15, 15), 0) # blur the image
         hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV) # convert RGB data to HSV
         mask = cv.inRange(hsv, self.range[0], self.range[1]) # get areas of picture in hsv ball range
-        mask = cv.dilate(mask, None, iterations=2) # dilate mask
+        mask = cv.dilate(mask, None, iterations=4) # dilate mask
 
         # get center of ball
         cnts, _ = cv.findContours(mask.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
@@ -367,13 +371,11 @@ class Tracker:
             M = cv.moments(c)
             center = (int(M['m10']/M['m00']), int(M['m01']/M['m00']))
 
-            if rad > 0: # only show circles big enough
-                cv.circle(img, (int(x), int(y)), int(rad), (0, 255, 255), 2)
-                cv.circle(img, center, 5, (0, 255, 255), -1)
-            cv.imshow(name, img)
-            return x, y
+            cv.circle(img, (int(x), int(y)), int(rad), (0, 255, 255), 2)
+            cv.circle(img, center, 5, (0, 255, 255), -1)
         else:
-            cv.imshow(name, img)
-            return -1, -1
-        
+            x, y = -1, -1
+
+        if self._visual: cv.imshow(name, img)
+        return x, y
 
