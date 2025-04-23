@@ -5,14 +5,15 @@ import time
 from comms.dto_classes import *
 import threading as ts
 from tracking.Tracker import Tracker
+from Visualizer import Visualizer
 import cv2 as cv
 import math
 
 class ControlPanel:
-    def __init__(self, HOST, PORT, loadTracker=False):
+    def __init__(self, HOST, PORT, automode=False):
         self.server = UDPServer(HOST, PORT)
 
-        self._loadTracker = False
+        self._load_auto = automode
 
         self.root = tk.Tk()
         self.root.title("A.N.T.O.N. Control Panel")
@@ -58,6 +59,9 @@ class ControlPanel:
         ballRange = (8, 125, 160), (24, 255, 255)
 
         self.tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'auto')
+
+    def _load_visualizer(self):
+        self.visualizer = Visualizer()
 
     def create_widgets(self):
         self.mode_frame = tk.Frame(self.root)
@@ -187,9 +191,11 @@ class ControlPanel:
     
     def start(self):
         self.server.start()
-        if self._loadTracker: 
-            self._loadTracker()
+        if self._load_auto: 
+            self._load_tracker()
+            self._load_visualizer()
             self.tracker.start()
+            self.visualizer.start()
 
         def addPacketLoop():
             time.sleep(2)
@@ -214,8 +220,13 @@ class ControlPanel:
                             RacketMessage(self.racket_angle.get(), data["fire"])
                         )
                     )
-                else:
-                    x, y, z = self.tracker.get_point()
+                elif self._load_auto:
+                    pt = self.tracker.get_point()
+                    x, y, z = pt
+
+                    # feed visualizer
+                    self.visualizer.queue.put(pt)
+
                     l, w = 274, 152.5 # table dims
                     center = l/2, w/2 # center of table
 
@@ -228,13 +239,16 @@ class ControlPanel:
                     theta = math.atan(abs(center[0]/dw))
                     angle = math.copysign(90-theta, dw)
 
+                    # if close enough fire
+                    fire = y < l/4
+
                     self.racket_angle.set(angle)
 
                     self.server.queue.put(
                         Packet(
                             StepMessage(StepMessageType.NORMAL, self.horizontal.get()),
                             StepMessage(StepMessageType.NORMAL, self.vertical.get()),
-                            RacketMessage(self.racket_angle.get(), data["fire"])
+                            RacketMessage(self.racket_angle.get(), fire)
                         )
                     )
             
@@ -247,7 +261,8 @@ class ControlPanel:
     def stop(self):
         self.server.stop()
         self.packetloop.join()
-        if self._loadTracker: self.tracker.stop()
+        if self._should_track: self.tracker.stop()
+        if self._should_visualize: self.visualizer.stop()
 
 if __name__ == "__main__":
     HOST, PORT = '192.168.137.1', 3201 
