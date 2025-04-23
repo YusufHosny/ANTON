@@ -261,8 +261,9 @@ class ControlPanel:
     def stop(self):
         self.server.stop()
         self.packetloop.join()
-        if self._should_track: self.tracker.stop()
-        if self._should_visualize: self.visualizer.stop()
+        if self._load_auto: 
+            self.tracker.stop()
+            self.visualizer.stop()
 
 if __name__ == "__main__":
     HOST, PORT = '192.168.137.1', 3201 
