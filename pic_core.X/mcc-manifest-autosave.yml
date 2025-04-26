@@ -2,14 +2,14 @@
 
 manifest_file_version: 1.0.0
 project: pic_core
-creation_date: 2025-03-31T07:54:23.089+02:00[Europe/Paris]
-operating_system: Windows 10
+creation_date: 2025-04-26T16:51:16.401+02:00[Europe/Paris]
+operating_system: Windows 11
 mcc_mode: IDE
-mcc_mode_version: v6.20
+mcc_mode_version: v6.25
 device_name: PIC18F57Q43
-compiler: XC8 2.50
-mcc_version: 5.5.0
-mcc_core_version: 5.7.0
+compiler: XC8 3.00
+mcc_version: 5.5.2
+mcc_core_version: 5.7.1
 content_manager_version: 5.0.1
 is_mcc_offline: false
 is_using_prerelease_versions: false

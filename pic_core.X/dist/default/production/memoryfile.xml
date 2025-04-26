@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-  <executable name="dist/default/debug\pic_core.X.debug.hex">
+  <executable name="dist/default/production\pic_core.X.production.hex">
     <memory name="program">
       <units>bytes</units>
       <length>131072</length>
-      <used>10892</used>
-      <free>120180</free>
+      <used>11394</used>
+      <free>119678</free>
     </memory>
     <memory name="data">
       <units>bytes</units>

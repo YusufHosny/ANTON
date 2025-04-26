@@ -58,14 +58,14 @@ void servoPWM_Initialize(void)
     //PWMLDS Autoload disabled; 
     PWM1LDS = 0x0;
 
-    //PWMPRL 127; 
-    PWM1PRL = 0x7F;
+    //PWMPRL 255; 
+    PWM1PRL = 0xFF;
 
-    //PWMPRH 62; 
-    PWM1PRH = 0x3E;
+    //PWMPRH 249; 
+    PWM1PRH = 0xF9;
 
-    //PWMCPRE Prescale by 4; 
-    PWM1CPRE = 0x3;
+    //PWMCPRE Prescale by 20; 
+    PWM1CPRE = 0x13;
 
     //PWMPIPOS No postscale; 
     PWM1PIPOS = 0x0;
@@ -79,17 +79,17 @@ void servoPWM_Initialize(void)
     //PWMPOL1 disabled; PWMPOL2 disabled; PWMPPEN disabled; PWMMODE Left aligned mode; 
     PWM1S1CFG = 0x0;
 
-    //PWMS1P1L 64; 
-    PWM1S1P1L = 0x40;
+    //PWMS1P1L 0; 
+    PWM1S1P1L = 0x0;
 
-    //PWMS1P1H 31; 
-    PWM1S1P1H = 0x1F;
+    //PWMS1P1H 125; 
+    PWM1S1P1H = 0x7D;
 
-    //PWMS1P2L 64; 
-    PWM1S1P2L = 0x40;
+    //PWMS1P2L 0; 
+    PWM1S1P2L = 0x0;
 
-    //PWMS1P2H 31; 
-    PWM1S1P2H = 0x1F;
+    //PWMS1P2H 125; 
+    PWM1S1P2H = 0x7D;
     
     //Clear PWM1_16BIT period interrupt flag
     PIR4bits.PWM1PIF = 0;
