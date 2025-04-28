@@ -21,14 +21,14 @@ uint16_t lerp_duty(float angle) {
     //TODO: fine-tune offset for specific servo
     int offset = 5;
     angle += offset;
-    min_angle = offset;
-    max_angle = 180+offset;
+    int min_angle = offset;
+    int max_angle = 180+offset;
     
     if(angle>max_angle) angle = max_angle;
     if(angle<min_angle) angle = min_angle;
     
-    //TODO: divide by max_angle instead of 180??
-    return (uint16_t) ((float)MINDUTY + (float)(MAXDUTY-MINDUTY)*(angle/180));
+    //divide by 180 or by max_angle?
+    return (uint16_t) ((float)MINDUTY + (float)(MAXDUTY-MINDUTY)*(angle/max_angle));
 }
 
 void update_servo(float angle) {
