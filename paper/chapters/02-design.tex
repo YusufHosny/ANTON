@@ -13,19 +13,21 @@ The vertical structure is mounted on the horizontal wooden plate, attached to th
 
 To rotate the racket, a servo motor is attached to the vertical rail block. A solenoid is mounted on the rotating component of the servo motor. The racket, consisting of a rigid polyactic acid (PLA) plate, is attached to the solenoid.
 
-This mechanical design enables the racket to move left and right, up and down, rotate 180 degrees around its axis, and push the ping-pong ball.
+This mechanical design enables the racket to move left and right, up and down, rotate 180 degrees around its axis, and push the ping-pong ball. The complete mechanical design can be seen in Figure~\ref{fig:mechanical-design}.
 
 \begin{figure}[h] 
 	\centering \includegraphics[height=6cm]{./images/render.jpg}
 	\caption{Render of the mechanical design.}
+	\label{fig:mechanical-design}
 \end{figure}
 
 \section{Block Diagram}
-Below is a block diagram showing the general control flow of the entire system and all its components.
+In Figure~\ref{fig:block-diagram} is a block diagram showing the general control flow of the entire system and all its components.
 
 \begin{figure}[h]
 	\centering\includegraphics[height=6cm]{./images/blockdiagram}
 	\caption{System Design Block Diagram}
+	\label{fig:block-diagram}
 \end{figure}
 
 \section{Electronic Components and Controllers}
@@ -41,49 +43,53 @@ The software additionally maintains the game state through a simplified rule-set
 
 \section{Bill of Materials}
 
+Table~\ref{tab:bill-of-materials} provides an overview of the main components used in the project along with their quantities and unit prices.
 
-\begin{center}
-\begin{tabular}{|l|c|c|c|}
- \hline
-Item & Amount & Unit Price (\texteuro) \\
- \hline\hline
- MDF (60x30) & 5 & 4 \\ 
- \hline
- 5meter 6mm Timing Belt & 1 & 6.62\\
- \hline
- GT2 60-tooth gear & 4 & 3.19\\
- \hline
- 0.5meter M16 Aluminium pipe & 2 & 5.9\\
- \hline
- 1.5meter SBR16 Linear rail & 2 & 20.46\\
- \hline
- SBR16UU Linear block & 1 & 5.29\\
- \hline
- D5 M4 50mm Shoulder bolt & 2 & 2.94\\
- \hline
- Countersunk bolt & 10 & 0.37\\
- \hline
- Servo Motor & 1 & 3.5 \\
- \hline
- Solenoid & 1 & 10.7 \\ 
- \hline
- ESP32 & 1 & 6.9 \\
- \hline
- PIC18F & 1 & 2.4 \\
- \hline
- NRF24 & 2 & 6.68 \\
- \hline
- Stepper Motor & 3 & - \\
- \hline
- Stepper Driver DRV8825 & 3 & 13.5 \\
- \hline
- Optocoupler & 1 & - \\
- \hline
- Transistors & - & - \\
- \hline
- Resistors & - & - \\
- \hline
- Capacitors & - & - \\
- \hline
-\end{tabular}
-\end{center}
+\begin{table}[h]
+	\centering
+	\caption{Bill of materials for the mechanical and electronic components.}
+	\label{tab:bill-of-materials}
+	\begin{tabular}{|l|c|c|}
+		\hline
+		Item & Amount & Unit Price (\texteuro) \\
+		\hline\hline
+		MDF (60x30) & 5 & 4 \\ 
+		\hline
+		5meter 6mm Timing Belt & 1 & 6.62\\
+		\hline
+		GT2 60-tooth gear & 4 & 3.19\\
+		\hline
+		0.5meter M16 Aluminium pipe & 2 & 5.9\\
+		\hline
+		1.5meter SBR16 Linear rail & 2 & 20.46\\
+		\hline
+		SBR16UU Linear block & 1 & 5.29\\
+		\hline
+		D5 M4 50mm Shoulder bolt & 2 & 2.94\\
+		\hline
+		Countersunk bolt & 10 & 0.37\\
+		\hline
+		Servo Motor & 1 & 3.5 \\
+		\hline
+		Solenoid & 1 & 10.7 \\ 
+		\hline
+		ESP32 & 1 & 6.9 \\
+		\hline
+		PIC18F & 1 & 2.4 \\
+		\hline
+		NRF24 & 2 & 6.68 \\
+		\hline
+		Stepper Motor & 3 & - \\
+		\hline
+		Stepper Driver DRV8825 & 3 & 13.5 \\
+		\hline
+		Optocoupler & 1 & - \\
+		\hline
+		Transistors & - & - \\
+		\hline
+		Resistors & - & - \\
+		\hline
+		Capacitors & - & - \\
+		\hline
+	\end{tabular}
+\end{table}

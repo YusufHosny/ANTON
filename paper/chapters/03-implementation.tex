@@ -6,18 +6,20 @@ The hardware systems are implemented using two printed circuit boards (PCBs), on
 
 \subsection{Printed Circuit Boards}
 
-The first PCB is for the PIC18F slave microcontroller. The PIC18F resides in the middle and is the central unit of this board. The PCB contains a connection for the solenoid, to control when it need to turn on and off. It also contains connections for the servo motor and its control circuit which is a simple MOSFET transistor circuit. The board also contains connections for the NRF24 module, to make radio communication with the ESP32 possible.
+The first PCB is for the PIC18F slave microcontroller. The PIC18F resides in the middle and is the central unit of this board. The PCB contains a connection for the solenoid, to control when it need to turn on and off. It also contains connections for the servo motor and its control circuit which is a simple MOSFET transistor circuit. The board also contains connections for the NRF24 module, to make radio communication with the ESP32 possible. This PCB design can be seen in Figure~\ref{fig:pic-pcb}.
 
 \begin{figure}[h]
 	\centering\includegraphics[height=5cm]{./images/PIC18F_pcb}
 	\caption{PIC18F PCB Design}
+	\label{fig:pic-pcb}
 \end{figure}
 
-The second PCB is for the ESP32 master controller. This PCB consists of pin headers for the ESP32 controller itself, and pin headers for each of the DRV8825 modules, which control the stepper motors. It has switches for on board adjustment of the drivers' control pins. It also contains connections for the NRF24 module, like the PIC18F.
+The second PCB is for the ESP32 master controller. This PCB consists of pin headers for the ESP32 controller itself, and pin headers for each of the DRV8825 modules, which control the stepper motors. It has switches for on board adjustment of the drivers' control pins. It also contains connections for the NRF24 module, like the PIC18F. This PCB design can be seen in Figure~\ref{fig:esp-pcb}. 
 
 \begin{figure}[h]
 	\centering\includegraphics[height=5cm]{./images/ESP32_pcb}
 	\caption{ESP32 PCB Design}
+	\label{fig:esp-pcb}
 \end{figure}
 
 
