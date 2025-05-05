@@ -41,7 +41,7 @@ void nrf_task(void *pvParameters)
 
 		Nrf24_send(&dev, (uint8_t*) &msg);
 
-        vTaskDelay(1000/portTICK_PERIOD_MS); // TODO ADJUST DELAY
+        vTaskDelay(300/portTICK_PERIOD_MS); // TODO ADJUST DELAY
 	}
 
 	vTaskDelete(NULL);
