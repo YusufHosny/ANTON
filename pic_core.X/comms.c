@@ -7,6 +7,8 @@
 
 #include "comms.h"
 #include "mirf.h"
+#include "config.h"
+#include <string.h>
 
 #define MSG_SIZE 8
 #define CONFIG_RADIO_CHANNEL 115

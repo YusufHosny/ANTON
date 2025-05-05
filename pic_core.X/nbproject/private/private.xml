@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/repo/pic_core.X/comms.h</file>
-            <file>file:/C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/repo/pic_core.X/config.h</file>
-            <file>file:/C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/repo/pic_core.X/racket.c</file>
-            <file>file:/C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/repo/pic_core.X/main.c</file>
-            <file>file:/C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/repo/pic_core.X/racket.h</file>
-            <file>file:/C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/repo/pic_core.X/mcc_generated_files/system/pins.h</file>
-            <file>file:/C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/repo/pic_core.X/comms.c</file>
+            <file>file:/C:/Users/hugof/Documents/KU%20Leuven/FIIW/BAC3/IB3/game7/pic_core.X/comms.c</file>
+            <file>file:/C:/Users/hugof/Documents/KU%20Leuven/FIIW/BAC3/IB3/game7/pic_core.X/mirf.h</file>
+            <file>file:/C:/Users/hugof/Documents/KU%20Leuven/FIIW/BAC3/IB3/game7/pic_core.X/racket.c</file>
+            <file>file:/C:/Users/hugof/Documents/KU%20Leuven/FIIW/BAC3/IB3/game7/pic_core.X/mcc_generated_files/pwm/src/pwm1_16bit.c</file>
+            <file>file:/C:/Users/hugof/Documents/KU%20Leuven/FIIW/BAC3/IB3/game7/pic_core.X/main.c</file>
+            <file>file:/C:/Users/hugof/Documents/KU%20Leuven/FIIW/BAC3/IB3/game7/pic_core.X/config.h</file>
         </group>
     </open-files>
 </project-private>

@@ -97,7 +97,7 @@ bool SPI1_Open(uint8_t spiConfigIndex)
         SPI1CON2 = spi1_configuration[spiConfigIndex].con2 & ~(_SPI1CON2_SPI1RXR_MASK) & ~(_SPI1CON2_SPI1TXR_MASK);
         SPI1BAUD = spi1_configuration[spiConfigIndex].baud;        
         SPI1CLK = spi1_configuration[spiConfigIndex].clksel;        
-		TRISCbits.TRISC6 = 0;
+		TRISBbits.TRISB1 = 0;
         SPI1CON0bits.EN = 1U;
 		returnValue = true;
 	}

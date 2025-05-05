@@ -11,6 +11,8 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
+    
+#include "config.h"
 
 void initialize_racket();
 void update_racket(RacketMessage_t *msg);

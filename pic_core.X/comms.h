@@ -12,6 +12,8 @@
 extern "C" {
 #endif
 
+#include "config.h"
+
 typedef void (*RacketMessageHandler_t)(RacketMessage_t*);
     
     
