@@ -1,7 +1,5 @@
 import cv2 as cv
-import numpy as np
 from Tracker import Tracker
-from utils import *
 
 def main():
     # camera setup

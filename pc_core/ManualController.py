@@ -98,7 +98,8 @@ class ControlPanel:
         
         self.racket_angle = tk.DoubleVar()
         tk.Label(self.main_frame, text="Racket Control").pack()
-        self.racket_slider = ttk.Scale(self.main_frame, from_=0, to=1, orient="horizontal", variable=self.racket_angle)
+        self.racket_slider = ttk.Scale(self.main_frame, from_=0, to=180, orient="horizontal", variable=self.racket_angle)
+        self.racket_angle.set(90.)
         self.racket_slider.pack(pady=5)
         
         self.fire_btn = tk.Button(self.main_frame, text="Fire")
@@ -183,8 +184,8 @@ class ControlPanel:
         self.button_states[button] = state
 
     def rotate(self, direction):
-        self.angle += .2 if direction == "cw" else -.2
-        self.angle = min(max(0., self.angle), 1.)
+        self.angle += 10 if direction == "cw" else -10
+        self.angle = min(max(0., self.angle), 180.)
     
     def poll_buttons(self):
         return self.button_states

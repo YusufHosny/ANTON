@@ -2,9 +2,63 @@ import cv2 as cv
 import numpy as np
 from typing import List, Tuple, Self, Any, Literal
 from cv2.typing import MatLike
-from utils import *
 from threading import Thread, Condition
 import time
+
+
+def closest_point_between_skew_lines(p1: np.ndarray, d1: np.ndarray, p2: np.ndarray, d2: np.ndarray) -> np.ndarray:
+    """
+    Finds the closest point between two skew lines in 3D space.
+    
+    Parameters:
+        p1 (np.array): A point on the first line (3D vector)
+        d1 (np.array): Direction vector of the first line (3D vector)
+        p2 (np.array): A point on the second line (3D vector)
+        d2 (np.array): Direction vector of the second line (3D vector)
+    
+    Returns:
+        (np.array): The closest point to both lines
+    """
+    p1, d1, p2, d2 = map(np.asarray, (p1, d1, p2, d2))
+    
+    # Compute the normal to both direction vectors
+    n = np.cross(d1, d2)
+    n_norm = np.linalg.norm(n)
+    
+    if n_norm == 0: raise ValueError("The lines are parallel or coincident, no unique closest points.")
+    
+    n = n / n_norm  # Normalize normal
+    
+    # Compute the matrix components
+    d1d1 = np.dot(d1, d1)
+    d1d2 = np.dot(d1, d2)
+    d2d2 = np.dot(d2, d2)
+    
+    # Compute the right-hand side
+    rhs = p2 - p1
+    rhs_d1 = np.dot(rhs, d1)
+    rhs_d2 = np.dot(rhs, d2)
+    
+    # Solve for t and s (parameters for closest points)
+    denom = d1d1 * d2d2 - d1d2 ** 2
+    if abs(denom) < 1e-10: raise ValueError("The lines are nearly parallel, numerical instability may occur.")
+    
+    t = (rhs_d1 * d2d2 - rhs_d2 * d1d2) / denom
+    s = (rhs_d1 * d1d2 - rhs_d2 * d1d1) / denom
+    
+    # Compute closest points
+    closest_p1 = p1 + t * d1
+    closest_p2 = p2 + s * d2
+    
+    return (closest_p1 + closest_p2)/2
+
+
+def image_to_world_plane(u: float, v: float, H: cv.typing.MatLike) -> Tuple[float, float, float]:
+    point = np.array([u, v, 1])
+    projected = H @ point
+    projected = projected / projected[2]  # Normalize
+    return projected[0], projected[1], 0.0  # (X, Y, 0)
+
 
 class Tracker:
 
@@ -81,15 +135,17 @@ class Tracker:
             x1, y1 = self._track(img1, "camera 1")
             x2, y2 = self._track(img2, "camera 2")
 
-            pos1 = image_to_world_plane(x1, y1, self.H[0])
-            pos2 = image_to_world_plane(x2, y2, self.H[1])
+            if None not in (x1, x2, y1, y2):
 
-            with self._pt_dirty_bit:
-                self._pt = closest_point_between_skew_lines(
-                    self.camera_positions[0], self.camera_positions[0] - pos1, 
-                    self.camera_positions[1], self.camera_positions[1] - pos2
-                    )
-                self._pt_dirty_bit.notify()
+                pos1 = image_to_world_plane(x1, y1, self.H[0])
+                pos2 = image_to_world_plane(x2, y2, self.H[1])
+
+                with self._pt_dirty_bit:
+                    self._pt = closest_point_between_skew_lines(
+                        self.camera_positions[0], self.camera_positions[0] - pos1, 
+                        self.camera_positions[1], self.camera_positions[1] - pos2
+                        )
+                    self._pt_dirty_bit.notify()
             
             if cv.waitKey(1) & 0xFF == ord('q') or self._done:
                 break
@@ -355,7 +411,7 @@ class Tracker:
 
         return self._solve_camera_matrix(img, focal_length, sensor_width, real_world_points, screen_points) 
 
-    def _track(self: Self, img: MatLike, name: str) -> Tuple[float, float]:
+    def _track(self: Self, img: MatLike, name: str) -> Tuple[float, float] | Tuple[None, None]:
         
         blur = cv.GaussianBlur(img, (15, 15), 0) # blur the image
         hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV) # convert RGB data to HSV
@@ -374,7 +430,7 @@ class Tracker:
             cv.circle(img, (int(x), int(y)), int(rad), (0, 255, 255), 2)
             cv.circle(img, center, 5, (0, 255, 255), -1)
         else:
-            x, y = -1, -1
+            x, y = None, None
 
         if self._visual: cv.imshow(name, img)
         return x, y
