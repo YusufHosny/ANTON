@@ -8,16 +8,16 @@ Database file #1: bibliography.bib
 Warning--empty booktitle in Kyohei2019
 You've used 6 entries,
             1876 wiz_defined-function locations,
-            528 strings with 4878 characters,
-and the built_in function-call counts, 1849 in all, are:
-= -- 174
+            528 strings with 4879 characters,
+and the built_in function-call counts, 1843 in all, are:
+= -- 172
 > -- 78
 < -- 0
 + -- 28
 - -- 22
-* -- 141
-:= -- 269
-add.period$ -- 7
+* -- 143
+:= -- 268
+add.period$ -- 6
 call.type$ -- 6
 change.case$ -- 6
 chr.to.int$ -- 0
@@ -25,11 +25,11 @@ cite$ -- 7
 duplicate$ -- 95
 empty$ -- 167
 format.name$ -- 22
-if$ -- 448
+if$ -- 446
 int.to.chr$ -- 0
 int.to.str$ -- 6
 missing$ -- 6
-newline$ -- 23
+newline$ -- 22
 num.names$ -- 8
 pop$ -- 19
 preamble$ -- 2
@@ -46,5 +46,5 @@ type$ -- 0
 warning$ -- 1
 while$ -- 17
 width$ -- 7
-write$ -- 64
+write$ -- 63
 (There was 1 warning)

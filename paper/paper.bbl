@@ -3,8 +3,8 @@
 \begin{thebibliography}{1}
 
 \bibitem{Kyohei2019}
-A.~Kyohei, N.~Masamune, and Y.~Satoshi, ``The ping pong robot to return a ball
-  precisely ~ trajectory prediction and racket control for spinning balls,''
+A.~Kyohei, N.~Masamune, and Y.~Satoshi, ``{The Ping Pong Robot to Return a Ball
+  Precisely. Trajectory Prediction and Racket Control for Spinning Balls},''
   2019.
 
 \bibitem{Acosta2004}
@@ -19,9 +19,8 @@ X.~Yu, Y.~Zhao, C.~Fu, and K.~Chen, ``Research and development of a ping-pong
 
 \bibitem{Lu2020}
 C.~Lu, ``Kalman tracking algorithm of ping-pong robot based on fuzzy real-time
-  image,'' {\em Journal of Intelligent {\&} Fuzzy Systems}, vol.~38,
+  image,'' {\em Journal of Intelligent {\&} Fuzzy Systems}, vol.~38, no.~4,
   pp.~3585--3594, 2020.
-\newblock 4.
 
 \bibitem{Zhao2017}
 Y.~Zhao, R.~Xiong, and Y.~Zhang, ``Model based motion state estimation and

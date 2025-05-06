@@ -11,7 +11,7 @@
 #include <string.h>
 
 #define MSG_SIZE 8
-#define CONFIG_RADIO_CHANNEL 115
+#define CONFIG_RADIO_CHANNEL 89
 #define CONFIG_RETRANSMIT_DELAY 100
 
 RacketMessageHandler_t _handler = NULL;

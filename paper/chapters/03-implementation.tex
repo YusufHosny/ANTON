@@ -6,7 +6,7 @@ The hardware systems are implemented using two printed circuit boards (PCBs), on
 
 \subsection{Printed Circuit Boards}
 
-The first PCB is for the PIC18F slave microcontroller. The PIC18F resides in the middle and is the central unit of this board. The PCB contains a connection for the solenoid, to control when it need to turn on and off. It also contains connections for the servo motor and its control circuit which is a simple MOSFET transistor circuit. The board also contains connections for the NRF24 module, to make radio communication with the ESP32 possible. This PCB design can be seen in Figure~\ref{fig:pic-pcb}.
+The first PCB is for the PIC18F slave microcontroller. The PIC18F resides in the middle and is the central unit of this board. The PCB contains a connection for the solenoid, to control when it need to turn on and off. It also contains connections for the servo motor and its control circuit which is a simple MOSFET transistor circuit. The board has connections for the NRF24 module, to make radio communication with the ESP32 possible. This PCB design can be seen in Figure~\ref{fig:pic-pcb}.
 
 \begin{figure}[h]
 	\centering\includegraphics[height=5cm]{./images/PIC18F_pcb}
@@ -49,4 +49,4 @@ The firmware includes compile-time configuration flags to enable or disable subs
 The overall system design reflects a deliberate emphasis on separation of concerns, real-time responsiveness, scalability, and testability. The modular task-based architecture and asynchronous queue-based messaging enable the system to maintain predictable real-time behavior while remaining adaptable to future expansions or modifications. The inclusion of simulation capabilities addresses the need for verification and debugging in complex embedded systems where hardware access may be limited during certain development phases.
 
 \subsection{Conclusion}
-In conclusion, the software architecture presented here demonstrates an effective approach for real-time motion control and communication in an embedded environment. Through its modular design, task-based concurrency, and flexible configuration, the system achieves a balance between robustness, maintainability, and adaptability, making it well-suited for both research and applied deployment in embedded control scenarios.
+The software architecture presented here demonstrates an effective approach for real-time motion control and communication in an embedded environment. Through its modular design, task-based concurrency, and flexible configuration, the system achieves a balance between robustness, maintainability, and adaptability, making it well-suited for both research and applied deployment in embedded control scenarios.

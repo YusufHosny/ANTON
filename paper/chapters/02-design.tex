@@ -5,11 +5,11 @@ In this section we will discuss the design of our mechanical, electronic, and so
 The mechanical design consists of three main components: the horizontal movement,  the vertical movement,  and the rotation of the racket. 
 The materials utilized are a combination of purchased components such as linear rails, timing belts, bolts, and nuts alongside custom 9mm wooden parts, made by using a laser cutter in FabLab, and 3D printed parts.
 
-Two linear rails are positioned horizontally, parallel to each other, along the table's edge to ensure stability and prevent tipping of the system. Three linear rail blocks, which slide along these rails, support the vertical structure of the design. These rail blocks have screw holes, allowing them to be securely connected in a triangular formation using an wooden plate. The vertical structure is mounted on this plate.
+Two linear rails are positioned horizontally, parallel to each other, along the table's edge to ensure stability and prevent tipping of the system. Three linear rail blocks, which slide along these rails, support the vertical structure of the design. These rail blocks have screw holes, allowing them to be securely connected in a triangular formation using a wooden plate. The vertical structure is mounted on this plate.
 
 A stepper motor is mounted at one corner of the table, fixed to the edge of the rails with a wooden plate. This motor drives a 60-tooth GT2 gear. At the opposite corner, a shoulder bolt with a gear is similarly secured. A 6mm-wide GT2 timing belt spans between these two gears, and is attached to one of the horizontal rail blocks, allowing horizontal movement by rotating the stepper motor.
 
-The vertical structure is mounted on the horizontal wooden plate, attached to the linear blocks. It includes 2 0.5-meter-long aluminium pipes and a vertical wooden plate that stabilizes the pipes. A gear is placed on top of the vertical plate, held in place with a shoulder bolt. Two vertical rail block are positioned on the pipes, allowing vertical movement. Another stepper motor is attached at the bottom of the horizontal wooden plate, with a gear connected to it. A timing belt spans between the gear on the top and bottom of the structure and is attached to the vertical rail blocks, allowing vertical movement of the block by rotating the stepper motor.
+The vertical structure is mounted on the horizontal wooden plate, attached to the linear blocks. It includes two 0.5-meter-long aluminium pipes and a vertical wooden plate that stabilizes the pipes. A gear is placed on top of the vertical plate, held in place with a shoulder bolt. Two vertical rail block are positioned on the pipes, allowing vertical movement. Another stepper motor is attached at the bottom of the horizontal wooden plate, with a gear connected to it. A timing belt spans between the gear on the top and bottom of the structure and is attached to the vertical rail blocks, allowing vertical movement of the block by rotating the stepper motor.
 
 To rotate the racket, a servo motor is attached to the vertical rail block. A solenoid is mounted on the rotating component of the servo motor. The racket, consisting of a rigid polyactic acid (PLA) plate, is attached to the solenoid.
 
@@ -36,7 +36,7 @@ The system mainly relies on two mobile phones which are used for collecting the 
 The ESP32 microcontroller is connected to two stepper motor driver modules (DRV8825), which are in turn connected to two bipolar stepper motors which control the gantry. The ESP32 acts as a master to a PIC18F, through a connected radio frequency communication module (NRF24), which is used to transmit data to another NRF24 module, connected to the PIC18F slave microcontroller. This data consists of information on when to "fire" the racket to hit the ball, by activating the optocoupled 12V solenoid, and information on what angle the racket should be at, by controlling the 5V servo motor.
 
 \section{Software Design}
-The main software which controls the system is ran on a separate computer, due to the speed and computational constraints of small microcontrollers. The code connects to the IP camera phones, reads the streamed video data, and processes it using a computer vision algorithm and ball detection algorithms to determine the position of the ping pong ball in 3D space. The software sends a requested gantry position, a requested racket orientation, and when the racket should "fire" over Wi-Fi to the ESP32 microcontroller. Part of this data is then sent from over radio using the NRF24 from the ESP32 to the PIC18F.
+The main software which controls the system is ran on a separate computer, due to the speed and computational constraints of small microcontrollers. The code connects to the IP camera phones, reads the streamed video data, and processes it using a computer vision algorithm and ball detection algorithms to determine the position of the ping pong ball in 3D space. The software sends a requested gantry position, a requested racket orientation, and when the racket should "fire" over Wi-Fi to the ESP32 microcontroller. Part of this data is then sent over radio using the NRF24 from the ESP32 to the PIC18F.
 
 The software additionally maintains the game state through a simplified rule-set, allowing the score and current ball position to be visualized in real time. The software determines the ball's position and additionally applies a predictive model to determine where the gantry should move to.
 
@@ -90,6 +90,8 @@ Table~\ref{tab:bill-of-materials} provides an overview of the main components us
 		Resistors & - & - \\
 		\hline
 		Capacitors & - & - \\
-		\hline
+		\hline\hline
+		\multicolumn{1}{|l|}{Total Price} & \multicolumn{2}{c|}{€184.33 \textbf{! PRICE CORRECT? !}} \\
+		\hline 
 	\end{tabular}
 \end{table}

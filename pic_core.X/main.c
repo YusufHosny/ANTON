@@ -14,20 +14,25 @@ void setup() {
     initialize_racket();
 }
 
-void loop() {
-    step_comms();
-    
+void comm_loop() {
+    step_comms();   
+}
+
+void racket_test(){
     //test code for racket fine-tune
-    //float test_angle = 180;
-    //bool test_fire = false;
-    //RacketMessage_t msg;
-    //msg.angle = test_angle;
-    //msg.fire = test_fire;
-    //update_racket(&msg);    
+    float test_angle = 90;
+    bool test_fire = false;
+    RacketMessage_t msg;
+    msg.angle = test_angle;
+    msg.fire = test_fire;
+    update_racket(&msg); 
 }
 
 void main(void)
 {
 	setup();
-    while(1) loop();
+    while(1){
+        comm_loop();
+        //racket_test();
+    }
 }
