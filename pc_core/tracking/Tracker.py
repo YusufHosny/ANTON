@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from typing import List, Tuple, Self, Any, Literal
+from typing import List, Tuple, Self, Any, Literal, Dict
 from cv2.typing import MatLike
 from threading import Thread, Condition
 import time
@@ -67,7 +67,8 @@ class Tracker:
                 focal_lengths: Tuple[float, float],
                 sensor_widths: Tuple[float, float],
                 ballrange: Tuple[Tuple[int, int, int], Tuple[int, int, int]] = None,
-                calibrate: Literal['auto', 'manual'] = 'auto',
+                calibrate: Literal['auto', 'manual', 'load'] = 'auto',
+                calibration_state: Dict | None = None,
                 speed: Literal['live'] | int = 1
                 ):
        
@@ -81,9 +82,13 @@ class Tracker:
         if ballrange is None: self.range = (8, 125, 160), (24, 255, 255) # default orange ball range
         else: self.range = ballrange
         self._calibration_method = calibrate
+        if self._calibration_method == 'load':
+            if calibration_state is None:
+                raise TypeError('Load Mode selected but no calibration state passed in.')
+            self.calibration_state = calibration_state
 
-        self.camera_positions: List[MatLike] = []
-        self.H: List[MatLike] = []
+        self.camera_positions: Tuple[MatLike] = []
+        self.H: Tuple[MatLike] = []
 
         self._pt = None
         self._pt_dirty_bit = Condition()
@@ -115,7 +120,10 @@ class Tracker:
         self.active = True
         capture1, capture2 = self._captures
 
-        self.calibrate()
+        if self._calibration_method == 'load':
+            self.load_calibration_state(self.calibration_state)
+        else:
+            self.calibrate()
 
         while True:
             
@@ -330,9 +338,6 @@ class Tracker:
 
         # define real points and screen space point arrays
         length, width = 274, 152.5  # concrete length and width of ping pong table
-        # normalize by width
-        length /= width 
-        width /= width
 
         real_world_points = np.array([
                 [0, 0, 0],         # Top-left
@@ -400,11 +405,29 @@ class Tracker:
         self.camera_positions = camera1_pos, camera2_pos
         self.H = H1, H2
 
+    def export_calibration_state(self: Self) -> str | None:
+        if any((len(self.H) == 0, len(self.camera_positions) == 0)):
+            return None
+        
+        return {
+            'H': self.H,
+            'camera_positions': self.camera_positions
+        }
+    
+    def load_calibration_state(self: Self, state: str):
+        if None in (state, state['H'], state['camera_positions']):
+            raise TypeError('Invalid Calibration State')
+
+        self.H = state['H']
+        self.camera_positions = state['camera_positions'] 
+
+
+
     def _calibrate_single(self: Self, img: MatLike, focal_length: float, sensor_width: float, flip_coordinates: bool) -> Tuple[MatLike, MatLike]:
-        # query user and mask inner rect on frames
-        img = self._mask_center(img)
 
         if self._calibration_method == 'auto':
+            # query user and mask inner rect on frames
+            img = self._mask_center(img)
             real_world_points, screen_points = self._get_corners_auto(img, flip_coordinates)
         else:
             real_world_points, screen_points = self._get_corners_manual(img, flip_coordinates)

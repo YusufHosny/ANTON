@@ -1,6 +1,8 @@
 import cv2 as cv
 from tracking.Tracker import Tracker
 from Visualizer import Visualizer
+import time
+import pickle
 
 def main():
     # camera setup
@@ -9,7 +11,12 @@ def main():
 
     ballRange = (10, 160, 160), (24, 255, 255)
 
-    tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'auto')
+    
+    state = None
+    with open('./state.pkl', 'rb') as f:
+        state = pickle.load(f)
+
+    tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'load', state)
     visualizer = Visualizer()
 
     tracker.start(visual=True)
@@ -17,7 +24,6 @@ def main():
 
     while tracker.active:
         pt =  tracker.get_point(blocking=True)
-        # print(pt)
         visualizer.queue.put(pt)
 
 
