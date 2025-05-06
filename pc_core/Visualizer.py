@@ -28,7 +28,7 @@ class Visualizer:
             self._update_ball_plot()
 
         self._fig = plt.figure()
-        self._ax = self._fig.add_subplot(111, projection='3d')
+        self._ax = self._fig.add_subplot(111, projection='3d', computed_zorder=False)
 
         self.initialize_table_gui(self._ax)
 
@@ -43,17 +43,14 @@ class Visualizer:
         width = 152.5
         net_height = 20
 
-        base_table1 = Rectangle((0, 0), length/2, width)
-        art3d.pathpatch_2d_to_3d(base_table1, z=0, zdir="z")
-        base_table2 = Rectangle((length/2, 0), length/2, width)
-        art3d.pathpatch_2d_to_3d(base_table2, z=0, zdir="z")
+        base_table = Rectangle((0, 0), length, width)
+        art3d.pathpatch_2d_to_3d(base_table, z=0, zdir="z")
 
         net_table = Rectangle((0, 0), width, net_height, facecolor='none', edgecolor='w', hatch='xxxxx')
         art3d.pathpatch_2d_to_3d(net_table, z=length/2, zdir="x")
         net_table.set_zorder(10)
 
-        ax.add_patch(base_table1)
-        ax.add_patch(base_table2)
+        ax.add_patch(base_table)
         ax.add_patch(net_table)
 
         self._ball_plot = ax.scatter(1, 1, 1, color='yellow', s=10)
@@ -72,14 +69,15 @@ class Visualizer:
 
     def _update_ball_plot(self):
         try:
-            self._ball = self.queue.get_nowait()
-        except: 
-            pass
+            while True: 
+                self._ball = self.queue.get_nowait()
+        except:
+            self._ball = np.abs(self._ball)
+            
+            if self._ball_plot:
+                self._ball_plot.remove()
 
-        if self._ball_plot:
-            self._ball_plot.remove()
-
-        self._ball_plot = self._ax.scatter(self._ball[X], self._ball[Y], self._ball[Z], color='yellow', s=10)
+            self._ball_plot = self._ax.scatter(self._ball[X], self._ball[Y], self._ball[Z], color='red', s=10, zorder=10)
 
 
 

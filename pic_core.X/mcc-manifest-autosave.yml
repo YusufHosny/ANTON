@@ -2,8 +2,13 @@
 
 manifest_file_version: 1.0.0
 project: pic_core
+<<<<<<< HEAD
+creation_date: 2025-04-24T20:34:18.409+02:00[Europe/Paris]
+operating_system: Windows 10
+=======
 creation_date: 2025-04-26T16:51:16.401+02:00[Europe/Paris]
 operating_system: Windows 11
+>>>>>>> 5550c2a040be0ab358635a47b262bee3f4a505ab
 mcc_mode: IDE
 mcc_mode_version: v6.25
 device_name: PIC18F57Q43

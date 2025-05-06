@@ -3,9 +3,9 @@
 
 // min max freq in Hz
 #define MIN_FREQ_H 400
-#define MAX_FREQ_H 3200
-#define MIN_FREQ_V 400
-#define MAX_FREQ_V 1200
+#define MAX_FREQ_H 3000
+#define MIN_FREQ_V 100
+#define MAX_FREQ_V 500
 
 // number of steps to go full extent of gantry
 #define MAX_POSITION_STEP_H 8000
@@ -29,7 +29,7 @@ stepper_handle_t vhandle = {
     .status.period = freq_to_usec(MIN_FREQ_V),
 
     .config.ease = &ease,
-    .config.default_dir = 0
+    .config.default_dir = 1
 };
 stepper_handle_t hhandle = {
     .pins.step = STEP_PIN_H,
@@ -43,7 +43,7 @@ stepper_handle_t hhandle = {
     .status.period = freq_to_usec(MIN_FREQ_H),
 
     .config.ease = &ease,
-    .config.default_dir = 0
+    .config.default_dir = 1
 };
 
 
@@ -171,7 +171,7 @@ void update_stepper(StepMessage_t *msg, stepper_handle_t *handle) {
     }
     
 
-    ESP_LOGI(pcTaskGetName(NULL), "stepper updated");
+    // ESP_LOGI(pcTaskGetName(NULL), "stepper updated");
 }
 
 

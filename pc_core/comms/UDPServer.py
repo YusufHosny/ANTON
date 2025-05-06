@@ -2,7 +2,6 @@ import socket as sock
 from typing import Self
 import threading as ts
 from struct import pack
-from dto_classes import *
 from queue import SimpleQueue as Queue
 import time
 
@@ -59,6 +58,8 @@ class UDPServer:
 
 
 if __name__ == "__main__":
+    from dto_classes import *
+
     srv = UDPServer('192.168.137.1', 3201)
     srv.start()
     for i in range(100): srv.queue.put(Packet(StepMessage(StepMessageType.RESET, 0), StepMessage(StepMessageType.RESET, 0), RacketMessage(.23, False)))
