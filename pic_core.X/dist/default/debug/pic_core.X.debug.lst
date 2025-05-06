@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V3.00 build 20241204225717 
-                                                                                               Tue May 06 16:37:34 2025
+                                                                                               Tue May 06 17:25:01 2025
 
 Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1 
      1                           	processor	18F57Q43
@@ -12202,7 +12202,7 @@ Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1
  12137   011DC2  6E0E               	movwf	Nrf24_config@dev^(0+1280),c
  12138   011DC4  0E05               	movlw	high _dev
  12139   011DC6  6E0F               	movwf	(Nrf24_config@dev+1)^(0+1280),c
- 12140   011DC8  0E73               	movlw	115
+ 12140   011DC8  0E59               	movlw	89
  12141   011DCA  6E10               	movwf	Nrf24_config@channel^(0+1280),c
  12142   011DCC  0E08               	movlw	8
  12143   011DCE  6E11               	movwf	Nrf24_config@payload^(0+1280),c
@@ -18633,7 +18633,7 @@ Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1
  17853   0113BA  C54E  F534         	movff	lerp_duty@angle+1,___fladd@b+1
  17854   0113BE  C54F  F535         	movff	lerp_duty@angle+2,___fladd@b+2
  17855   0113C2  C550  F536         	movff	lerp_duty@angle+3,___fladd@b+3
- 17856   0113C6  0E00               	movlw	0
+ 17856   0113C6  0E05               	movlw	5
  17857   0113C8  6E01               	movwf	___xxtofl@val^(0+1280),c
  17858   0113CA  0E00               	movlw	0
  17859   0113CC  6E02               	movwf	(___xxtofl@val+1)^(0+1280),c
@@ -18654,7 +18654,7 @@ Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1
  17874   0113FC  C536  F550         	movff	?___fladd+3,lerp_duty@angle+3
  17875   011400                     
  17876                           ;racket.c: 28:     if(angle>max_angle) angle = max_angle;
- 17877   011400  0E82               	movlw	130
+ 17877   011400  0E87               	movlw	135
  17878   011402  6E01               	movwf	___xxtofl@val^(0+1280),c
  17879   011404  0E00               	movlw	0
  17880   011406  6E02               	movwf	(___xxtofl@val+1)^(0+1280),c
@@ -18679,7 +18679,7 @@ Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1
  17899   011444                     u4151:
  17900   011444  EF37  F08A         	goto	l802
  17901   011448                     u4150:
- 17902   011448  0E82               	movlw	130
+ 17902   011448  0E87               	movlw	135
  17903   01144A  6E01               	movwf	___xxtofl@val^(0+1280),c
  17904   01144C  0E00               	movlw	0
  17905   01144E  6E02               	movwf	(___xxtofl@val+1)^(0+1280),c
@@ -18700,7 +18700,7 @@ Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1
  17920   011472  C54E  F510         	movff	lerp_duty@angle+1,___flge@ff1+1
  17921   011476  C54F  F511         	movff	lerp_duty@angle+2,___flge@ff1+2
  17922   01147A  C550  F512         	movff	lerp_duty@angle+3,___flge@ff1+3
- 17923   01147E  0E32               	movlw	50
+ 17923   01147E  0E37               	movlw	55
  17924   011480  6E01               	movwf	___xxtofl@val^(0+1280),c
  17925   011482  0E00               	movlw	0
  17926   011484  6E02               	movwf	(___xxtofl@val+1)^(0+1280),c
@@ -18721,7 +18721,7 @@ Microchip MPLAB XC8 C Compiler v3.00 (Free license) build 20241204225717 Og1
  17941   0114B2                     u4161:
  17942   0114B2  EF6E  F08A         	goto	l4492
  17943   0114B6                     u4160:
- 17944   0114B6  0E32               	movlw	50
+ 17944   0114B6  0E37               	movlw	55
  17945   0114B8  6E01               	movwf	___xxtofl@val^(0+1280),c
  17946   0114BA  0E00               	movlw	0
  17947   0114BC  6E02               	movwf	(___xxtofl@val+1)^(0+1280),c
@@ -23167,7 +23167,7 @@ DATA                 0      0     227      0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V3.00 build 20241204225717 
-Symbol Table                                                                                   Tue May 06 16:37:34 2025
+Symbol Table                                                                                   Tue May 06 17:25:01 2025
 
                                          _SPI1_ByteExchange 29DE  
                                               ___fldiv@aexp 0519  

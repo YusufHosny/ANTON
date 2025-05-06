@@ -21,11 +21,11 @@ void comm_loop() {
 void racket_test(){
     //test code for racket fine-tune
     float test_angle = 90;
-    bool test_fire = false;
+    bool test_fire = true;
     RacketMessage_t msg;
     msg.angle = test_angle;
     msg.fire = test_fire;
-    update_racket(&msg); 
+    update_racket(&msg);
 }
 
 void main(void)
