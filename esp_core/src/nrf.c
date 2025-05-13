@@ -7,7 +7,7 @@ https://github.com/nopnop2002/esp-idf-mirf/tree/master/components/mirf
 
 #include <mirf.h>
 
-#define CONFIG_RADIO_CHANNEL 115
+#define CONFIG_RADIO_CHANNEL 89
 
 
 void nrf_task(void *pvParameters)
