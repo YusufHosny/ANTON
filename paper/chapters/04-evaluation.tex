@@ -1,16 +1,27 @@
 \chapter{Evaluation and validation}
 
 Important: do not introduce new designs, materials or implementation methods in this section.
+\section{Testing the speed limits}
+To determine the maximum and minimum speed at which the prototype can move, through the code, we gradually increase and decrease the speed of the steeper motor both in horizontal and vertical motions. 
+We aim to identify the threshold where the performance degrades due to mechanical constraints. 
+Then, through these values we can establish an optimal operating range for real-time play. 
+The recorded maximum speed was around 3000 steps/second horizontally, and 400 steps/second vertically, whereas the minimum speed was 400 and 100 respectively, providing us a range for optimal robot performance.
 
-\begin{table}[h]\centering
-    \caption{An example table}
-	\begin{tabular}{|l|c|c|}
-		\hline
-		Day & Min Temp ($^{\circ}$C) & Max Temp ($^{\circ}$C) \\ \hline
-		Monday & 11 & 22 \\ \hline
-		Tuesday & 9 & 19 \\ \hline
-		Wednesday & 10 & 21 \\
-		\hline
-	\end{tabular}
-	\label{tab:exampleTable}
-\end{table}
+\section{Evaluate tracking coverage}
+In this stage, we are evaluating the tracking coverage of the robot's vision system by analyzing how effectively it can detect and follow the ball during a game. 
+To do so, we use a pre-recorded video of the gameplay and measure the percentage of time the ball is detected versus the time it isn't. 
+This will help us understand the gaps in the visual coverage, such as potential blind spots, and limitations of our tracking algorithm. 
+The analysis revealed the ball was successfully tracked for 70% of the time within the recorded data.
+
+\section{Measure movement range}
+In this part we are measuring the movement range of the robot to determine how much area is covered by the robot horizontally and vertically where the ball can be returned effectively. 
+The robot is set up at the border of the ping pong table, taking into account our robot can't cover balls not reaching the end of the table. 
+By observing the robot's ability to return balls from different locations on the table, the effective coverage zone and any unreachable areas can be defined. 
+The testing showed the robot covered 150cm horizontally and 40cm vertically, giving us a clear idea of the physical reach.
+
+\section{Measure Control Latency}
+For this final test, we measured the response time it takes to move the robot, specifically the delay between,  pressing the button to the robot beginning to move. 
+To conduct the test, we set up the robot and recorded a video capturing both a person pressing the button and the robot initial movement. 
+By analyzing the video frame-by-frame we establish the time difference between input and action. 
+This test will help us evaluate the system's latency, an important aspect for the real-time responsiveness of the machine. 
+The measured response time was around 100ms, offering a valuable insight of the performance of our control system.
