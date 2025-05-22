@@ -1,3 +1,14 @@
 \chapter{Discussion}
+Within this project, we were able to implement the core systems needed for a ping pong adversarial robot. The system presented shows a solid basis for building a general purpos gantry system, a robust networking architecture, a modular software suite for modeling and controlling a gantry, and a complex functional computer vision system for ball tracking and localization.
 
-Critical reflection is important in this chapter.
+ However, there were some core issues faced that prevent the system from functioning as an end to end ping pong system.
+
+\section{Latency and Speed}
+Due to budgeting concerns, the system was limited to the simple stepper motors and drivers used. These motors, while somewhat powerful, are not sufficient to move the designed gantry at a speed that supports real time ping pong. Due to this, a better solution would be to use stronger motors, ideally, non-stepper motors that allow for faster movement and higher torque. To deal with these changes, a more complex closed loop controller would have to be implemented, to support the new motors.
+Furthermore, the system employed IP cameras over a Wi-Fi network, which introduce multiple layers of latency and quality issues. Due to the innate networking delays present, the system cannot transmit the image data at a rate which is sufficient for the requirements, which can be a bottleneck for the autonomous modes. Switching these cameras out for dedicated cameras would significantly improve the performance at a cheap cost.
+Additionally, the system employed the use of radio frequency communication NRF modules, which added another level of latency. These modules can be replaced by direct UART communication between microcontrollers, further increasing the reactivity of the system.
+Finally, the system applies its image processing on a computer running a python OpenCV powered processing algorithm. This system can be implemented directly on MCU or in a more optimized desktop environment if necessary to improve the speed of processing further. Additionally, the data from computer to the gantry was sent via Wi-Fi, this could be replaced by serial communication for lower latency.
+
+\section{Hardware Limitations}
+Since the system was a prototype built with heavy time constraints, heavily adjusting the mechanical system was not an option. Because of this, the prototype is fully functional, but can be improved in many ways. The system has many points with heavy friction, which increases the load the motors have to deal with. Furthermore, the gantry faces some stability issues, due to the cheap materials and lack of supports.
+Another issue faced was the low force applied by the solenoid racket system. This is due to the solenoid being ineffective at providing the required force. The intended alternative for this solenoid was a motor-driven spring-loaded linear actuator, however that was scrapped for the convenience of the solenoid. For this proof of concept system, the solenoid performed as expected.
