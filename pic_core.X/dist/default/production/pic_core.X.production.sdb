@@ -85,9 +85,9 @@ RF24_CRC_16 2
 [v _step_comms step_comms `(v  1 e 1 0 ]
 "8 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\main.c
 [v _setup setup `(v  1 e 1 0 ]
-"21
-[v _racket_test racket_test `(v  1 e 1 0 ]
-"40
+"17
+[v _comm_loop comm_loop `(v  1 e 1 0 ]
+"31
 [v _main main `(v  1 e 1 0 ]
 "50 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/pwm/src/pwm1_16bit.c
 [v _servoPWM_Initialize servoPWM_Initialize `(v  1 e 1 0 ]
@@ -219,7 +219,7 @@ RF24_CRC_16 2
 [v _initialize_racket initialize_racket `(v  1 e 1 0 ]
 "56
 [v _update_racket update_racket `(v  1 e 1 0 ]
-"2601 C:\Program Files\Microchip\xc8\v3.00\pic\include\proc/pic18f57q43.h
+"2601 C:/Program Files/Microchip/MPLABX/v6.25/packs/Microchip/PIC18F-Q_DFP/1.27.449/xc8\pic\include\proc/pic18f57q43.h
 [v _WDTCON0 WDTCON0 `VEuc  1 e 1 @120 ]
 "2712
 [v _WDTCON1 WDTCON1 `VEuc  1 e 1 @121 ]
@@ -571,7 +571,7 @@ RF24_CRC_16 2
 [v _LATB LATB `VEuc  1 e 1 @1215 ]
 "48927
 [v _LATC LATC `VEuc  1 e 1 @1216 ]
-[s S968 . 1 `uc 1 LATC0 1 0 :1:0 
+[s S966 . 1 `uc 1 LATC0 1 0 :1:0 
 `uc 1 LATC1 1 0 :1:1 
 `uc 1 LATC2 1 0 :1:2 
 `uc 1 LATC3 1 0 :1:3 
@@ -581,13 +581,13 @@ RF24_CRC_16 2
 `uc 1 LATC7 1 0 :1:7 
 ]
 "48944
-[u S977 . 1 `S968 1 . 1 0 ]
+[u S975 . 1 `S966 1 . 1 0 ]
 "48944
 "48944
-[v _LATCbits LATCbits `VES977  1 e 1 @1216 ]
+[v _LATCbits LATCbits `VES975  1 e 1 @1216 ]
 "48989
 [v _LATD LATD `VEuc  1 e 1 @1217 ]
-[s S1341 . 1 `uc 1 LATD0 1 0 :1:0 
+[s S1340 . 1 `uc 1 LATD0 1 0 :1:0 
 `uc 1 LATD1 1 0 :1:1 
 `uc 1 LATD2 1 0 :1:2 
 `uc 1 LATD3 1 0 :1:3 
@@ -597,10 +597,10 @@ RF24_CRC_16 2
 `uc 1 LATD7 1 0 :1:7 
 ]
 "49006
-[u S1350 . 1 `S1341 1 . 1 0 ]
+[u S1349 . 1 `S1340 1 . 1 0 ]
 "49006
 "49006
-[v _LATDbits LATDbits `VES1350  1 e 1 @1217 ]
+[v _LATDbits LATDbits `VES1349  1 e 1 @1217 ]
 "49051
 [v _LATE LATE `VEuc  1 e 1 @1218 ]
 "49083
@@ -625,7 +625,7 @@ RF24_CRC_16 2
 [v _TRISBbits TRISBbits `VES439  1 e 1 @1223 ]
 "49269
 [v _TRISC TRISC `VEuc  1 e 1 @1224 ]
-[s S996 . 1 `uc 1 TRISC0 1 0 :1:0 
+[s S994 . 1 `uc 1 TRISC0 1 0 :1:0 
 `uc 1 TRISC1 1 0 :1:1 
 `uc 1 TRISC2 1 0 :1:2 
 `uc 1 TRISC3 1 0 :1:3 
@@ -635,10 +635,10 @@ RF24_CRC_16 2
 `uc 1 TRISC7 1 0 :1:7 
 ]
 "49286
-[u S1005 . 1 `S996 1 . 1 0 ]
+[u S1003 . 1 `S994 1 . 1 0 ]
 "49286
 "49286
-[v _TRISCbits TRISCbits `VES1005  1 e 1 @1224 ]
+[v _TRISCbits TRISCbits `VES1003  1 e 1 @1224 ]
 "49331
 [v _TRISD TRISD `VEuc  1 e 1 @1225 ]
 "49393
@@ -673,9 +673,9 @@ RF24_CRC_16 2
 [v _dbuf dbuf `[32]uc  1 s 32 dbuf ]
 "17 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\comms.c
 [v __handler _handler `*.38(v  1 e 3 0 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "19
-[v _dev dev `S991  1 e 3 0 ]
+[v _dev dev `S989  1 e 3 0 ]
 "43 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/pwm/src/pwm1_16bit.c
 [v _servoPWM_Slice1Output1_InterruptHandler servoPWM_Slice1Output1_InterruptHandler `*.38(v  1 s 3 servoPWM_Slice1Output1_InterruptHandler ]
 "44
@@ -697,10 +697,10 @@ RF24_CRC_16 2
 [v _rf24_crclength rf24_crclength `C[3][10]uc  1 e 30 0 ]
 "68
 [v _rf24_pa_dbm rf24_pa_dbm `[4][8]uc  1 e 32 0 ]
-"40 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\main.c
+"31 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"47
+"38
 } 0
 "8
 [v _setup setup `(v  1 e 1 0 ]
@@ -732,9 +732,9 @@ RF24_CRC_16 2
 {
 "366
 [v Nrf24_setRetransmitDelay@value value `uc  1 a 1 13 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "364
-[v Nrf24_setRetransmitDelay@dev dev `*.39S991  1 p 2 10 ]
+[v Nrf24_setRetransmitDelay@dev dev `*.39S989  1 p 2 10 ]
 [v Nrf24_setRetransmitDelay@val val `uc  1 p 1 12 ]
 "371
 } 0
@@ -747,9 +747,9 @@ RF24_CRC_16 2
 [v Nrf24_setRADDR@buffer buffer `[5]uc  1 a 5 17 ]
 "104
 [v Nrf24_setRADDR@ret ret `i  1 a 2 22 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "102
-[v Nrf24_setRADDR@dev dev `*.39S991  1 p 2 10 ]
+[v Nrf24_setRADDR@dev dev `*.39S989  1 p 2 10 ]
 [v Nrf24_setRADDR@adr adr `*.32uc  1 p 2 12 ]
 "112
 } 0
@@ -787,9 +787,9 @@ RF24_CRC_16 2
 [v Nrf24_printDetails@delay delay `s  1 a 2 4 ]
 "394
 [v Nrf24_printDetails@retransmit retransmit `uc  1 a 1 6 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "374
-[v Nrf24_printDetails@dev dev `*.39S991  1 p 2 91 ]
+[v Nrf24_printDetails@dev dev `*.39S989  1 p 2 91 ]
 "397
 } 0
 "401
@@ -806,9 +806,9 @@ RF24_CRC_16 2
 {
 "427
 [v Nrf24_print_byte_register@buffer buffer `[1]uc  1 a 1 83 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "423
-[v Nrf24_print_byte_register@dev dev `*.39S991  1 p 2 77 ]
+[v Nrf24_print_byte_register@dev dev `*.39S989  1 p 2 77 ]
 [v Nrf24_print_byte_register@name name `*.32Cuc  1 p 2 79 ]
 [v Nrf24_print_byte_register@reg reg `uc  1 p 1 81 ]
 [v Nrf24_print_byte_register@qty qty `uc  1 p 1 82 ]
@@ -821,9 +821,9 @@ RF24_CRC_16 2
 [v Nrf24_print_address_register@i i `i  1 a 2 89 ]
 "411
 [v Nrf24_print_address_register@buffer buffer `[5]uc  1 a 5 84 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "407
-[v Nrf24_print_address_register@dev dev `*.39S991  1 p 2 77 ]
+[v Nrf24_print_address_register@dev dev `*.39S989  1 p 2 77 ]
 [v Nrf24_print_address_register@name name `*.32Cuc  1 p 2 79 ]
 [v Nrf24_print_address_register@reg reg `uc  1 p 1 81 ]
 [v Nrf24_print_address_register@qty qty `uc  1 p 1 82 ]
@@ -843,9 +843,9 @@ RF24_CRC_16 2
 {
 "1820
 [v vfprintf@cfmt cfmt `*.32uc  1 a 2 59 ]
-[s S1930 _IO_FILE 0 ]
+[s S1929 _IO_FILE 0 ]
 "1817
-[v vfprintf@fp fp `*.39S1930  1 p 2 53 ]
+[v vfprintf@fp fp `*.39S1929  1 p 2 53 ]
 [v vfprintf@fmt fmt `*.32Cuc  1 p 2 55 ]
 [v vfprintf@ap ap `*.39*.39v  1 p 2 57 ]
 "1840
@@ -853,16 +853,16 @@ RF24_CRC_16 2
 "1177
 [v _vfpfcnvrt vfpfcnvrt `(v  1 s 1 vfpfcnvrt ]
 {
-[u S1954 . 4 `i 1 sint 2 0 `ui 1 uint 2 0 `d 1 f 4 0 ]
+[u S1953 . 4 `i 1 sint 2 0 `ui 1 uint 2 0 `d 1 f 4 0 ]
 "1188
-[v vfpfcnvrt@convarg convarg `S1954  1 a 4 46 ]
+[v vfpfcnvrt@convarg convarg `S1953  1 a 4 46 ]
 "1179
 [v vfpfcnvrt@cp cp `*.32uc  1 a 2 51 ]
 "1180
 [v vfpfcnvrt@done done `a  1 a 1 50 ]
-[s S1930 _IO_FILE 0 ]
+[s S1929 _IO_FILE 0 ]
 "1177
-[v vfpfcnvrt@fp fp `*.39S1930  1 p 2 38 ]
+[v vfpfcnvrt@fp fp `*.39S1929  1 p 2 38 ]
 [v vfpfcnvrt@fmt fmt `*.39*.32uc  1 p 2 40 ]
 [v vfpfcnvrt@ap ap `*.39*.39v  1 p 2 42 ]
 "1814
@@ -877,9 +877,9 @@ RF24_CRC_16 2
 [v xtoa@c c `uc  1 a 1 35 ]
 "1067
 [v xtoa@p p `a  1 a 1 32 ]
-[s S1930 _IO_FILE 0 ]
+[s S1929 _IO_FILE 0 ]
 "1055
-[v xtoa@fp fp `*.39S1930  1 p 2 25 ]
+[v xtoa@fp fp `*.39S1929  1 p 2 25 ]
 [v xtoa@d d `ui  1 p 2 27 ]
 "1153
 } 0
@@ -894,9 +894,9 @@ RF24_CRC_16 2
 [v stoa@w w `i  1 a 2 17 ]
 "945
 [v stoa@p p `i  1 a 2 15 ]
-[s S1930 _IO_FILE 0 ]
+[s S1929 _IO_FILE 0 ]
 "942
-[v stoa@fp fp `*.39S1930  1 p 2 9 ]
+[v stoa@fp fp `*.39S1929  1 p 2 9 ]
 [v stoa@s s `*.34uc  1 p 2 11 ]
 "997
 } 0
@@ -922,9 +922,9 @@ RF24_CRC_16 2
 [v dtoa@s s `uc  1 a 1 34 ]
 "520
 [v dtoa@p p `a  1 a 1 31 ]
-[s S1930 _IO_FILE 0 ]
+[s S1929 _IO_FILE 0 ]
 "513
-[v dtoa@fp fp `*.39S1930  1 p 2 25 ]
+[v dtoa@fp fp `*.39S1929  1 p 2 25 ]
 [v dtoa@d d `i  1 p 2 27 ]
 "583
 } 0
@@ -933,9 +933,9 @@ RF24_CRC_16 2
 {
 "195
 [v pad@i i `i  1 a 2 23 ]
-[s S1930 _IO_FILE 0 ]
+[s S1929 _IO_FILE 0 ]
 "193
-[v pad@fp fp `*.39S1930  1 p 2 16 ]
+[v pad@fp fp `*.39S1929  1 p 2 16 ]
 [v pad@buf buf `*.39uc  1 p 2 18 ]
 [v pad@p p `i  1 p 2 20 ]
 "226
@@ -949,18 +949,18 @@ RF24_CRC_16 2
 [v fputs@c c `uc  1 a 1 13 ]
 "8
 [v fputs@s s `*.39Cuc  1 p 2 9 ]
-[u S1909 . 2 `*.39uc 1 buffer 2 0 `*.39Cuc 1 source 2 0 ]
-[s S1912 _IO_FILE 11 `S1909 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v fputs@fp fp `*.39S1912  1 p 2 11 ]
+[u S1908 . 2 `*.39uc 1 buffer 2 0 `*.39Cuc 1 source 2 0 ]
+[s S1911 _IO_FILE 11 `S1908 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v fputs@fp fp `*.39S1911  1 p 2 11 ]
 "19
 } 0
 "8 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\nf_fputc.c
 [v _fputc fputc `(i  1 e 2 0 ]
 {
 [v fputc@c c `i  1 p 2 0 ]
-[u S1909 . 2 `*.39uc 1 buffer 2 0 `*.39Cuc 1 source 2 0 ]
-[s S1912 _IO_FILE 11 `S1909 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
-[v fputc@fp fp `*.39S1912  1 p 2 2 ]
+[u S1908 . 2 `*.39uc 1 buffer 2 0 `*.39Cuc 1 source 2 0 ]
+[s S1911 _IO_FILE 11 `S1908 1 . 2 0 `i 1 count 2 2 `[3]uc 1 ungetbuf 3 4 `i 1 ungetcnt 2 7 `i 1 limit 2 9 ]
+[v fputc@fp fp `*.39S1911  1 p 2 2 ]
 "24
 } 0
 "7 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\putch.c
@@ -1003,9 +1003,9 @@ RF24_CRC_16 2
 {
 "496
 [v Nrf24_getRetransmitDelay@value value `uc  1 a 1 12 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "494
-[v Nrf24_getRetransmitDelay@dev dev `*.39S991  1 p 2 10 ]
+[v Nrf24_getRetransmitDelay@dev dev `*.39S989  1 p 2 10 ]
 "499
 } 0
 "481
@@ -1013,9 +1013,9 @@ RF24_CRC_16 2
 {
 "483
 [v Nrf24_getPALevel@level level `uc  1 a 1 12 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "481
-[v Nrf24_getPALevel@dev dev `*.39S991  1 p 2 10 ]
+[v Nrf24_getPALevel@dev dev `*.39S989  1 p 2 10 ]
 "487
 } 0
 "434
@@ -1025,9 +1025,9 @@ RF24_CRC_16 2
 [v Nrf24_getDataRate@dr dr `uc  1 a 1 13 ]
 "436
 [v Nrf24_getDataRate@result result `E17619  1 a 1 12 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "434
-[v Nrf24_getDataRate@dev dev `*.39S991  1 p 2 10 ]
+[v Nrf24_getDataRate@dev dev `*.39S989  1 p 2 10 ]
 "453
 } 0
 "460
@@ -1039,16 +1039,16 @@ RF24_CRC_16 2
 [v Nrf24_getCRCLength@AA AA `uc  1 a 1 13 ]
 "462
 [v Nrf24_getCRCLength@result result `E17624  1 a 1 12 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "460
-[v Nrf24_getCRCLength@dev dev `*.39S991  1 p 2 10 ]
+[v Nrf24_getCRCLength@dev dev `*.39S989  1 p 2 10 ]
 "479
 } 0
 "70
 [v _Nrf24_init Nrf24_init `(v  1 e 1 0 ]
 {
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
-[v Nrf24_init@dev dev `*.39S991  1 p 2 1 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[v Nrf24_init@dev dev `*.39S989  1 p 2 1 ]
 "79
 } 0
 "90 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/spi/src/spi1.c
@@ -1060,29 +1060,11 @@ RF24_CRC_16 2
 [v SPI1_Open@spiConfigIndex spiConfigIndex `uc  1 p 1 0 ]
 "109
 } 0
-"180 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mirf.c
-[v _Nrf24_getData Nrf24_getData `(v  1 e 1 0 ]
-{
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
-[v Nrf24_getData@dev dev `*.39S991  1 p 2 6 ]
-[v Nrf24_getData@data data `*.39uc  1 p 2 8 ]
-"195
-} 0
-"158
-[v _Nrf24_dataReady Nrf24_dataReady `(a  1 e 1 0 ]
-{
-"160
-[v Nrf24_dataReady@status status `uc  1 a 1 15 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
-"158
-[v Nrf24_dataReady@dev dev `*.39S991  1 p 2 13 ]
-"165
-} 0
-"89
+"89 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mirf.c
 [v _Nrf24_config Nrf24_config `(v  1 e 1 0 ]
 {
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
-[v Nrf24_config@dev dev `*.39S991  1 p 2 13 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[v Nrf24_config@dev dev `*.39S989  1 p 2 13 ]
 [v Nrf24_config@channel channel `uc  1 p 1 15 ]
 [v Nrf24_config@payload payload `uc  1 p 1 16 ]
 "99
@@ -1090,25 +1072,15 @@ RF24_CRC_16 2
 "303
 [v _Nrf24_powerUpRx Nrf24_powerUpRx `(v  1 e 1 0 ]
 {
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
-[v Nrf24_powerUpRx@dev dev `*.39S991  1 p 2 4 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[v Nrf24_powerUpRx@dev dev `*.39S989  1 p 2 4 ]
 "309
-} 0
-"297
-[v _Nrf24_getStatus Nrf24_getStatus `(uc  1 e 1 0 ]
-{
-"298
-[v Nrf24_getStatus@rv rv `uc  1 a 1 12 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
-"297
-[v Nrf24_getStatus@dev dev `*.39S991  1 p 2 10 ]
-"301
 } 0
 "311
 [v _Nrf24_flushRx Nrf24_flushRx `(v  1 e 1 0 ]
 {
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
-[v Nrf24_flushRx@dev dev `*.39S991  1 p 2 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[v Nrf24_flushRx@dev dev `*.39S989  1 p 2 2 ]
 "316
 } 0
 "343
@@ -1116,54 +1088,17 @@ RF24_CRC_16 2
 {
 "347
 [v Nrf24_SetSpeedDataRates@value value `uc  1 a 1 13 ]
-[s S991 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
 "343
-[v Nrf24_SetSpeedDataRates@dev dev `*.39S991  1 p 2 10 ]
+[v Nrf24_SetSpeedDataRates@dev dev `*.39S989  1 p 2 10 ]
 [v Nrf24_SetSpeedDataRates@val val `uc  1 p 1 12 ]
 "361
 } 0
-"207
-[v _Nrf24_readRegister Nrf24_readRegister `(v  1 e 1 0 ]
+"37 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/timer/src/delay.c
+[v _DELAY_milliseconds DELAY_milliseconds `(v  1 e 1 0 ]
 {
-[v Nrf24_readRegister@reg reg `uc  1 p 1 wreg ]
-[v Nrf24_readRegister@reg reg `uc  1 p 1 wreg ]
-[v Nrf24_readRegister@value value `*.39uc  1 p 2 6 ]
-[v Nrf24_readRegister@len len `uc  1 p 1 8 ]
-"209
-[v Nrf24_readRegister@reg reg `uc  1 p 1 9 ]
-"215
-} 0
-"44
-[v _SPI_read_buff SPI_read_buff `(v  1 e 1 0 ]
-{
-"46
-[v SPI_read_buff@i i `uc  1 a 1 5 ]
-"44
-[v SPI_read_buff@buffer buffer `*.39uc  1 p 2 2 ]
-[v SPI_read_buff@bytes bytes `uc  1 p 1 4 ]
-"52
-} 0
-"198
-[v _Nrf24_configRegister Nrf24_configRegister `(v  1 e 1 0 ]
-{
-[v Nrf24_configRegister@reg reg `uc  1 p 1 wreg ]
-[v Nrf24_configRegister@reg reg `uc  1 p 1 wreg ]
-[v Nrf24_configRegister@value value `uc  1 p 1 2 ]
-"200
-[v Nrf24_configRegister@reg reg `uc  1 p 1 3 ]
-"204
-} 0
-"208 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/spi/src/spi1.c
-[v _SPI1_ByteExchange SPI1_ByteExchange `(uc  1 e 1 0 ]
-{
-[v SPI1_ByteExchange@byteData byteData `uc  1 p 1 wreg ]
-"210
-[v SPI1_ByteExchange@returnValue returnValue `uc  1 a 1 1 ]
-"208
-[v SPI1_ByteExchange@byteData byteData `uc  1 p 1 wreg ]
-"212
-[v SPI1_ByteExchange@byteData byteData `uc  1 p 1 0 ]
-"229
+[v DELAY_milliseconds@milliseconds milliseconds `us  1 p 2 0 ]
+"41
 } 0
 "38 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/system/src/system.c
 [v _SYSTEM_Initialize SYSTEM_Initialize `(v  1 e 1 0 ]
@@ -1231,15 +1166,20 @@ RF24_CRC_16 2
 {
 "58
 } 0
-"21 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\main.c
-[v _racket_test racket_test `(v  1 e 1 0 ]
+"17 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\main.c
+[v _comm_loop comm_loop `(v  1 e 1 0 ]
 {
+"19
+} 0
+"44 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\comms.c
+[v _step_comms step_comms `(v  1 e 1 0 ]
+{
+"48
+[v step_comms@buf buf `[8]uc  1 a 8 0 ]
 [s S928 RacketMessage 5 `f 1 angle 4 0 `a 1 fire 1 4 ]
-"25
-[v racket_test@msg msg `S928  1 a 5 4 ]
-"23
-[v racket_test@test_angle test_angle `f  1 a 4 0 ]
-"38
+"45
+[v step_comms@msg msg `S928  1 a 5 8 ]
+"55
 } 0
 "56 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\racket.c
 [v _update_racket update_racket `(v  1 e 1 0 ]
@@ -1302,17 +1242,17 @@ RF24_CRC_16 2
 "8 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
 {
-[s S1758 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
+[s S1757 . 4 `uc 1 a 1 0 `uc 1 b 1 1 `uc 1 c 1 2 `uc 1 d 1 3 ]
 "13
-[s S1763 . 4 `s 1 wordA 2 0 `s 1 wordB 2 2 ]
-[u S1766 . 4 `l 1 i 4 0 `d 1 f 4 0 `S1758 1 fAsBytes 4 0 `S1763 1 fAsWords 4 0 ]
-[v ___flmul@prod prod `S1766  1 a 4 44 ]
+[s S1762 . 4 `s 1 wordA 2 0 `s 1 wordB 2 2 ]
+[u S1765 . 4 `l 1 i 4 0 `d 1 f 4 0 `S1757 1 fAsBytes 4 0 `S1762 1 fAsWords 4 0 ]
+[v ___flmul@prod prod `S1765  1 a 4 44 ]
 "12
 [v ___flmul@grs grs `ul  1 a 4 38 ]
-[s S1834 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
+[s S1833 . 2 `uc 1 a 1 0 `uc 1 b 1 1 ]
 "14
-[u S1837 . 2 `s 1 i 2 0 `us 1 n 2 0 `S1834 1 nAsBytes 2 0 ]
-[v ___flmul@temp temp `S1837  1 a 2 48 ]
+[u S1836 . 2 `s 1 i 2 0 `us 1 n 2 0 `S1833 1 nAsBytes 2 0 ]
+[v ___flmul@temp temp `S1836  1 a 2 48 ]
 "10
 [v ___flmul@bexp bexp `uc  1 a 1 43 ]
 "11
@@ -1375,9 +1315,89 @@ RF24_CRC_16 2
 [v set_racket@fire fire `a  1 p 1 0 ]
 "44
 } 0
-"37 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/timer/src/delay.c
-[v _DELAY_milliseconds DELAY_milliseconds `(v  1 e 1 0 ]
+"4 C:\Program Files\Microchip\xc8\v3.00\pic\sources\c99\common\memcpy.c
+[v _memcpy memcpy `(*.39v  1 e 3 0 ]
 {
-[v DELAY_milliseconds@milliseconds milliseconds `us  1 p 2 0 ]
-"41
+"8
+[v memcpy@s s `*.39Cuc  1 a 2 8 ]
+"7
+[v memcpy@d d `*.39uc  1 a 2 6 ]
+"9
+[v memcpy@tmp tmp `uc  1 a 1 10 ]
+"4
+[v memcpy@d1 d1 `*.39v  1 p 2 0 ]
+[v memcpy@s1 s1 `*.39Cv  1 p 2 2 ]
+[v memcpy@n n `ui  1 p 2 4 ]
+"18
+} 0
+"180 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mirf.c
+[v _Nrf24_getData Nrf24_getData `(v  1 e 1 0 ]
+{
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+[v Nrf24_getData@dev dev `*.39S989  1 p 2 6 ]
+[v Nrf24_getData@data data `*.39uc  1 p 2 8 ]
+"195
+} 0
+"198
+[v _Nrf24_configRegister Nrf24_configRegister `(v  1 e 1 0 ]
+{
+[v Nrf24_configRegister@reg reg `uc  1 p 1 wreg ]
+[v Nrf24_configRegister@reg reg `uc  1 p 1 wreg ]
+[v Nrf24_configRegister@value value `uc  1 p 1 2 ]
+"200
+[v Nrf24_configRegister@reg reg `uc  1 p 1 3 ]
+"204
+} 0
+"158
+[v _Nrf24_dataReady Nrf24_dataReady `(a  1 e 1 0 ]
+{
+"160
+[v Nrf24_dataReady@status status `uc  1 a 1 15 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+"158
+[v Nrf24_dataReady@dev dev `*.39S989  1 p 2 13 ]
+"165
+} 0
+"297
+[v _Nrf24_getStatus Nrf24_getStatus `(uc  1 e 1 0 ]
+{
+"298
+[v Nrf24_getStatus@rv rv `uc  1 a 1 12 ]
+[s S989 . 3 `uc 1 PTX 1 0 `uc 1 channel 1 1 `uc 1 payload 1 2 ]
+"297
+[v Nrf24_getStatus@dev dev `*.39S989  1 p 2 10 ]
+"301
+} 0
+"207
+[v _Nrf24_readRegister Nrf24_readRegister `(v  1 e 1 0 ]
+{
+[v Nrf24_readRegister@reg reg `uc  1 p 1 wreg ]
+[v Nrf24_readRegister@reg reg `uc  1 p 1 wreg ]
+[v Nrf24_readRegister@value value `*.39uc  1 p 2 6 ]
+[v Nrf24_readRegister@len len `uc  1 p 1 8 ]
+"209
+[v Nrf24_readRegister@reg reg `uc  1 p 1 9 ]
+"215
+} 0
+"44
+[v _SPI_read_buff SPI_read_buff `(v  1 e 1 0 ]
+{
+"46
+[v SPI_read_buff@i i `uc  1 a 1 5 ]
+"44
+[v SPI_read_buff@buffer buffer `*.39uc  1 p 2 2 ]
+[v SPI_read_buff@bytes bytes `uc  1 p 1 4 ]
+"52
+} 0
+"208 C:\Users\hugof\Documents\KU Leuven\FIIW\BAC3\IB3\game7\pic_core.X\mcc_generated_files/spi/src/spi1.c
+[v _SPI1_ByteExchange SPI1_ByteExchange `(uc  1 e 1 0 ]
+{
+[v SPI1_ByteExchange@byteData byteData `uc  1 p 1 wreg ]
+"210
+[v SPI1_ByteExchange@returnValue returnValue `uc  1 a 1 1 ]
+"208
+[v SPI1_ByteExchange@byteData byteData `uc  1 p 1 wreg ]
+"212
+[v SPI1_ByteExchange@byteData byteData `uc  1 p 1 0 ]
+"229
 } 0
