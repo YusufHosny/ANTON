@@ -97,7 +97,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC18F-Q_DFP" vendor="Microchip" version="1.24.430"/>
+        <pack name="PIC18F-Q_DFP" vendor="Microchip" version="1.27.449"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -163,15 +163,24 @@
       <HI-TECH-LINK>
         <property key="additional-options-checksum" value=""/>
         <property key="additional-options-checksumAVR" value=""/>
+        <property key="additional-options-checksumAVR2" value="0"/>
         <property key="additional-options-code-offset" value=""/>
         <property key="additional-options-command-line" value=""/>
         <property key="additional-options-errata" value=""/>
         <property key="additional-options-extend-address" value="false"/>
+        <property key="additional-options-fillAVR2" value="0"/>
         <property key="additional-options-trace-type" value=""/>
         <property key="additional-options-use-response-files" value="false"/>
         <property key="backup-reset-condition-flags" value="false"/>
         <property key="calibrate-oscillator" value="false"/>
         <property key="calibrate-oscillator-value" value="0x3400"/>
+        <property key="checksum-flash-options-addressce" value=""/>
+        <property key="checksum-flash-options-addresscs" value=""/>
+        <property key="checksum-flash-options-algorithmc"
+                  value="Select checksum algorithm"/>
+        <property key="checksum-flash-options-destc" value=""/>
+        <property key="checksum-flash-options-offsetc" value="0xFFFF"/>
+        <property key="checksum-flash-options-widthc" value="2"/>
         <property key="clear-bss" value="true"/>
         <property key="code-model-external" value="wordwrite"/>
         <property key="code-model-rom" value=""/>
@@ -187,12 +196,16 @@
         <property key="display-psect-usage" value="false"/>
         <property key="extra-lib-directories" value=""/>
         <property key="fill-flash-options-addr" value=""/>
+        <property key="fill-flash-options-addrfe" value=""/>
+        <property key="fill-flash-options-addrfs" value=""/>
         <property key="fill-flash-options-const" value=""/>
+        <property key="fill-flash-options-constf" value=""/>
         <property key="fill-flash-options-how" value="0"/>
         <property key="fill-flash-options-inc-const" value="1"/>
         <property key="fill-flash-options-increment" value=""/>
         <property key="fill-flash-options-seq" value=""/>
         <property key="fill-flash-options-what" value="0"/>
+        <property key="fill-flash-options-wwidthf" value="2"/>
         <property key="format-hex-file-for-download" value="false"/>
         <property key="initialize-data" value="true"/>
         <property key="input-libraries" value="libm"/>
@@ -247,7 +260,7 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-1ffff"/>
-        <property key="poweroptions.powerenable" value="false"/>
+        <property key="poweroptions.powerenable" value="true"/>
         <property key="programmerToGoFilePath"
                   value="C:/Users/Yusuf/Desktop/Stuff/Uni/Masters/EE3/PICNRF/pic18_nrf24l01_tx_rx/pic18f46k22_nrf24l01.X/debug/default/pic18f46k22_nrf24l01_ptg"/>
         <property key="programmertogo.imagename" value=""/>
@@ -271,7 +284,7 @@
                   value="toolpack.updateoptions.uselatestoolpack"/>
         <property key="toolpack.updateoptions.packversion"
                   value="Press to select which tool pack to use"/>
-        <property key="voltagevalue" value=""/>
+        <property key="voltagevalue" value="3.3"/>
       </Tool>
       <XC8-CO>
         <property key="coverage-enable" value=""/>
@@ -328,9 +341,7 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-1ffff"/>
-        <property key="poweroptions.powerenable" value="false"/>
-        <property key="programmerToGoFilePath"
-                  value="C:/Users/hugof/Documents/KU Leuven/FIIW/BAC3/IB3/game7/pic_core.X/debug/default/pic_core_ptg"/>
+        <property key="poweroptions.powerenable" value="true"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preservedataflash.ranges"
@@ -345,7 +356,7 @@
                   value="toolpack.updateoptions.uselatestoolpack"/>
         <property key="toolpack.updateoptions.packversion"
                   value="Press to select which tool pack to use"/>
-        <property key="voltagevalue" value=""/>
+        <property key="voltagevalue" value="3.3"/>
       </nEdbgTool>
     </conf>
   </confs>
