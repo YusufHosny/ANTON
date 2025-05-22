@@ -5,7 +5,7 @@
 #define MIN_FREQ_H 400
 #define MAX_FREQ_H 3000
 #define MIN_FREQ_V 100
-#define MAX_FREQ_V 500
+#define MAX_FREQ_V 400
 
 // number of steps to go full extent of gantry
 #define MAX_POSITION_STEP_H 8000
@@ -29,7 +29,9 @@ stepper_handle_t vhandle = {
     .status.period = freq_to_usec(MIN_FREQ_V),
 
     .config.ease = &ease,
-    .config.default_dir = 1
+    .config.default_dir = 0,
+    .config.hold = true,
+    .config.axis = 'y'
 };
 stepper_handle_t hhandle = {
     .pins.step = STEP_PIN_H,
@@ -43,7 +45,9 @@ stepper_handle_t hhandle = {
     .status.period = freq_to_usec(MIN_FREQ_H),
 
     .config.ease = &ease,
-    .config.default_dir = 1
+    .config.default_dir = 1,
+    .config.hold = false,
+    .config.axis = 'x'
 };
 
 
@@ -82,7 +86,7 @@ void isr_stepper(stepper_handle_t *handle) {
         gptimer_set_alarm_action(step_timer, &stp_alarm_config);
     }
     else {
-        gpio_set_level(handle->pins.enable, 1); // disable stepper if inactive
+        if(!handle->config.hold) gpio_set_level(handle->pins.enable, 1); // disable stepper if inactive and hold is off
     }
 }
 
@@ -150,6 +154,8 @@ void update_stepper(StepMessage_t *msg, stepper_handle_t *handle) {
             if(handle->status.direction != newdirection) handle->status.momentum = 0;
             handle->status.direction = newdirection;
 
+            if(handle->config.axis == 'y') handle->config.hold = true; 
+
             break;
         }
         case MANUAL:
@@ -159,11 +165,14 @@ void update_stepper(StepMessage_t *msg, stepper_handle_t *handle) {
             uint8_t newdirection = msg->position > .5;
             if(handle->status.direction != newdirection) handle->status.momentum = 0;
             handle->status.direction = newdirection;
+            
+            if(handle->config.axis == 'y') handle->config.hold = false; 
 
             break;
         }
         case RESET: 
         {
+            handle->status.position = 0;
             handle->status.steps = 0;
             handle->status.momentum = 0;
             break;

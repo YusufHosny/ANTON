@@ -1,3 +1,4 @@
+import pickle
 import tkinter as tk
 from tkinter import ttk
 from comms.UDPServer import UDPServer
@@ -14,6 +15,8 @@ class ControlPanel:
         self.server = UDPServer(HOST, PORT)
 
         self._load_auto = automode
+
+        self._prevstate = None
 
         self.root = tk.Tk()
         self.root.title("A.N.T.O.N. Control Panel")
@@ -50,15 +53,21 @@ class ControlPanel:
     
     def _load_tracker(self):
         # camera setup
-        camera_ip1 = '192.168.0.162'
-        camera_ip2 = '192.168.0.204'
+        camera_ip1 = '192.168.137.199'
+        camera_ip2 = '192.168.137.68'
         camera_port = 8080
         capture1 = cv.VideoCapture(f'http://{camera_ip1}:{camera_port}/video')
         capture2 = cv.VideoCapture(f'http://{camera_ip2}:{camera_port}/video')
 
-        ballRange = (8, 125, 160), (24, 255, 255)
+        # capture1 = cv.VideoCapture('tracking/video/camA.mp4')
+        # capture2 = cv.VideoCapture('tracking/video/camB.mp4')
 
-        self.tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'auto')
+        # state = None
+        # with open('./state.pkl', 'rb') as f:
+        #     state = pickle.load(f)
+        ballRange = (10, 160, 160), (24, 255, 255)
+
+        self.tracker = Tracker((capture1, capture2), (22, 23), (44.7, 39.6), ballRange, 'manual', speed='live')
 
     def _load_visualizer(self):
         self.visualizer = Visualizer()
@@ -107,6 +116,8 @@ class ControlPanel:
 
         self.fire_btn.bind("<ButtonPress>", lambda e: self.set_button_state("fire", True))
         self.fire_btn.bind("<ButtonRelease>", lambda e: self.set_button_state("fire", False))
+
+        if not self.tracker.active: self.tracker.start()
     
     def show_slider_mode(self):
         self.mode.set("Slider")
@@ -182,82 +193,99 @@ class ControlPanel:
     
     def set_button_state(self, button, state):
         self.button_states[button] = state
+        self.send_async()
 
     def rotate(self, direction):
         self.angle += 10 if direction == "cw" else -10
         self.angle = min(max(0., self.angle), 180.)
+        self.send_async()
     
-    def poll_buttons(self):
-        return self.button_states
+    def get_state(self):
+        return {
+            **self.button_states,
+            "horizontal": self.horizontal.get(),
+            "vertical": self.vertical.get(),
+            "angle": self.racket_angle.get()
+        }
     
     def start(self):
         self.server.start()
         if self._load_auto: 
             self._load_tracker()
             self._load_visualizer()
-            self.tracker.start()
+            self.tracker.start(visual=True)
             self.visualizer.start()
 
-        def addPacketLoop():
-            time.sleep(2)
-
-            while self.server.isActive():
-                data = self.poll_buttons()
-                if self.mode.get() == "Keyboard":
-                    h = 0 if data["left"] else 1 if data["right"] else None
-                    v = 0 if data["down"] else 1 if data["up"] else None
-                    self.server.queue.put(
-                        Packet(
-                            StepMessage(StepMessageType.MANUAL if h is not None else StepMessageType.RESET, h if h is not None else 0),
-                            StepMessage(StepMessageType.MANUAL if v is not None else StepMessageType.RESET, v if v is not None else 0),
-                            RacketMessage(self.angle, data["fire"])
-                        )
-                    )
-                elif self.mode.get() == "Slider":
-                    self.server.queue.put(
-                        Packet(
-                            StepMessage(StepMessageType.NORMAL, self.horizontal.get()),
-                            StepMessage(StepMessageType.NORMAL, self.vertical.get()),
-                            RacketMessage(self.racket_angle.get(), data["fire"])
-                        )
-                    )
-                elif self._load_auto:
-                    pt = self.tracker.get_point()
-                    x, y, z = pt
-
-                    # feed visualizer
-                    self.visualizer.queue.put(pt)
-
-                    l, w = 274, 152.5 # table dims
-                    center = l/2, w/2 # center of table
-
-                    # set normalized coords
-                    self.horizontal.set(x/w)
-                    self.vertical.set(z) # todo properly transform z
-                    
-                    # calculate angle to rotate racket by
-                    dw = self.horizontal.get() - center[1]                    
-                    theta = math.atan(abs(center[0]/dw))
-                    angle = math.copysign(90-theta, dw)
-
-                    # if close enough fire
-                    fire = y < l/4
-
-                    self.racket_angle.set(angle)
-
-                    self.server.queue.put(
-                        Packet(
-                            StepMessage(StepMessageType.NORMAL, self.horizontal.get()),
-                            StepMessage(StepMessageType.NORMAL, self.vertical.get()),
-                            RacketMessage(self.racket_angle.get(), fire)
-                        )
-                    )
-            
-                time.sleep(.3)
-            
-        self.packetloop = ts.Thread(target=addPacketLoop)
+        time.sleep(2)
+        self.packetloop = ts.Thread(target=self.start_sync)
         self.packetloop.start()
         self.root.mainloop()
+
+    def send_async(self):
+        state = self.get_state()
+        if self._prevstate is not None and self._prevstate == state: return
+        self._prevstate = state
+
+        if self.mode.get() == "Keyboard":
+            h = 0 if state["left"] else 1 if state["right"] else None
+            v = 0 if state["down"] else 1 if state["up"] else None
+            self.server.queue.put(
+                Packet(
+                    StepMessage(StepMessageType.MANUAL if h is not None else StepMessageType.RESET, h if h is not None else 0),
+                    StepMessage(StepMessageType.MANUAL if v is not None else StepMessageType.RESET, v if v is not None else 0),
+                    RacketMessage(self.angle, state["fire"])
+                )
+            )
+        else:
+            raise RuntimeError("Unimplemented, fast mode doesnt work for auto")
+
+
+    def start_sync(self):
+        while self.server.isActive():
+            state = self.get_state()
+            if self.mode.get() == "Slider":
+                self.server.queue.put(
+                    Packet(
+                        StepMessage(StepMessageType.NORMAL, state["horizontal"]),
+                        StepMessage(StepMessageType.NORMAL, state["vertical"]),
+                        RacketMessage(state["angle"], state["fire"])
+                    )
+                )
+            elif self.mode.get() == "Auto" and self._load_auto:
+                pt = self.tracker.get_point(blocking=True)
+                x, y, z = pt
+
+                # feed visualizer
+                self.visualizer.queue.put(pt)
+
+                l, w = 274, 152.5 # table dims
+                center = l/2, w/2 # center of table
+
+                # set normalized coords
+                self.horizontal.set(x/w)
+                self.vertical.set(z) # todo properly transform z
+                
+                # calculate angle to rotate racket by
+                dw = self.horizontal.get() - center[1]                    
+                theta = math.atan(abs(center[0]/dw))
+                angle = math.copysign(90-theta, dw)
+
+                # if close enough fire
+                fire = y < l/4
+
+                self.racket_angle.set(angle)
+
+                self.server.queue.put(
+                    Packet(
+                        StepMessage(StepMessageType.NORMAL, self.horizontal.get()),
+                        StepMessage(StepMessageType.NORMAL, self.vertical.get()),
+                        RacketMessage(self.racket_angle.get(), fire)
+                    )
+                )
+        
+            time.sleep(.3)
+        
+        
 
     def stop(self):
         self.server.stop()
@@ -268,6 +296,6 @@ class ControlPanel:
 
 if __name__ == "__main__":
     HOST, PORT = '192.168.137.1', 3201 
-    app = ControlPanel(HOST, PORT)
+    app = ControlPanel(HOST, PORT, automode=False)
     app.start()
     app.stop()

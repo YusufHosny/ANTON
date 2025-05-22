@@ -41,6 +41,8 @@ typedef struct stepper_limits {
 typedef struct stepper_configuration {
     EasingFunction ease; // easing function used
     bool default_dir; // 0 or 1 to define the default direction of the motor
+    bool hold; // 0 or 1 to define if stepper should hold its position or not
+    char axis; // axis motor is actuating
 } stepper_configuration_t;
 
 typedef struct stepper_handle {
