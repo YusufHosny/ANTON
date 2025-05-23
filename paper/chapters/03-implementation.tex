@@ -30,6 +30,10 @@ The embedded software system is developed for an ESP32-based real-time applicati
 \subsection{Architectural Overview}
 The system architecture is composed of three primary subsystems: a communication subsystem, a motion control subsystem, and a simulation/testing subsystem. These subsystems interact through well-defined interfaces and communicate via FreeRTOS message queues, allowing asynchronous data exchange and decoupling between components.
 
+\subsection{Computer Vision Subsystem}
+An external computer vision module, in python, implements a real-time system for tracking a ping pong ball in 3D space using two phone cameras. It calibrates the cameras either automatically or manually by first, creating a projection matrix for the table with a method called homography. This allows the system to map points from the camera’s 2D image onto the real-world plane of the table, effectively calibrating the table’s position in space. To further determine each camera’s exact location and orientation relative to the table, it uses a Perspective-n-Point (PnP) algorithm, which calculates the camera pose from known 3D–2D point correspondences. Once both cameras are calibrated, the system tracks the ball’s position in each 2D image using color filtering (in HSV color space) and circle detection, then computes the 3D location by finding the closest point between the two rays projected from each camera through the detected 2D ball positions.
+
+
 \subsection{Communication Subsystem}
 The communication subsystem is responsible for receiving external control commands via UDP over Wi-Fi and transmitting actuator signals through an NRF24 radio interface. The UDP client manages socket creation, data reception, and error handling, converting received commands into structured messages. These messages are placed into dedicated queues for consumption by the motion and actuator controllers. The NRF24-based radio communication provides an additional, low-latency communication channel for controlling remote actuators, contributing to the system's flexibility and scalability.
 
