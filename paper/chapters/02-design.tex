@@ -3,13 +3,13 @@ In this section we will discuss the design of our mechanical, electronic, and so
 
 \section{Mechanical design}
 The mechanical design consists of three main components: the horizontal movement,  the vertical movement,  and the rotation of the racket. 
-The materials utilized are a combination of purchased components such as linear rails, timing belts, bolts, and nuts alongside custom 9mm wooden parts, made by using a laser cutter in FabLab, and 3D printed parts.
+The materials utilized are a combination of purchased components such as linear rails, timing belts, bolts, and nuts alongside custom wooden parts, made with a laser cutter in the FabLab, and 3D printed parts.
 
 Two linear rails are positioned horizontally, parallel to each other, along the table's edge to ensure stability and prevent tipping of the system. Three linear rail blocks, which slide along these rails, support the vertical structure of the design. These rail blocks have screw holes, allowing them to be securely connected in a triangular formation using a wooden plate. The vertical structure is mounted on this plate.
 
 A stepper motor is mounted at one corner of the table, fixed to the edge of the rails with a wooden plate. This motor drives a 60-tooth GT2 gear. At the opposite corner, a shoulder bolt with a gear is similarly secured. A 6mm-wide GT2 timing belt spans between these two gears, and is attached to one of the horizontal rail blocks, allowing horizontal movement by rotating the stepper motor.
 
-The vertical structure is mounted on the horizontal wooden plate, attached to the linear blocks. It includes two 0.5-meter-long aluminium pipes and a vertical wooden plate that stabilizes the pipes. A gear is placed on top of the vertical plate, held in place with a shoulder bolt. Two vertical rail blocks are positioned on the pipes, allowing vertical movement. Another stepper motor is attached at the bottom of the horizontal wooden plate, with a gear connected to it. A timing belt spans between the gear on the top and bottom of the structure and is attached to the vertical rail blocks, allowing vertical movement of the block by rotating the stepper motor.
+The vertical structure is mounted on the horizontal wooden plate, attached to the linear blocks. It includes two half-meter-long aluminium pipes and a vertical wooden plate that stabilizes the pipes. A gear is placed on top of the vertical plate, held in place with a shoulder bolt. Two vertical rail blocks are positioned on the pipes, allowing vertical movement. The second stepper motor is attached at the bottom of the horizontal wooden plate, with a gear connected to it. A timing belt spans between the gear on the top and bottom of the structure and is attached to the vertical rail blocks, allowing vertical movement of the block by rotating the stepper motor.
 
 To rotate the racket, a servo motor is attached to the vertical rail block. A solenoid is mounted on the rotating component of the servo motor. The racket, consisting of a rigid polyactic acid (PLA) plate, is attached to the solenoid.
 
@@ -31,7 +31,7 @@ In Figure~\ref{fig:block-diagram} is a block diagram showing the general control
 \end{figure}
 
 \section{Electronic Components and Controllers}
-The system mainly relies on two mobile phones which are used for collecting the position information of the ping pong ball with three degrees of freedom. The mobile phones are configured with an app to act as IP cameras, which are then accessed over Wi-Fi on the control device, which is a laptop running our software.
+The system mainly relies on two mobile phones which are used for collecting the position information of the ping-pong ball with three degrees-of-freedom. The mobile phones are configured with an app to act as IP cameras, which are then accessed over Wi-Fi on the control device, which is a laptop running our software.
 
 The ESP32 microcontroller is connected to two stepper motor driver modules (DRV8825), which are in turn connected to two bipolar stepper motors which control the gantry. The ESP32 acts as a master to a PIC18F, through a connected radio frequency communication module (NRF24), which is used to transmit data to another NRF24 module, connected to the PIC18F slave microcontroller. This data consists of information on when to "fire" the racket to hit the ball, by activating the optocoupled 12V solenoid, and information on what angle the racket should be at, by controlling the 5V servo motor.
 
@@ -79,9 +79,9 @@ Table~\ref{tab:bill-of-materials} provides an overview of the main components us
 		\hline
 		NRF24 & 2 & 6.68 \\
 		\hline
-		Stepper Motor & 3 & - \\
+		Stepper Motor & 2 & - \\
 		\hline
-		Stepper Driver DRV8825 & 3 & 13.5 \\
+		DRV8825 breakout board & 2 & 13.5 \\
 		\hline
 		Optocoupler & 1 & - \\
 		\hline
@@ -91,7 +91,7 @@ Table~\ref{tab:bill-of-materials} provides an overview of the main components us
 		\hline
 		Capacitors & - & - \\
 		\hline\hline
-		\multicolumn{1}{|l|}{Total Price} & \multicolumn{2}{c|}{€184.33 \textbf} \\
+		\multicolumn{1}{|l|}{Total Price} & \multicolumn{2}{c|}{€170.83 \textbf} \\
 		\hline 
 	\end{tabular}
 \end{table}

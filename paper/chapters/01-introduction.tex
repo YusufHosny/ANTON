@@ -9,13 +9,13 @@ In this paper, we propose a cost-effective robotic ping-pong system designed to 
 The research aims to address two core challenges: the optimization of vision-based tracking for real-time game-play and the balance between mechanical speed and control precision for consistent performance. By exploring these aspects, the project contributes to the broader field of robotics by demonstrating how accessible technology can deliver effective solutions in high-speed, interactive scenarios.
 
 \section{Related Works}
-A lot of companies have already created their own ping pong robot, the mechanical arm seems to be a necessity for an efficient 3D movement for the robot. The camera disposition differs between the projects. The Forpheus built by Omron, \cite{Kyohei2019}, uses stereo camera to be able to see all three dimensions and make an accurate prediction of the ball position. Additionally, it uses another camera to track the racket and player's movement to be able to determine the effect on the ball and predict where the ball will land.
+A lot of companies have already created their own ping-pong robot, the mechanical arm seems to be a necessity for an efficient 3D movement of the robot. The camera disposition differs between the projects. The Forpheus, built by Omron, \cite{Kyohei2019} uses stereo camera to be able to see all three dimensions and make an accurate prediction of the ball position. Additionally, it uses another camera to track the racket and player's movement to be able to determine the effect on the ball and predict where the ball will land.
 
-This system is very high budget, and as a result our implementation will not achieve such results. The mechanical arm is out of reach for this prototype with the budget and time given, but it is an effective example for the robot movements. The same can be said about the cameras. The top view with an angle provides a 3D visual of the ball movement only using two cameras.
+This system is very high budget, and as a result our implementation will not achieve such results. The mechanical arm is out of reach for this prototype with the budget and time given, but it is an effective example for the robot movements. The same can be said about the cameras. The dual-camera side-view provides a 3D visual of the ball movement by only using two cameras.
 
-The most relevant article is \cite{Acosta2004}, as it goes through the whole procedure up to the fully realized prototype. Although technology advancement has largely improved since then, the book provides many insights into possible issues and solutions for them.
+The most relevant article is \cite{Acosta2004}, as it goes through the whole procedure up to the fully realized prototype. Although the technology has largely improved since then, the book provides many insights into possible issues and solutions for them.
 
-Our main idea is to detect the ball and return it using a rigid rectangle cardboard driven by a solenoid. Even though, the design of the book \cite{Yu2012} is more complex, it provides some ideas on real-time control setups and how it can be incorporated into the design.
+Our main idea is to detect the ball and return it using a rigid rectangular plastic plate driven by a solenoid. Even though, the design of the book \cite{Yu2012} is more complex, it provides some ideas on real-time control setups and how it can be incorporated into the design.
 
 The tracking of the ball will probably be one of the biggest challenges, a fuzzy image, camera positioning, depth track, or even the effect the ball could have from the player. All of this makes having an accurate prediction of the ball position very challenging. A lot of scientific articles discuss these possible issues we might encounter.
 
@@ -23,7 +23,7 @@ Depending on the quality of the cameras, the image may be blurry due to timing a
 
 A mathematical solution using a K-means algorithm, Fourier series, EM and others, can be used to have an accurate prediction on the ball position if some effect was applied  \cite{Zhao2017}.
 
-Hitting the ball with a correct trajectory will be found through trial and error. The article \cite{Trasloheros2014} explains how they manage to properly hit the ball only using three degrees of freedom whereas most other companies use at least 4. This could facilitate our task and give us some good ideas about the proper angle to return the ball.
+Hitting the ball with a correct trajectory will be found through trial and error. The article \cite{Trasloheros2014} explains how they manage to properly hit the ball only using three degrees of freedom whereas most other companies use at least four. This could facilitate our task and give us some good ideas about the proper angle to return the ball.
 
 
 \section{Requirements analysis}
@@ -32,11 +32,11 @@ The system targets individuals seeking a challenging ping-pong opponent, regardl
 
 The reason for such a broad demographic is because ping-pong is very straightforward, and easy to play. The system is intended to be accessible to a wide range of users, regardless of age or skill level. Players benefit from the challenge of playing against a robot, whilst exercising at the same time.
 
-A finished prototype is expected to sustain a casual, low-speed game of ping pong, demonstrating consistent and reliable performance.
+A finished prototype is expected to sustain a casual, low-speed game of ping-pong, demonstrating consistent and reliable performance.
 
 The railing system must achieve rapid positioning while maintaining stability, avoiding excessive acceleration that could compromise the system's performance.
 
-The image tracking software should be able to accurately track the ball's position at different heights and angles. Ideally the camera will always be mounted at the exact same position. However, in reality this is never the case. That is why the software that handles the ball tracking will need to be calibrated every time you set up the system. This should all happen automatically using reference points on the table to ensure a fast, and user friendly setup of the prototype.
+The image tracking software should be able to accurately track the ball's position at different heights and angles. Ideally, the camera will always be mounted at the exact same position. However, in reality this is never the case. That is why the software that handles the ball tracking will need to be calibrated every time you set up the system. This should all happen automatically using reference points on the table to ensure a fast, and user friendly setup of the prototype.
 
 Factors like unfamiliar lighting or human interference could make the ball tracking unreliable at times. However, this will not be taken into account when making the prototype.
 
