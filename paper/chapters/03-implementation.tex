@@ -25,28 +25,39 @@ The second PCB is for the ESP32 master controller. This PCB consists of pin head
 
 \section{Software implementation}
 
-The embedded software system is developed for an ESP32-based real-time application involving motion control and wireless communication. The design follows a modular, task-based architecture utilizing the FreeRTOS operating system, allowing concurrent execution of multiple subsystems and ensuring responsiveness to real-time events.
+There were 3 main pieces of software developed for the proposed system. First, an ESP32 software suite for gantry control, networked communication, and rf communication. Secondly, the PIC18F software system which implements hardware control and rf communication. Finally, the final set of software implemented is the desktop application for image tracking, communication, and sending control commands over the network.
 
-\subsection{Architectural Overview}
-The system architecture is composed of three primary subsystems: a communication subsystem, a motion control subsystem, and a simulation/testing subsystem. These subsystems interact through well-defined interfaces and communicate via FreeRTOS message queues, allowing asynchronous data exchange and decoupling between components.
+\subsection{ESP32}
+The ESP sofrware is divided into a few important subsystems. The communication driver, which defines a UDP controller loop which receives dynamic instructions in a pre-specified format to control the gantry's position and the racket module. This system is modular and robust, allowing the user to rapidly prototype by adjusting only their command producer, while the ESP doesn't need reprogramming. The system is built on FreeRTOS with modular task division for consistent concurrent processing.. These subsystems interact through well-defined interfaces and communicate via FreeRTOS message queues, allowing asynchronous data exchange and decoupling between components.
 
-\subsection{Communication Subsystem}
-The communication subsystem is responsible for receiving external control commands via UDP over Wi-Fi and transmitting actuator signals through an NRF24 radio interface. The UDP client manages socket creation, data reception, and error handling, converting received commands into structured messages. These messages are placed into dedicated queues for consumption by the motion and actuator controllers. The NRF24-based radio communication provides an additional, low-latency communication channel for controlling remote actuators, contributing to the system's flexibility and scalability.
-
-\subsection{Motion Control Subsystem}
-The motion control subsystem handles the operation of two stepper motors along orthogonal axes. Motor control is implemented using hardware timers configured to trigger interrupts at precise intervals. Within the interrupt service routines, step signals are toggled, positions are updated, and step frequencies are adjusted according to desired momentum and target positions. The use of easing functions ensures smooth acceleration and deceleration, minimizing mechanical stress and enabling precise control. Position and speed adjustments are driven by messages received from the communication subsystem, allowing dynamic and responsive actuation.
-
-\subsection{Simulation and Testing Subsystem}
-To facilitate development and validation in the absence of hardware, the system incorporates a simulation and testing subsystem. Mock tasks generate synthetic messages simulating both UDP communication and actuator commands. This feature enables rigorous testing of system behavior, ensuring robustness and correctness prior to hardware deployment.
-
-\subsection{Inter-task Communication and Decoupling}
-The system employs three dedicated message queues for horizontal stepper control, vertical stepper control, and racket actuator commands. These queues enable asynchronous, thread-safe communication between tasks. The use of structured message formats for stepper and actuator commands maintains consistency and simplifies message handling logic, supporting scalability and modular expansion.
-
-\subsection{Modularity and Configurability}
-The firmware includes compile-time configuration flags to enable or disable subsystems such as UDP communication, radio communication, stepper control, and mock simulation tasks. This configurability allows the firmware to be adapted for various development and deployment scenarios, including partial module testing, hardware-in-the-loop simulations, or full production operation.
-
-\subsection{Design Rationale}
 The overall system design reflects a deliberate emphasis on separation of concerns, real-time responsiveness, scalability, and testability. The modular task-based architecture and asynchronous queue-based messaging enable the system to maintain predictable real-time behavior while remaining adaptable to future expansions or modifications. The inclusion of simulation capabilities addresses the need for verification and debugging in complex embedded systems where hardware access may be limited during certain development phases.
 
-\subsection{Conclusion}
-The software architecture presented here demonstrates an effective approach for real-time motion control and communication in an embedded environment. Through its modular design, task-based concurrency, and flexible configuration, the system achieves a balance between robustness, maintainability, and adaptability, making it well-suited for both research and applied deployment in embedded control scenarios.
+The firmware includes compile-time configuration flags to enable or disable subsystems such as UDP communication, radio communication, stepper control, and mock simulation tasks. This configurability allows the firmware to be adapted for various development and deployment scenarios, including partial module testing, hardware-in-the-loop simulations, or full production operation.
+
+\subsubsection{Communication Subsystem}
+The communication subsystem is responsible for receiving external control commands via UDP over Wi-Fi and transmitting actuator signals through an NRF24 radio interface. The UDP client manages socket creation, data reception, and error handling, converting received commands into structured messages. These messages are placed into dedicated queues for consumption by the motion and actuator controllers. The NRF24-based radio communication provides an additional, low-latency communication channel for controlling remote actuators, contributing to the system's flexibility and scalability.
+
+\subsubsection{Motion Control Subsystem}
+The motion control subsystem handles the operation of two stepper motors along orthogonal axes. Motor control is implemented using hardware timers configured to trigger interrupts at precise intervals. Within the interrupt service routines, step signals are toggled, positions are updated, and step frequencies are adjusted according to desired momentum and target positions. The use of easing functions ensures smooth acceleration and deceleration, minimizing mechanical stress and enabling precise control. Position and speed adjustments are driven by messages received from the communication subsystem, allowing dynamic and responsive actuation.
+
+\subsubsection{Simulation and Testing Subsystem}
+To facilitate development and validation in the absence of hardware, the system incorporates a simulation and testing subsystem. Mock tasks generate synthetic messages simulating both UDP communication and actuator commands. This feature enables rigorous testing of system behavior, ensuring robustness and correctness prior to hardware deployment.
+
+\subsubsection{Inter-task Communication and Decoupling}
+The system employs three dedicated message queues for horizontal stepper control, vertical stepper control, and racket actuator commands. These queues enable asynchronous, thread-safe communication between tasks. The use of structured message formats for stepper and actuator commands maintains consistency and simplifies message handling logic, supporting scalability and modular expansion.
+
+\subsection{Desktop}
+The bulk of the application resides on a desktop environement. The desktop is connected to the same network as the IP cameras and the ESP32, this allows constant networked communication between these systems. The desktop application receives data constantly from the IP cameras, which it passes through an OpenCV image processing algorithm developed to track and derive the 3D position of the ball in real time. The system implements a generic visualizer system which shows the ball position in real time along with a Finally, this data is all processed and passed to a GUI application which the user interfaces with the gantry though. The system allows for automated control and manual control via a set of buttons and sliders in the developed application.
+
+\subsubsection{Ball Tracking}
+
+\subsubsection{Network Communcation}
+The IP cameras are connected via http to an OpenCV VideoCapture handle, which then applies the aforemention ball tracking software and determines the gantry's target position, orientation, and firing state. This information is package into predefined data classes, which can be converted into a binary format that is interpretable by the target MCUs. This information is then sent via a UDP connection, asynchronously, whenever a new input state is desired.
+
+\subsubsection{Visualization}
+Using matplotlib, a visualizer was implemented which can receive ball positions over an asynchronous queue, and visualize them in real time, this system is modular and easy to plug into other scripts.
+
+\subsection{PIC18F}
+The final software system implemented is the embedded controller on the PIC MCU, this system constantly receives commands over the NRF24 module, which it then applies to its outputs. These commands include what angle to position a servo motor at, and when to "fire" the solenoid racket.
+
+
